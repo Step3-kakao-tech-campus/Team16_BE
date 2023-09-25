@@ -1,4 +1,4 @@
-package com.daggle.animory._core.errors;
+package com.daggle.animory._core.errors.exception;
 
 import com.daggle.animory._core.utils.ApiResult;
 import com.daggle.animory._core.utils.ApiUtils;
@@ -8,17 +8,17 @@ import org.springframework.http.HttpStatus;
 
 // 유효성 검사 실패, 잘못된 파라메터 요청
 @Getter
-public class InternalServerError500 extends RuntimeException {
+public class Forbidden403 extends RuntimeException {
 
-    public InternalServerError500(String message) {
+    public Forbidden403(String message) {
         super(message);
     }
 
     public ApiResult body(){
-        return ApiUtils.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return ApiUtils.error(getMessage(), HttpStatus.FORBIDDEN);
     }
 
     public HttpStatus status(){
-        return HttpStatus.INTERNAL_SERVER_ERROR;
+        return HttpStatus.FORBIDDEN;
     }
 }

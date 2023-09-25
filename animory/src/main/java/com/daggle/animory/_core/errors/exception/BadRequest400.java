@@ -1,4 +1,4 @@
-package com.daggle.animory._core.errors;
+package com.daggle.animory._core.errors.exception;
 
 import com.daggle.animory._core.utils.ApiResult;
 import com.daggle.animory._core.utils.ApiUtils;
@@ -8,17 +8,17 @@ import org.springframework.http.HttpStatus;
 
 // 유효성 검사 실패, 잘못된 파라메터 요청
 @Getter
-public class NotFound404 extends RuntimeException {
+public class BadRequest400 extends RuntimeException {
 
-    public NotFound404(String message) {
+    public BadRequest400(String message) {
         super(message);
     }
 
     public ApiResult body(){
-        return ApiUtils.error(getMessage(), HttpStatus.NOT_FOUND);
+        return ApiUtils.error(getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     public HttpStatus status(){
-        return HttpStatus.NOT_FOUND;
+        return HttpStatus.BAD_REQUEST;
     }
 }

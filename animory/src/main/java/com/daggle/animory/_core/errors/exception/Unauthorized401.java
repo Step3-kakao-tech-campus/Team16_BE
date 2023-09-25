@@ -1,4 +1,4 @@
-package com.daggle.animory._core.errors;
+package com.daggle.animory._core.errors.exception;
 
 import com.daggle.animory._core.utils.ApiResult;
 import com.daggle.animory._core.utils.ApiUtils;
@@ -8,17 +8,17 @@ import org.springframework.http.HttpStatus;
 
 // 유효성 검사 실패, 잘못된 파라메터 요청
 @Getter
-public class Forbidden403 extends RuntimeException {
+public class Unauthorized401 extends RuntimeException {
 
-    public Forbidden403(String message) {
+    public Unauthorized401(String message) {
         super(message);
     }
 
     public ApiResult body(){
-        return ApiUtils.error(getMessage(), HttpStatus.FORBIDDEN);
+        return ApiUtils.error(getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     public HttpStatus status(){
-        return HttpStatus.FORBIDDEN;
+        return HttpStatus.UNAUTHORIZED;
     }
 }
