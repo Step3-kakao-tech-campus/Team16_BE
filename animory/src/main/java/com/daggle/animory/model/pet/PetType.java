@@ -3,5 +3,6 @@ package com.daggle.animory.model.pet;
 public enum PetType {
 
     DOG,
-    CAT
+    CAT,
+    ETC
 }
