@@ -28,8 +28,7 @@ public class Pet {
     @Enumerated(EnumType.STRING)
     private PetType type;
 
-    @Column(columnDefinition = "DECIMAL(5,2)")
-    private double weight;
+    private float weight;
 
     @Column(length = 1000)
     private String description;
