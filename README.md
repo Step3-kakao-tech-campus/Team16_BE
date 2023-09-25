@@ -1,5 +1,5 @@
 <div align=center>
-  <img width="492" alt="스크린샷 2022-09-30 오후 5 31 24" src="./docs/Animory_Logo.svg">
+  <img width="492" alt="스크린샷 2022-09-30 오후 5 31 24" src="animory/docs/Animory_Logo.svg">
   <h2> 반려동물과 함께하는 삶의 기억들이 만나는 곳 </h2>
 
   <br>
