@@ -1,1 +1,26 @@
+server.port: 8080
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2.console.enabled: true
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate.ddl-auto: create
+    properties:
+      hibernate.format_sql: true
+
+logging.level:
+    '[com.daggle.animory]': DEBUG
+    '[org.hibernate.type]': TRACE
+
+springdoc.swagger-ui:
+    enabled: true
+    path: /api/docs
+    tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
+
 
