@@ -3,6 +3,7 @@ package com.daggle.animory.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -63,7 +64,7 @@ class ResponseTest {
     }
 
     private Response<Void> mockControllerMethodReturn404() {
-        return Response.error("error", "404");
+        return Response.error("error", HttpStatus.NOT_FOUND);
     }
 
     private static final class DummyObject {

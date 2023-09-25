@@ -2,6 +2,7 @@ package com.daggle.animory.common;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 /**
  * API 응답을 위한 공통 클래스 <br>
@@ -24,10 +25,10 @@ public final class Response<T> {
         return new Response<>(true, response, null);
     }
 
-    public static Response<Void> error(final String message, final String status) {
+    public static Response<Void> error(final String message, final HttpStatus status) {
         return new Response<>(false, null, new ErrorResponse(message, status));
     }
 
 
-    private record ErrorResponse(String message, String status) { }
+    private record ErrorResponse(String message, HttpStatus status) { }
 }

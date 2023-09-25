@@ -1,7 +1,7 @@
 package com.daggle.animory._core.errors.exception;
 
-import com.daggle.animory._core.utils.ApiResult;
-import com.daggle.animory._core.utils.ApiUtils;
+
+import com.daggle.animory.common.Response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -14,8 +14,8 @@ public class Forbidden403 extends RuntimeException {
         super(message);
     }
 
-    public ApiResult body(){
-        return ApiUtils.error(getMessage(), HttpStatus.FORBIDDEN);
+    public Response body(){
+        return Response.error(getMessage(), HttpStatus.FORBIDDEN);
     }
 
     public HttpStatus status(){

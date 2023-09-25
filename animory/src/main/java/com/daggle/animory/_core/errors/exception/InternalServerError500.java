@@ -1,7 +1,7 @@
 package com.daggle.animory._core.errors.exception;
 
-import com.daggle.animory._core.utils.ApiResult;
-import com.daggle.animory._core.utils.ApiUtils;
+
+import com.daggle.animory.common.Response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -14,8 +14,9 @@ public class InternalServerError500 extends RuntimeException {
         super(message);
     }
 
-    public ApiResult body(){
-        return ApiUtils.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public Response body(){
+        return
+                Response.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public HttpStatus status(){
