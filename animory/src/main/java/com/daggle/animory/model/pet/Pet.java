@@ -55,7 +55,7 @@ public class Pet {
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "pet")
     @JoinColumn(name = "pet_polygon_profile_id")
     private PetPolygonProfile petPolygonProfile;
 

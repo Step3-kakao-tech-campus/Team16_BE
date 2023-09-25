@@ -15,7 +15,13 @@ public class PetPolygonProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
+
     private int intelligence;
+
 
     private int affinity;
 
@@ -24,9 +30,5 @@ public class PetPolygonProfile {
     private int adaptability;
 
     private int activeness;
-
-    @OneToOne
-    @JoinColumn(name = "pet_id")
-    private Pet pet;
 
 }
