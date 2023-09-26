@@ -1,6 +1,6 @@
-package com.daggle.animory._core.errors;
+package com.daggle.animory.common.error;
 
-import com.daggle.animory._core.errors.exception.BadRequest400;
+import com.daggle.animory.common.error.exception.BadRequest400;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
