@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  backend-test:
+  gradle-test:
     runs-on: ubuntu-22.04 
 
     steps:
