@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class ShelterAddress {
 
     @NotNull
-    private String province;
+    private Province province;
 
     private String city;
 
