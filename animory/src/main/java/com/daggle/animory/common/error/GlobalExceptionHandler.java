@@ -1,7 +1,11 @@
-package com.daggle.animory._core.errors;
+package com.daggle.animory.common.error;
 
 
 import com.daggle.animory._core.errors.exception.*;
+import com.daggle.animory.common.error.exception.BadRequest400;
+import com.daggle.animory.common.error.exception.Forbidden403;
+import com.daggle.animory.common.error.exception.NotFound404;
+import com.daggle.animory.common.error.exception.UnAuthorized401;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

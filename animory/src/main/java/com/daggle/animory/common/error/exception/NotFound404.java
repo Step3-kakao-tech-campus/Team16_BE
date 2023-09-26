@@ -1,5 +1,4 @@
-package com.daggle.animory._core.errors.exception;
-
+package com.daggle.animory.common.error.exception;
 
 import com.daggle.animory.common.Response;
 import lombok.Getter;
@@ -8,17 +7,17 @@ import org.springframework.http.HttpStatus;
 
 // 유효성 검사 실패, 잘못된 파라메터 요청
 @Getter
-public class Forbidden403 extends RuntimeException {
+public class NotFound404 extends RuntimeException {
 
-    public Forbidden403(String message) {
+    public NotFound404(String message) {
         super(message);
     }
 
     public Response body(){
-        return Response.error(getMessage(), HttpStatus.FORBIDDEN);
+        return Response.error(getMessage(), HttpStatus.NOT_FOUND);
     }
 
     public HttpStatus status(){
-        return HttpStatus.FORBIDDEN;
+        return HttpStatus.NOT_FOUND;
     }
 }
