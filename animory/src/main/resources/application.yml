@@ -1,4 +1,6 @@
-server.port: 8080
+server:
+  port: 8080
+  forward-headers-strategy: framework
 
 spring:
   # MVC
@@ -27,7 +29,7 @@ logging.level:
 
 springdoc.swagger-ui:
     enabled: true
-    path: /api/docs
+    path: /docs
     tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
 
 
