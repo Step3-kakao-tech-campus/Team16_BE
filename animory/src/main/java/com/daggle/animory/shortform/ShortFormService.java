@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 public class ShortFormService {
 
     public CategoryShortFormPage getCategoryShortFormPage(final ShortFormSearchCondition condition) {
-        throw new NotImplementedException("getShortFormPage");
+        throw new NotImplementedException("NotImplemented yet");
     }
 
     public HomeShortFormPage getHomeShortFormPage(final int page) {
-        throw new NotImplementedException("getHomeShortFormPage");
+        throw new NotImplementedException("NotImplemented yet");
     }
 }

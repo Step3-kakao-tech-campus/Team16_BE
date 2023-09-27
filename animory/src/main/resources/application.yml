@@ -1,6 +1,13 @@
 server.port: 8080
 
 spring:
+  # MVC
+  web.resources.add-mappings: false # endpoint 에 없는 리소스의 경우, 정적 매핑을 하지 않는다.
+  mvc:
+    throw-exception-if-no-handler-found: true
+    dispatch-options-request: false
+
+  # DB
   datasource:
     url: jdbc:h2:mem:test;MODE=MySQL
     driver-class-name: org.h2.Driver
