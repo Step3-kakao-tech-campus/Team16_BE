@@ -1,0 +1,17 @@
+name: Deploy Trigger
+
+on:
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  build-trigger:
+    runs-on: ubuntu-22.04 
+
+    steps:
+      - name: Deploy Trigger
+        run: |
+          curl -X POST http://ec2-3-37-14-140.ap-northeast-2.compute.amazonaws.com:20001/job/animory-deploy/build \
+          --user admin:${{ secrets.JENKINS_DEPLOY_KEY }}
+
+    
