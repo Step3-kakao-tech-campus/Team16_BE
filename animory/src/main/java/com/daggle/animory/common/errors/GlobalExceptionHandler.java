@@ -1,7 +1,6 @@
 package com.daggle.animory.common.errors;
 
 
-import com.daggle.animory._core.errors.exception.*;
 import com.daggle.animory.common.errors.exception.BadRequest400;
 import com.daggle.animory.common.errors.exception.Forbidden403;
 import com.daggle.animory.common.errors.exception.NotFound404;
