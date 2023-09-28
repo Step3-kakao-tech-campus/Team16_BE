@@ -35,7 +35,7 @@ class PetControllerTest {
 
 
         ResultActions resultActions = mockMvc.perform(
-                multipart("/pet")
+                multipart("/pet-test")
                         .file(video)
                         .file(image)
                         .file(json)
