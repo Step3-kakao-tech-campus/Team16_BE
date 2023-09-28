@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 @SpringBootTest
 class PetControllerTest {
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mvc;
 
     @Test
     public void fileInputTest() throws Exception{
@@ -34,7 +34,7 @@ class PetControllerTest {
         );
 
 
-        ResultActions resultActions = mockMvc.perform(
+        ResultActions resultActions = mvc.perform(
                 multipart("/pet-test")
                         .file(video)
                         .file(image)
