@@ -25,6 +25,7 @@ public class PetController {
             ){
         petFileStorageService.storeFile(image);
         petFileStorageService.storeFile(video);
+        System.out.println(PetRequestDTO);
         Response<?> apiResult = Response.success();
         return apiResult;
     }
