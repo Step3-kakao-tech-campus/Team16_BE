@@ -38,7 +38,7 @@ jobs:
 
       - name: Test with Gradle 
         working-directory: ./animory
-        run: ./gradlew test -s # stacktrace
+        run: ./gradlew test --warning-mode all # stacktrace
 
       - name: Publish Unit Test Results # test 실패 시 PR에 코멘트
         uses: mikepenz/action-junit-report@v3.8.0
