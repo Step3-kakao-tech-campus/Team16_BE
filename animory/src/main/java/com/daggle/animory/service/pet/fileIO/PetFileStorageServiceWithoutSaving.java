@@ -29,22 +29,23 @@ public class PetFileStorageServiceWithoutSaving implements FileStorageService{
     }
 
     public String storeFile(MultipartFile file){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss_");
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String time = simpleDateFormat.format(timestamp);
-
-        String fileName = time + StringUtils.cleanPath(file.getOriginalFilename());
-        try{
-            if(fileName.contains("..")){
-                throw new BadRequest400("파일이 유효하지 않은 경로를 포함하고 있습니다." + fileName);
-            }
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            if(file == null){
-                throw new IOException();
-            }
-            return fileName;
-        }catch(IOException ex){
-            throw new BadRequest400("파일 " + fileName +"을 저장할 수 없습니다. 다시 시도하여주십시오.");
-        }
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddhhmmss_");
+//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//        String time = simpleDateFormat.format(timestamp);
+//
+//        String fileName = time + StringUtils.cleanPath(file.getOriginalFilename());
+//        try{
+//            if(fileName.contains("..")){
+//                throw new BadRequest400("파일이 유효하지 않은 경로를 포함하고 있습니다." + fileName);
+//            }
+//            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+//            if(file == null){
+//                throw new IOException();
+//            }
+//            return fileName;
+//        }catch(IOException ex){
+//            throw new BadRequest400("파일 " + fileName +"을 저장할 수 없습니다. 다시 시도하여주십시오.");
+//        }
+        return "test";
     }
 }
