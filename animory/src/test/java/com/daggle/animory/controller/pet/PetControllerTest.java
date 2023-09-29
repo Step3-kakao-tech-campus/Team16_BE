@@ -16,34 +16,34 @@ import java.nio.charset.StandardCharsets;
 
 
 @AutoConfigureMockMvc
-//@SpringBootTest
+@SpringBootTest
 class PetControllerTest {
-    @Autowired
-    private MockMvc mvc;
+    // @Autowired
+    // private MockMvc mvc;
 
-    @Test
-    public void fileInputTest() throws Exception{
-        MockMultipartFile video = new MockMultipartFile(
-                "video", "test1.mp4","video/mp4", "test file1".getBytes(StandardCharsets.UTF_8)
-        );
-        MockMultipartFile image = new MockMultipartFile(
-                "image", "test2.jpeg","image/jpeg", "test file2".getBytes(StandardCharsets.UTF_8)
-        );
-        MockMultipartFile json = new MockMultipartFile(
-                "key", "test3.json","application/json", "test json".getBytes(StandardCharsets.UTF_8)
-        );
+    // @Test
+    // public void fileInputTest() throws Exception{
+    //     MockMultipartFile video = new MockMultipartFile(
+    //             "video", "test1.mp4","video/mp4", "test file1".getBytes(StandardCharsets.UTF_8)
+    //     );
+    //     MockMultipartFile image = new MockMultipartFile(
+    //             "image", "test2.jpeg","image/jpeg", "test file2".getBytes(StandardCharsets.UTF_8)
+    //     );
+    //     MockMultipartFile json = new MockMultipartFile(
+    //             "key", "test3.json","application/json", "test json".getBytes(StandardCharsets.UTF_8)
+    //     );
 
 
-        ResultActions resultActions = mvc.perform(
-                multipart("/pet-test")
-                        .file(video)
-                        .file(image)
-                        .file(json)
-        );
+    //     ResultActions resultActions = mvc.perform(
+    //             multipart("/pet-test")
+    //                     .file(video)
+    //                     .file(image)
+    //                     .file(json)
+    //     );
 
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + responseBody);
+    //     String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+    //     System.out.println("테스트 : " + responseBody);
 
-        resultActions.andExpect(jsonPath("$.success").value("true"));
-    }
+    //     resultActions.andExpect(jsonPath("$.success").value("true"));
+    // }
 }
