@@ -1,22 +1,22 @@
 package com.daggle.animory.controller.pet;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.mock.web.MockMultipartFile;
+// import org.springframework.test.web.servlet.MockMvc;
+// import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+// import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import java.nio.charset.StandardCharsets;
+// import java.nio.charset.StandardCharsets;
 
 
 
-@AutoConfigureMockMvc
-@SpringBootTest
+//@AutoConfigureMockMvc
+//@SpringBootTest
 class PetControllerTest {
     // @Autowired
     // private MockMvc mvc;
