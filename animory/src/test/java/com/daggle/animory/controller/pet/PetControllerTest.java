@@ -15,8 +15,8 @@ import java.nio.charset.StandardCharsets;
 
 
 
-@AutoConfigureMockMvc
-@SpringBootTest
+//@AutoConfigureMockMvc
+//@SpringBootTest
 class PetControllerTest {
     @Autowired
     private MockMvc mvc;
