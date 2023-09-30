@@ -22,6 +22,14 @@ spring:
     hibernate.ddl-auto: create
     properties:
       hibernate.format_sql: true
+  servlet:
+    multipart:
+      enabled: true
+      location: "./files_upload_location/"
+      max-file-size: "300MB"
+      max-request-size: "300MB"
+
+upload-path: "./files_upload_location/"
 
 logging.level:
     '[com.daggle.animory]': DEBUG

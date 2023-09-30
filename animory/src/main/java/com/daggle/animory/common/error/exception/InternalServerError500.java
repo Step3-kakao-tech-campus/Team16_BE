@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 
-// 유효성 검사 실패, 잘못된 파라메터 요청
 @Getter
 public class InternalServerError500 extends RuntimeException {
 
@@ -14,12 +13,12 @@ public class InternalServerError500 extends RuntimeException {
         super(message);
     }
 
-    public Response body(){
+    public Response body() {
         return
-                Response.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            Response.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public HttpStatus status(){
+    public HttpStatus status() {
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }
