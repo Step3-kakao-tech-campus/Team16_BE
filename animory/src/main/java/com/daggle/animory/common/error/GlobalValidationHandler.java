@@ -1,6 +1,7 @@
 package com.daggle.animory.common.error;
 
 import com.daggle.animory.common.error.exception.BadRequest400;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -18,8 +19,14 @@ public class GlobalValidationHandler {
     @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")  //  Post메소드에만 validationAdvice가 실행
     public void postMapping() {
     }
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)")
+    public void getMapping(){
+    }
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.PatchMapping)")
+    public void patchMapping(){
+    }
     // 형식이 잘못된 요청이 들어오면 말 그대로 잘못된 요청이므로 400번대 에러를 넘긴다.
-    @Before("postMapping()")
+    @Before("postMapping()||getMapping()||patchMapping()")
     public void validationAdvice(JoinPoint jp) {
         Object[] args = jp.getArgs();
         for (Object arg : args) {

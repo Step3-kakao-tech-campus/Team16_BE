@@ -1,11 +1,11 @@
 package com.daggle.animory.common.error.exception;
 
+
 import com.daggle.animory.common.Response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 
-// 유효성 검사 실패, 잘못된 파라메터 요청
 @Getter
 public class UnAuthorized401 extends RuntimeException {
 

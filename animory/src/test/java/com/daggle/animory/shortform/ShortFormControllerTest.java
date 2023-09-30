@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest({ ShortFormController.class })
 @AutoConfigureMockMvc
 @Import(SpringSecurityConfiguration.class) // TODO: Base Test Class 상속하는 방식으로..
 class ShortFormControllerTest {
