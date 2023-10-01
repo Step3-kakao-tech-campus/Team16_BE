@@ -53,4 +53,10 @@ class PetControllerTest {
         mvc.perform(get("/pet/profiles"))
             .andExpect(jsonPath("$.success").value(false));
     }
+
+    @Test
+    void getPetSosProfiles() throws Exception {
+        mvc.perform(get("/pet/profiles/sos"))
+            .andExpect(jsonPath("$.success").value(false));
+    }
 }

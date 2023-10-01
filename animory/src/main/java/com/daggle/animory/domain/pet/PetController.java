@@ -2,11 +2,12 @@ package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.SosPetProfilesDto;
 import com.daggle.animory.domain.pet.fileIO.PetFileStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -40,6 +41,11 @@ public class PetController {
     @GetMapping("/profiles")
     public Response<PetProfilesDto> getPetProfiles(){
         return Response.success(petService.getPetProfiles());
+    }
+
+    @GetMapping("/profiles/sos")
+    public Response<SosPetProfilesDto> getPetSosProfiles(final Pageable pageable){
+        return Response.success(petService.getPetSosProfiles(pageable));
     }
 
 
