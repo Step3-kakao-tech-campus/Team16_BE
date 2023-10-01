@@ -54,8 +54,8 @@ public class SpringSecurityConfiguration {
                 // Endpoint 인증/인가 필터 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/shelter/**", "/pet/**").access("hasRole(ROLE_SHELTER)")
-                .antMatchers(HttpMethod.PATCH, "/pet/**").access("hasRole(ROLE_SHELTER)")
+                .antMatchers(HttpMethod.POST, "/shelter/**", "/pet/**").access("hasRole('ROLE_SHELTER')")
+                .antMatchers(HttpMethod.PATCH, "/pet/**").access("hasRole('ROLE_SHELTER')")
                 .anyRequest().permitAll();
 
         return http.build();

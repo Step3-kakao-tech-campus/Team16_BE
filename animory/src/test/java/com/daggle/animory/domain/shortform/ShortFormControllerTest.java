@@ -1,8 +1,9 @@
 package com.daggle.animory.domain.shortform;
 
 import com.daggle.animory.common.config.SpringSecurityConfiguration;
-import com.daggle.animory.domain.shelter.Province;
+import com.daggle.animory.common.security.TokenProvider;
 import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.shelter.Province;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -17,9 +18,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest({ ShortFormController.class })
+@WebMvcTest({
+    SpringSecurityConfiguration.class,
+    TokenProvider.class
+})
 @AutoConfigureMockMvc
-@Import(SpringSecurityConfiguration.class) // TODO: Base Test Class 상속하는 방식으로..
+@Import(ShortFormController.class) // TODO: Base Test Class 상속하는 방식으로..
 class ShortFormControllerTest {
     @Autowired
     private MockMvc mvc;
