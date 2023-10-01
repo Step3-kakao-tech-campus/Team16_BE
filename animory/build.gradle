@@ -52,6 +52,7 @@ dependencies {
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'io.github.autoparams:autoparams:3.1.0' // test case random generator
 }
 
 tasks.named('test') {

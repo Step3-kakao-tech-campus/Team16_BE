@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.pet;
+package com.daggle.animory.domain.pet.service;
 
 
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
