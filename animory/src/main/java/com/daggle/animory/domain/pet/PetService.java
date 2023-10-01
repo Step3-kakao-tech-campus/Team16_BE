@@ -1,13 +1,12 @@
 package com.daggle.animory.domain.pet;
 
 
-import com.daggle.animory.domain.pet.dto.response.NewPetProfilesDto;
-import com.daggle.animory.domain.pet.dto.response.PetDto;
-import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
-import com.daggle.animory.domain.pet.dto.response.SosPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
+import com.daggle.animory.domain.pet.dto.response.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -26,6 +25,10 @@ public class PetService {
     }
 
     public PetDto getPetDetail(final int petId) {
+        throw new NotImplementedException("NotImplemented yet");
+    }
+
+    public RegisterPetSuccessDto registerPet(final PetRegisterRequestDto petRequestDTO, final MultipartFile image, final MultipartFile video) {
         throw new NotImplementedException("NotImplemented yet");
     }
 }

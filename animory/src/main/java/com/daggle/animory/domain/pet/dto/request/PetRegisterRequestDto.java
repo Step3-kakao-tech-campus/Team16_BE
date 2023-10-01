@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.pet.dto.response;
+package com.daggle.animory.domain.pet.dto.request;
 
 import com.daggle.animory.domain.pet.dto.PetPolygonProfileDto;
 import com.daggle.animory.domain.pet.entity.AdoptionStatus;
@@ -6,25 +6,17 @@ import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.entity.Sex;
 
-import java.time.LocalDate;
-
-public record PetDto(
-    ShelterInfoDto shelterInfo,
+public record PetRegisterRequestDto(
     String name,
     String age,
     PetType type,
-    Sex sex,
     float weight,
-    String description,
-    LocalDate protectionExpirationDate,
-    String vaccinationStatus,
-    NeutralizationStatus neutralizationStatus,
-    AdoptionStatus adoptionStatus,
-    String profileImageUrl,
     String size,
+    Sex sex,
+    String vaccinationStatus,
+    AdoptionStatus adoptionStatus,
+    NeutralizationStatus neutralizationStatus,
+    String description,
     PetPolygonProfileDto petPolygonProfileDto
-
 ) {
-
-
 }

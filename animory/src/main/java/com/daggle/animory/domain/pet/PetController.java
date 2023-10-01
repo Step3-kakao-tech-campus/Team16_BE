@@ -1,10 +1,8 @@
 package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
-import com.daggle.animory.domain.pet.dto.response.NewPetProfilesDto;
-import com.daggle.animory.domain.pet.dto.response.PetDto;
-import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
-import com.daggle.animory.domain.pet.dto.response.SosPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
+import com.daggle.animory.domain.pet.dto.response.*;
 import com.daggle.animory.domain.pet.fileIO.PetFileStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,20 +19,18 @@ public class PetController {
     private final PetService petService;
     private final PetFileStorageService petFileStorageService;
 
+
     @PostMapping(value = "", consumes = {"multipart/form-data"})
-    public Response<?> registerPet(
-            @RequestPart(value = "key")String PetRequestDTO,
-            @RequestPart(value = "image")MultipartFile image,
-            @RequestPart(value = "video")MultipartFile video
-            ){
-        petFileStorageService.storeFile(image);
-        petFileStorageService.storeFile(video);
+    public Response<RegisterPetSuccessDto> registerPet(
+            @RequestPart(value = "petInfo") final PetRegisterRequestDto petRegisterRequestDto,
+            @RequestPart(value = "profileImage") final MultipartFile image,
+            @RequestPart(value = "profileVideo") final MultipartFile video
+    ){
 
-        log.debug("PetRequestDTO: {}", PetRequestDTO);
-
-        Response<?> apiResult = Response.success();
-        return apiResult;
+        return Response.success(petService.registerPet(petRegisterRequestDto, image, video));
     }
+
+
 
     /**
      * Pagination이 아닌, 각 8개씩 반환합니다.

@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.pet.dto.response;
+package com.daggle.animory.domain.pet.dto;
 
 public record PetPolygonProfileDto(
     int intelligence,
