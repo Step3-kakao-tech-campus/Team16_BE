@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +67,12 @@ public class TokenProvider {
 
     // 헤더에서 token 추출
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
+        String bearerToken = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     // 토큰의 유효 확인
