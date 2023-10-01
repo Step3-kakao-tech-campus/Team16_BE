@@ -15,6 +15,7 @@ import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.ServletException;
@@ -49,8 +50,11 @@ public class GlobalExceptionHandler {
         return Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(Forbidden403.class)
-    public Response<Void> forbidden(final Forbidden403 e){
+    @ExceptionHandler({
+        Forbidden403.class,
+        MaxUploadSizeExceededException.class // File Size, Request Size 제한 초과
+    })
+    public Response<Void> forbidden(final RuntimeException e){
 
         return Response.error(e.getMessage(), HttpStatus.FORBIDDEN);
     }
