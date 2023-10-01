@@ -8,10 +8,11 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.nio.charset.StandardCharsets;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
-import java.nio.charset.StandardCharsets;
 
 
 
@@ -22,7 +23,7 @@ class PetControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void fileInputTest() throws Exception{
+    void fileInputTest() throws Exception{
         MockMultipartFile video = new MockMultipartFile(
                 "video", "test1.mp4","video/mp4", "test file1".getBytes(StandardCharsets.UTF_8)
         );
@@ -45,5 +46,11 @@ class PetControllerTest {
         System.out.println("테스트 : " + responseBody);
 
         resultActions.andExpect(jsonPath("$.success").value("true"));
+    }
+
+    @Test
+    void getPetProfiles() throws Exception {
+        mvc.perform(get("/pet/profiles"))
+            .andExpect(jsonPath("$.success").value(false));
     }
 }

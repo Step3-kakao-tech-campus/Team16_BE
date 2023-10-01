@@ -1,22 +1,24 @@
 package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
+import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
 import com.daggle.animory.domain.pet.fileIO.PetFileStorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@RequiredArgsConstructor
+@Slf4j
 @RestController
+@RequestMapping("/pet")
+@RequiredArgsConstructor
 public class PetController {
 
     private final PetService petService;
     private final PetFileStorageService petFileStorageService;
 
-    @PostMapping("/pet")
+    @PostMapping(value = "", consumes = {"multipart/form-data"})
     public Response<?> registerPet(
             @RequestPart(value = "key")String PetRequestDTO,
             @RequestPart(value = "image")MultipartFile image,
@@ -24,8 +26,21 @@ public class PetController {
             ){
         petFileStorageService.storeFile(image);
         petFileStorageService.storeFile(video);
-        System.out.println(PetRequestDTO);
+
+        log.debug("PetRequestDTO: {}", PetRequestDTO);
+
         Response<?> apiResult = Response.success();
         return apiResult;
     }
+
+    /**
+     * Pagination이 아닌, 각 8개씩 반환합니다.
+     * 이후 더보기 버튼을 통해 다른 API를 호출되는 시나리오 입니다.
+     */
+    @GetMapping("/profiles")
+    public Response<PetProfilesDto> getPetProfiles(){
+        return Response.success(petService.getPetProfiles());
+    }
+
+
 }
