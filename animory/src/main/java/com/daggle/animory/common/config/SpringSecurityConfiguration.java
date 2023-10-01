@@ -3,7 +3,7 @@ package com.daggle.animory.common.config;
 import com.daggle.animory.common.FilterResponseUtils;
 import com.daggle.animory.common.error.exception.Forbidden403;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
-import com.daggle.animory.common.security.JwtTokenFilter;
+import com.daggle.animory.common.security.TokenFilter;
 import com.daggle.animory.common.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +38,7 @@ public class SpringSecurityConfiguration {
 
                 // 커스텀 필터 적용
                 .and()
-                .addFilterBefore(new JwtTokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new TokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
 
                 // 인증 실패 처리
                 .exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
