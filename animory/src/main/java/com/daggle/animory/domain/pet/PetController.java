@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
+import com.daggle.animory.domain.pet.dto.response.NewPetProfilesDto;
 import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
 import com.daggle.animory.domain.pet.dto.response.SosPetProfilesDto;
 import com.daggle.animory.domain.pet.fileIO.PetFileStorageService;
@@ -46,6 +47,11 @@ public class PetController {
     @GetMapping("/profiles/sos")
     public Response<SosPetProfilesDto> getPetSosProfiles(final Pageable pageable){
         return Response.success(petService.getPetSosProfiles(pageable));
+    }
+
+    @GetMapping("/profiles/new")
+    public Response<NewPetProfilesDto> getPetNewProfiles(final Pageable pageable){
+        return Response.success(petService.getPetNewProfiles(pageable));
     }
 
 
