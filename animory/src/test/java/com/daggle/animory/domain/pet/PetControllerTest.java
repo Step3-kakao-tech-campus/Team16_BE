@@ -1,6 +1,8 @@
 package com.daggle.animory.domain.pet;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -63,6 +65,13 @@ class PetControllerTest {
     @Test
     void getPetNewProfiles() throws Exception {
         mvc.perform(get("/pet/profiles/new"))
+            .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = { "1", "2", "3", "4", "5", "6", "7", "8", "9" })
+    void getPetDetail(final int petId) throws Exception {
+        mvc.perform(get("/pet/{petId}", petId))
             .andExpect(jsonPath("$.success").value(false));
     }
 }
