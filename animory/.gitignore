@@ -37,3 +37,5 @@ out/
 .vscode/
 
 .jpb/
+
+/files_upload_location/

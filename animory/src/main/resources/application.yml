@@ -22,6 +22,8 @@ spring:
     hibernate.ddl-auto: create
     properties:
       hibernate.format_sql: true
+
+  # File Upload
   servlet:
     multipart:
       enabled: true
