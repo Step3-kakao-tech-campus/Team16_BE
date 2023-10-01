@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.pet;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,8 +13,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
@@ -46,28 +46,50 @@ class PetControllerTest {
         resultActions.andExpect(jsonPath("$.success").value("false"));
     }
 
-    @Test
-    void getPetProfiles() throws Exception {
-        mvc.perform(get("/pet/profiles"))
-            .andExpect(jsonPath("$.success").value(false));
+    @Nested
+    class 펫_쓰기 {
+        @Test
+        void registerPet() throws Exception {
+            mvc.perform(post("/pet")
+                .contentType("multipart/form-data"))
+                .andExpect(jsonPath("$.success").value(false));
+        }
+
+        @Test
+        void updatePet() throws Exception {
+            mvc.perform(patch("/pet")
+                .contentType("multipart/form-data"))
+                .andExpect(jsonPath("$.success").value(false));
+        }
     }
 
-    @Test
-    void getPetSosProfiles() throws Exception {
-        mvc.perform(get("/pet/profiles/sos"))
-            .andExpect(jsonPath("$.success").value(false));
+
+    @Nested
+    class 펫_읽기 {
+        @Test
+        void getPetProfiles() throws Exception {
+            mvc.perform(get("/pet/profiles"))
+                .andExpect(jsonPath("$.success").value(false));
+        }
+
+        @Test
+        void getPetSosProfiles() throws Exception {
+            mvc.perform(get("/pet/profiles/sos"))
+                .andExpect(jsonPath("$.success").value(false));
+        }
+
+        @Test
+        void getPetNewProfiles() throws Exception {
+            mvc.perform(get("/pet/profiles/new"))
+                .andExpect(jsonPath("$.success").value(false));
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = { "1", "2", "3", "4", "5", "6", "7", "8", "9" })
+        void getPetDetail(final int petId) throws Exception {
+            mvc.perform(get("/pet/{petId}", petId))
+                .andExpect(jsonPath("$.success").value(false));
+        }
     }
 
-    @Test
-    void getPetNewProfiles() throws Exception {
-        mvc.perform(get("/pet/profiles/new"))
-            .andExpect(jsonPath("$.success").value(false));
-    }
-
-    @ParameterizedTest
-    @CsvSource(value = { "1", "2", "3", "4", "5", "6", "7", "8", "9" })
-    void getPetDetail(final int petId) throws Exception {
-        mvc.perform(get("/pet/{petId}", petId))
-            .andExpect(jsonPath("$.success").value(false));
-    }
 }

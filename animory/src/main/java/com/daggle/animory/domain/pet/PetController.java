@@ -2,6 +2,7 @@ package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
+import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.*;
 import com.daggle.animory.domain.pet.fileIO.PetFileStorageService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -28,6 +31,16 @@ public class PetController {
     ){
 
         return Response.success(petService.registerPet(petRegisterRequestDto, image, video));
+    }
+
+    @PatchMapping(value = "", consumes = {"multipart/form-data"})
+    public Response<UpdatePetSuccessDto> registerPet(
+        @RequestPart(value = "petInfo") final Optional<PetUpdateRequestDto> petUpdateRequestDto,
+        @RequestPart(value = "profileImage") final Optional<MultipartFile> image,
+        @RequestPart(value = "profileVideo") final Optional<MultipartFile> video
+    ){
+
+        return Response.success(petService.updatePet(petUpdateRequestDto, image, video));
     }
 
 
