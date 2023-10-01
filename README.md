@@ -11,5 +11,14 @@
   <br>
 </div>
 
+---
 
+### [요구사항 명세](https://github.com/Step3-kakao-tech-campus/Team16_BE/wiki/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%AA%85%EC%84%B8)
 
+### [UI 설계(Figma)](https://www.figma.com/file/A0w3m1DU5JJm2zzvo9lnGE/16%EC%A1%B0-%EC%83%88%EA%B8%B0%ED%9A%8D?type=design&node-id=1-248&mode=design&t=5BddvdI9IXWAasUl-0)
+
+### [DB 설계(ERD)](https://github.com/Step3-kakao-tech-campus/Team16_BE/blob/develop/animory/docs/ANIMORY_ERD_20230925_1521.png)
+
+### [배포되어 있는 인스턴스 주소](http://ec2-3-37-14-140.ap-northeast-2.compute.amazonaws.com/)
+
+### [API 문서](http://ec2-3-37-14-140.ap-northeast-2.compute.amazonaws.com/swagger-ui/index.html)
