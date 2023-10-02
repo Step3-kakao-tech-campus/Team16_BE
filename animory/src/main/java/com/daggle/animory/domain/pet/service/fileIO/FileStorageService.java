@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.pet.fileIO;
+package com.daggle.animory.domain.pet.service.fileIO;
 
 import org.springframework.web.multipart.MultipartFile;
 
