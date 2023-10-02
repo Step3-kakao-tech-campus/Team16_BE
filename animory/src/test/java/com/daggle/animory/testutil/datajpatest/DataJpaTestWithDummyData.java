@@ -1,4 +1,4 @@
-package com.daggle.animory.testutil;
+package com.daggle.animory.testutil.datajpatest;
 
 
 import com.daggle.animory.domain.ShelterFixture;
@@ -16,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 
 @DataJpaTest
-public class DataJpaTestWithDummyData extends WithTimeSupportObjectMapper {
+public abstract class DataJpaTestWithDummyData extends WithTimeSupportObjectMapper {
 
     @Autowired
     private ShelterRepository shelterRepository;

@@ -16,4 +16,6 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
         "where s.address.province = :province " +
         "and p.type = :petType")
     Slice<Pet> findSliceBy(PetType petType, Province province, Pageable searchCondition);
+
+    Slice<Pet> findSliceBy(Pageable pageable);
 }

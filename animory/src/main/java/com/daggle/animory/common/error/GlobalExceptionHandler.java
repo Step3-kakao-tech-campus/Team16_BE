@@ -9,6 +9,7 @@ import com.daggle.animory.common.error.exception.UnAuthorized401;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingRequestValueException;
@@ -32,31 +33,32 @@ public class GlobalExceptionHandler {
         HttpMessageNotReadableException.class,
         IllegalArgumentException.class
     })
-    public Response<Void> badRequest(final RuntimeException e){
-        return Response.error(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Response<Void>> badRequest(final RuntimeException e){
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
+
 
     @ExceptionHandler({
         HttpRequestMethodNotSupportedException.class,
         MissingRequestValueException.class
     })
-    public Response<Void> badRequest(final ServletException e){
-        return Response.error(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Response<Void>> badRequest(final ServletException e){
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
 
     @ExceptionHandler(UnAuthorized401.class)
-    public Response<Void> unAuthorized(final UnAuthorized401 e){
-        return Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Response<Void>> unAuthorized(final UnAuthorized401 e){
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED));
     }
 
     @ExceptionHandler({
         Forbidden403.class,
         MaxUploadSizeExceededException.class // File Size, Request Size 제한 초과
     })
-    public Response<Void> forbidden(final RuntimeException e){
+    public ResponseEntity<Response<Void>> forbidden(final RuntimeException e){
 
-        return Response.error(e.getMessage(), HttpStatus.FORBIDDEN);
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage(), HttpStatus.FORBIDDEN));
     }
 
 
@@ -64,19 +66,19 @@ public class GlobalExceptionHandler {
         NotFound404.class,
         NotImplementedException.class
     })
-    public Response<Void> notFound(final RuntimeException e){
-        return Response.error(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Response<Void>> notFound(final RuntimeException e){
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public Response<Void> notFound(final ServletException e){
-        return Response.error(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Response<Void>> notFound(final ServletException e){
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
     }
 
 
     @ExceptionHandler(Exception.class)
-    public Response<Void> internalServerError(final Exception e){
-        return Response.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Response<Void>> internalServerError(final Exception e){
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
 }

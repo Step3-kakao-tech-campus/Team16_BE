@@ -1,7 +1,6 @@
 package com.daggle.animory.domain.shortform.dto.response;
 
 import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
@@ -13,10 +12,10 @@ public record CategoryShortFormPage(
     boolean hasNext
 ) {
 
-    public static CategoryShortFormPage of(final ShortFormSearchCondition searchCondition,
+    public static CategoryShortFormPage of(final String categoryTitle,
                                            final Slice<Pet> petSlice) {
         return new CategoryShortFormPage(
-            searchCondition.area().getFullProvinceName() + " " + searchCondition.type().getKoreanName(),
+            categoryTitle,
             petSlice.getContent().stream().map(ShortFormDto::of).toList(),
             petSlice.hasNext()
         );
