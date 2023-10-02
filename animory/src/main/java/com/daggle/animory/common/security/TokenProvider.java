@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -18,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -31,9 +29,10 @@ public class TokenProvider {
     @Value("${jwt.token-validity-in-seconds}")
     private long tokenValiditySeconds;
 
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     public static final String TOKEN_PREFIX = "Bearer ";
-    private static final String AUTHORITIES_KEY = "auth";
+    private static final String ROLES_CLAIM = "roles";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
 
     // secretKey를 Base64로 인코딩
@@ -51,7 +50,7 @@ public class TokenProvider {
 
         return TOKEN_PREFIX + Jwts.builder()
                 .setSubject(authentication.getName()) // 정보 저장
-                .claim(AUTHORITIES_KEY, authorities)
+                .claim(ROLES_CLAIM, authorities)
                 .setIssuedAt(new Date()) // 토큰 발행 시간
                 .setExpiration(new Date(now.getTime() + tokenValiditySeconds)) // 토큰 만료 시간
                 .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
@@ -67,9 +66,9 @@ public class TokenProvider {
 
     // 헤더에서 token 추출
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
             return bearerToken.substring(7);
         }
         return null;

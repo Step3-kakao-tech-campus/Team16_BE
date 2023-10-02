@@ -2,6 +2,7 @@ package com.daggle.animory.domain.shortform;
 
 import com.daggle.animory.common.config.SpringSecurityConfiguration;
 import com.daggle.animory.common.security.TokenProvider;
+import com.daggle.animory.common.security.UserDetailsServiceImpl;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.shelter.Province;
 import org.junit.jupiter.api.Nested;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({
     SpringSecurityConfiguration.class,
+    UserDetailsServiceImpl.class,
     TokenProvider.class
 })
 @AutoConfigureMockMvc
