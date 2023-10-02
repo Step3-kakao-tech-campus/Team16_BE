@@ -20,8 +20,8 @@ public class ShortFormController {
      * 다양한 검색 조건 변화에 대응할 수 있는 목적으로 사용할 숏폼 영상 조회 API 입니다.
      */
     @GetMapping("/short-forms")
-    public Response<CategoryShortFormPage> getShortForms(@ModelAttribute final ShortFormSearchCondition condition) {
-        return Response.success( shortFormService.getCategoryShortFormPage(condition) );
+    public Response<CategoryShortFormPage> getShortForms(@ModelAttribute final ShortFormSearchCondition searchCondition) {
+        return Response.success( shortFormService.getCategoryShortFormPage(searchCondition) );
     }
 
     /**
@@ -31,12 +31,5 @@ public class ShortFormController {
     public Response<HomeShortFormPage> getHomeShortForms(@RequestParam("page") final int page) {
         return Response.success( shortFormService.getHomeShortFormPage(page) );
     }
-
-
-
-
-
-
-
 
 }
