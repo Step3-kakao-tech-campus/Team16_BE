@@ -36,8 +36,11 @@ public class AccountController {
      */
     @PostMapping("/login")
     public ResponseEntity<Response<?>> login(@RequestBody AccountLoginDto request) {
-        AccountLoginSuccessDto response = accountService.loginShelterAccount(request);
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "token").body(Response.success(response));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, "token")
+                .body(Response.success(
+                        accountService.loginShelterAccount(request)
+                ));
     }
 
     /**
