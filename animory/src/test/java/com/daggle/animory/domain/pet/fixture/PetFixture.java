@@ -4,7 +4,7 @@ import com.daggle.animory.domain.pet.entity.AdoptionStatus;
 import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.shelter.Province;
+import com.daggle.animory.domain.shelter.Shelter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PetFixture {
 
-    public static Pet getOne() {
+    public static Pet getOne(final Shelter shelter) {
         return Pet.builder()
             .name("멍멍이")
             .birthDate(LocalDate.now().minusMonths(6))
@@ -26,13 +26,13 @@ public class PetFixture {
             .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test1.jpg")
             .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test1.mp4")
             .size("작아요 소형견입니다.")
-            .shelter(null) // TODO: shelter fixture 구현되지 않음(우선 순서로 생성되어야 함)
+            .shelter(shelter)
             .build();
     }
 
     public static List<Pet> get(final int n,
                                 final PetType petType,
-                                final Province area) {
+                                final Shelter shelter) {
         final List<Pet> pets = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             pets.add(
@@ -49,7 +49,7 @@ public class PetFixture {
                     .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test" + i + ".jpg")
                     .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test" + i + ".mp4")
                     .size("작아요 소형견입니다." + i)
-                    .shelter(null) // TODO: shelter fixture 구현되지 않음(우선 순서로 생성되어야 함)
+                    .shelter(shelter)
                     .build()
             );
         }

@@ -12,7 +12,13 @@ public class ShelterFixture {
     public static Shelter getOne() {
         return Shelter.builder()
             .name("테스트 보호소")
-            .address(null) // TODO: ShelterAddress Fixture
+            .address(
+                ShelterAddress.builder()
+                    .province(Province.광주)
+                    .city("테스트시군구")
+                    .detail("테스트도로명주소")
+                    .build()
+            )
             .contact("010-1234-5678")
             .account(null) // TODO: Account Fixture
             .build();
@@ -28,10 +34,10 @@ public class ShelterFixture {
                     .address(
                         ShelterAddress.builder()
                             .province(province)
-                            .city("테스트시")
-                            .detail("테스트동")
+                            .city("테스트시군구" + i)
+                            .detail("테스트도로명주소" + i)
                             .build()
-                    ) // TODO: ShelterAddress Fixture
+                    )
                     .contact("010-1234-5678")
                     .account(null) // TODO: Account Fixture
                     .build());

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * time type serialization 설정이 추가된 object mapper 가 지원됩니다.
- * datajpatest 등에서 결과를 콘솔에 찍어보고자 할때 상속해서 사용하면 좋을 듯 합니다.
+ * DataJpaTest 등에서 결과를 콘솔에 찍어보고자 할때 상속해서 사용하면 좋을 듯 합니다.
  */
 public class WithTimeSupportObjectMapper {
 
