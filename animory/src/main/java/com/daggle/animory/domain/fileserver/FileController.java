@@ -1,7 +1,6 @@
 package com.daggle.animory.domain.fileserver;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -24,20 +23,19 @@ public class FileController {
     // 또는 로직이 복잡하다면 중간에 Service 추가
     private final FileRepository localFileRepository;
 
-    @GetMapping("/file/{fileUrl}")
-    public ResponseEntity<Resource> getFile(@PathVariable final String fileUrl) throws IOException {
-        Path path = Paths.get(fileUrl);
-        String contentType = Files.probeContentType(path);
+    @GetMapping("/file/{fileName}")
+    public ResponseEntity<Resource> getFile(@PathVariable final String fileName) throws IOException {
+        final Path path = Paths.get(fileName);
+        final String contentType = Files.probeContentType(path);
 
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         headers.setContentDisposition(
-                ContentDisposition.builder("attachment")
-                        .filename(fileUrl, StandardCharsets.UTF_8)
+                ContentDisposition.builder("inline")
+                        .filename(fileName, StandardCharsets.UTF_8)
                         .build());
         headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-        Resource resource = localFileRepository.getFile(fileUrl);
+        final Resource resource = localFileRepository.findByName(fileName);
 
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-
     }
 }
