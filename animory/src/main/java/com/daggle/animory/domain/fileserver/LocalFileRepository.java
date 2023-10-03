@@ -6,6 +6,7 @@ import com.daggle.animory.common.error.exception.InternalServerError500;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
 
-@Service
+@Repository
 public class LocalFileRepository implements FileRepository {
     private final Path fileStorageLocation;
 
