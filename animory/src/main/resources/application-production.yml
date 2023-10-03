@@ -4,7 +4,7 @@ server:
 
 spring:
   # MVC
-  web.resources.add-mappings: false # endpoint 에 없는 리소스의 경우, 정적 매핑을 하지 않는다.
+  web.resources.add-mappings: false
   mvc:
     throw-exception-if-no-handler-found: true
     dispatch-options-request: false
@@ -28,28 +28,27 @@ spring:
     multipart:
       enabled: true
       location: "./files_upload_location/"
-      max-file-size: "300MB"
-      max-request-size: "300MB"
+      max-file-size: "20MB"
+      max-request-size: "20MB"
 
 # File Server Path
 upload-path: "./files_upload_location/"
-file-server-domain: "http://localhost:8080"
+file-server-domain: ${SERVER_DOMAIN}
 
 # Logging
 logging.level:
-    '[com.daggle.animory]': DEBUG
-    '[org.hibernate.type]': TRACE
+  '[com.daggle.animory]': INFO
 
 # API Docs
 springdoc.swagger-ui:
-    enabled: true
-    path: /docs
-    tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
+  enabled: true
+  path: /docs
+  tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
 
 # Security
 jwt:
   header: Authorization
-  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  secret: ${JWT_SECRET}
   token-validity-in-seconds: 86400
 
 

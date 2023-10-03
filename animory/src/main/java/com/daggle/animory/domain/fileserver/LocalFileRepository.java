@@ -5,12 +5,16 @@ import com.daggle.animory.common.error.exception.BadRequest400;
 import com.daggle.animory.common.error.exception.InternalServerError500;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,7 +42,11 @@ public class LocalFileRepository implements FileRepository {
     }
 
     public Resource getFile(final String fileUrl){
-        throw new NotImplementedException("NotImplemented yet"); // TODO: implement
+        try{
+            return new InputStreamResource(new FileInputStream(fileUrl));
+        }catch(FileNotFoundException ex){
+            throw new BadRequest400("해당 파일을 찾을 수 없습니다.");
+        }
     }
 
     public String storeFile(final MultipartFile file){
