@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.pet.service;
+package com.daggle.animory.domain.pet.util;
 
 import autoparams.AutoSource;
 import autoparams.Repeat;
