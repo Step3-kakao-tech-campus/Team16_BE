@@ -5,11 +5,13 @@ import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;
 import com.daggle.animory.domain.shortform.dto.response.CategoryShortFormPage;
 import com.daggle.animory.domain.shortform.dto.response.HomeShortFormPage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -37,4 +39,12 @@ public class ShortFormController {
         return Response.success( shortFormService.getHomeShortFormPage(page) );
     }
 
+    @GetMapping("/short-forms/video")
+    public ResponseEntity<Resource> getShortFormByFileName(@RequestParam("fileName") final String fileName){
+        Resource resource = shortFormService.getShortFormByURL(fileName);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_DISPOSITION,"attachment");
+        headers.setContentType(MediaType.parseMediaType("video/mp4"));
+        return new ResponseEntity<Resource>(resource,headers, HttpStatus.OK);
+    }
 }

@@ -8,8 +8,10 @@ import com.daggle.animory.testutil.webmvctest.BaseWebMvcTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.ResultActions;
 
 import javax.validation.constraints.Max;
 
@@ -75,5 +77,31 @@ class ShortFormControllerTest extends BaseWebMvcTest {
                 .andExpect(jsonPath("$.success").value(false));
         }
 
+    }
+
+    @Nested
+    class 숏폼_요청{
+        @ParameterizedTest
+        @ValueSource(strings = {"1.mp4", "2.mp4", "3.mp4"})
+        void 성공_숏폼_요청(final String fileName) throws Exception{
+            ResultActions resultActions = mvc.perform(
+                    get("/short-forms/video")
+                            .param("fileName", fileName))
+                    .andExpect(status().isOk());
+
+            final int status = resultActions.andReturn().getResponse().getStatus();
+            System.out.println("테스트: " + status);
+        }
+//        @ParameterizedTest
+//        @ValueSource(strings = {"234.mp4"})
+//        void 실패_숏폼_요청(final String fileName) throws Exception{
+//            ResultActions resultActions = mvc.perform(
+//                            get("/short-forms/video")
+//                                    .param("fileName", fileName))
+//                    .andExpect(status().isOk());
+//
+//            final int status = resultActions.andReturn().getResponse().getStatus();
+//            System.out.println("테스트: " + status);
+//        } --> mockbean이라 성공이 뜬다;;
     }
 }
