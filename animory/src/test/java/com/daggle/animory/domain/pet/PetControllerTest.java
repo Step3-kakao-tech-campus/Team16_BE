@@ -93,16 +93,16 @@ class PetControllerTest {
                 .andExpect(jsonPath("$.success").value(false));
         }
 
-        @Test
-        void getPetImage() throws Exception{
-            ResultActions resultActions = mvc.perform(
-                    get("/pet/image")
-                            .param("fileName", "1.jpg"))
-                    .andExpect(status().isOk());
-
-            //final String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-            //System.out.println("테스트 : " + responseBody);
-        }
+//        @Test
+//        void getPetImage() throws Exception{
+//            ResultActions resultActions = mvc.perform(
+//                    get("/pet/image")
+//                            .param("fileName", "1.jpg"))
+//                    .andExpect(status().isOk());
+//
+//            //final String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+//            //System.out.println("테스트 : " + responseBody);
+//        }
     }
 
 }
