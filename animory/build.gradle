@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.15'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'jacoco' // Java Code Coverage
 }
 
 group = 'com.daggle'
@@ -55,6 +56,23 @@ dependencies {
 	testImplementation 'io.github.autoparams:autoparams:3.1.0' // test case random generator
 }
 
+// Test Task 설정
 tasks.named('test') {
 	useJUnitPlatform()
+
+	finalizedBy('jacocoTestReport') // Code Coverage 검사
+}
+
+// Jacoco (Java Code Coverage) 설정
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+		csv.required = false
+		html.required = true
+		html.destination file("${buildDir}/reports/jacocoReport")
+	}
 }
