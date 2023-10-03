@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class ShelterService {
     private final ShelterRepository shelterRepository;
 
-    public ShelterProfilePage getShelterProfile(Long shelterId, int page) {
+    public ShelterProfilePage getShelterProfile(Integer shelterId, int page) {
         throw new NotImplementedException("Not Impl");
     }
 }
