@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class ShelterController {
     private final ShelterService shelterService;
 
-    @GetMapping("/shelter/{shelterId}")
+    @GetMapping("/{shelterId}")
     public Response<ShelterProfilePage> getShelter(@PathVariable Long shelterId, @RequestParam("page") final int page) {
         return Response.success(shelterService.getShelterProfile(shelterId, page));
     }
