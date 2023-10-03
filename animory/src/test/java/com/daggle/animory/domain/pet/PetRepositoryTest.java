@@ -2,6 +2,7 @@ package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.testutil.datajpatest.DataJpaTestWithDummyData;
 import org.junit.jupiter.api.Test;
