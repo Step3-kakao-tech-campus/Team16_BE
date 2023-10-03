@@ -6,15 +6,13 @@ import com.daggle.animory.domain.shortform.dto.response.CategoryShortFormPage;
 import com.daggle.animory.domain.shortform.dto.response.HomeShortFormPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.nio.charset.StandardCharsets;
 
 @Validated
 @RestController
@@ -43,8 +41,13 @@ public class ShortFormController {
     public ResponseEntity<Resource> getShortFormByFileName(@RequestParam("fileName") final String fileName){
         Resource resource = shortFormService.getShortFormByURL(fileName);
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_DISPOSITION,"attachment");
-        headers.setContentType(MediaType.parseMediaType("video/mp4"));
+        headers.setContentDisposition(
+                ContentDisposition.builder("attachment")
+                        .filename("fileName", StandardCharsets.UTF_8)
+                        .build()
+        );
+        headers.add(HttpHeaders.CONTENT_TYPE,"video/mp4");
+
         return new ResponseEntity<Resource>(resource,headers, HttpStatus.OK);
     }
 }

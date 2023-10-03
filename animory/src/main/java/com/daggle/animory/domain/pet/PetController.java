@@ -7,10 +7,13 @@ import com.daggle.animory.domain.pet.dto.response.*;
 import com.daggle.animory.domain.pet.service.PetService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Slf4j
@@ -66,5 +69,17 @@ public class PetController {
         return Response.success(petService.getPetDetail(petId));
     }
 
+    @GetMapping("/image")
+    public ResponseEntity<Resource> getPetImage(@RequestParam("fileName") String fileName){
+        Resource resource = petService.getPetImageByURL(fileName);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDisposition(
+                ContentDisposition.builder("attachment")
+                        .filename("fileName", StandardCharsets.UTF_8)
+                        .build()
+        );
+        headers.add(HttpHeaders.CONTENT_TYPE,"image/jpg");
 
+        return new ResponseEntity<Resource>(resource,headers, HttpStatus.OK);
+    }
 }
