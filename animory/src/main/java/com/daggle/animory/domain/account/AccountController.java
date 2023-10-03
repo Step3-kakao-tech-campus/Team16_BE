@@ -35,7 +35,7 @@ public class AccountController {
      * 로그인 API
      */
     @PostMapping("/login")
-    public ResponseEntity<Response<?>> login(@RequestBody AccountLoginDto request) {
+    public ResponseEntity<Response<?>> login(@Valid @RequestBody AccountLoginDto request) {
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "token")
                 .body(Response.success(
