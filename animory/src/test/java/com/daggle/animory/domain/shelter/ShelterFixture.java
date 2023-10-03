@@ -1,4 +1,4 @@
-package com.daggle.animory.domain;
+package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.domain.shelter.entity.Shelter;
