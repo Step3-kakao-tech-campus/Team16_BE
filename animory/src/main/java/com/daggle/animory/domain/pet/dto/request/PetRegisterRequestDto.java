@@ -5,18 +5,19 @@ import com.daggle.animory.domain.pet.entity.AdoptionStatus;
 import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.entity.Sex;
+import javax.validation.constraints.NotNull;
 
 public record PetRegisterRequestDto(
-    String name,
-    String age,
-    PetType type,
-    float weight,
-    String size,
-    Sex sex,
-    String vaccinationStatus,
-    AdoptionStatus adoptionStatus,
-    NeutralizationStatus neutralizationStatus,
-    String description,
-    PetPolygonProfileDto petPolygonProfileDto
+        @NotNull(message = "이름을 입력해주세요.") String name,
+        @NotNull(message = "나이를 입력해주세요.") String age,
+        @NotNull(message = "종을 입력해주세요.") PetType type,
+        float weight,
+        String size,
+        @NotNull(message = "성별을 입력해주세요.") Sex sex,
+        String vaccinationStatus,
+        @NotNull(message = "입양 상태를 입력해주세요.") AdoptionStatus adoptionStatus,
+        NeutralizationStatus neutralizationStatus,
+        String description,
+        PetPolygonProfileDto petPolygonProfileDto
 ) {
 }
