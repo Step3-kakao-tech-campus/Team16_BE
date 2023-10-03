@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Import(FileController.class)
@@ -16,14 +17,13 @@ class FileControllerTest extends BaseWebMvcTest {
     LocalFileRepository localFileRepository;
 
     @Nested
-    class 파일불러오기{
+    class 파일불러오기 {
         @Test
-        void 성공_파일_불러오기() throws Exception{
-            ResultActions resultActions = mvc.perform(
+        void 성공_파일_불러오기() throws Exception {
+            final ResultActions resultActions = mvc.perform(
                     get("/file/somefile.mp4"))
-                    .andExpect(status().isOk());
-            String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-            System.out.println("테스트: " + responseBody);
+                .andExpect(status().isOk())
+                .andDo(print());
         }
     }
 }

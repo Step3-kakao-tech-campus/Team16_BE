@@ -38,4 +38,4 @@ out/
 
 .jpb/
 
-/files_upload_location/
+/src/main/resources/files

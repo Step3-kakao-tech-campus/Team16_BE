@@ -27,12 +27,12 @@ spring:
   servlet:
     multipart:
       enabled: true
-      location: "./files_upload_location/"
+      location: "./src/main/resources/files/"
       max-file-size: "300MB"
       max-request-size: "300MB"
 
 # File Server Path
-upload-path: "./files_upload_location/"
+upload-path: "./src/main/resources/files/"
 file-server-domain: "http://localhost:8080"
 
 # Logging
