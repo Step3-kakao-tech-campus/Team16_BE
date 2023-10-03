@@ -4,7 +4,7 @@ import com.daggle.animory.common.config.SpringSecurityConfiguration;
 import com.daggle.animory.common.security.TokenProvider;
 import com.daggle.animory.common.security.UserDetailsServiceImpl;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.shelter.Province;
+import com.daggle.animory.domain.shelter.entity.Province;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

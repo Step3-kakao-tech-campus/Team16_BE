@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.shelter;
+package com.daggle.animory.domain.shelter.entity;
 
 import lombok.*;
 

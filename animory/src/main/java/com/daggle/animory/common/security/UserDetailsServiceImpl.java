@@ -1,6 +1,6 @@
 package com.daggle.animory.common.security;
 
-import com.daggle.animory.domain.account.Account;
+import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.AccountRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

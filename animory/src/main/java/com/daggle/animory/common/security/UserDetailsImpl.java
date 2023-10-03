@@ -1,6 +1,6 @@
 package com.daggle.animory.common.security;
 
-import com.daggle.animory.domain.account.Account;
+import com.daggle.animory.domain.account.entity.Account;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
