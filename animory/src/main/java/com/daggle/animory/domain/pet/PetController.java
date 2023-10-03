@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.*;
@@ -8,6 +9,7 @@ import com.daggle.animory.domain.pet.service.PetService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,19 +25,20 @@ public class PetController {
 
     @PostMapping(value = "", consumes = {"multipart/form-data"})
     public Response<RegisterPetSuccessDto> registerPet(
-        @RequestPart(value = "petInfo") final PetRegisterRequestDto petRegisterRequestDto,
-        @RequestPart(value = "profileImage") final MultipartFile image,
-        @RequestPart(value = "profileVideo") final MultipartFile video
+            @AuthenticationPrincipal final UserDetailsImpl account,
+            @RequestPart(value = "petInfo") final PetRegisterRequestDto petRegisterRequestDto,
+            @RequestPart(value = "profileImage") final MultipartFile image,
+            @RequestPart(value = "profileVideo") final MultipartFile video
     ) {
 
-        return Response.success(petService.registerPet(petRegisterRequestDto, image, video));
+        return Response.success(petService.registerPet(account.getAccount(), petRegisterRequestDto, image, video));
     }
 
     @PatchMapping(value = "", consumes = {"multipart/form-data"})
     public Response<UpdatePetSuccessDto> registerPet(
-        @RequestPart(value = "petInfo") final Optional<PetUpdateRequestDto> petUpdateRequestDto,
-        @RequestPart(value = "profileImage") final Optional<MultipartFile> image,
-        @RequestPart(value = "profileVideo") final Optional<MultipartFile> video
+            @RequestPart(value = "petInfo") final Optional<PetUpdateRequestDto> petUpdateRequestDto,
+            @RequestPart(value = "profileImage") final Optional<MultipartFile> image,
+            @RequestPart(value = "profileVideo") final Optional<MultipartFile> video
     ) {
 
         return Response.success(petService.updatePet(petUpdateRequestDto, image, video));
