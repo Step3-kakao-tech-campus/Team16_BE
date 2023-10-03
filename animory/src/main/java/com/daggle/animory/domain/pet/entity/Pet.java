@@ -1,6 +1,6 @@
 package com.daggle.animory.domain.pet.entity;
 
-import com.daggle.animory.domain.shelter.Shelter;
+import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 

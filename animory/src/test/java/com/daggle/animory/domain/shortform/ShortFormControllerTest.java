@@ -3,7 +3,7 @@ package com.daggle.animory.domain.shortform;
 import autoparams.AutoSource;
 import autoparams.Repeat;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.shelter.Province;
+import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.testutil.webmvctest.BaseWebMvcTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

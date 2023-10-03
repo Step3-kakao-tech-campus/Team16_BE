@@ -1,7 +1,7 @@
 package com.daggle.animory.domain.shortform.dto.request;
 
 
-import com.daggle.animory.domain.shelter.Province;
+import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.domain.pet.entity.PetType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

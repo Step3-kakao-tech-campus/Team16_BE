@@ -1,8 +1,8 @@
-package com.daggle.animory.domain;
+package com.daggle.animory.domain.shelter;
 
-import com.daggle.animory.domain.shelter.Province;
-import com.daggle.animory.domain.shelter.Shelter;
-import com.daggle.animory.domain.shelter.ShelterAddress;
+import com.daggle.animory.domain.shelter.entity.Province;
+import com.daggle.animory.domain.shelter.entity.Shelter;
+import com.daggle.animory.domain.shelter.entity.ShelterAddress;
 
 import java.util.ArrayList;
 import java.util.List;

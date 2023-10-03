@@ -4,7 +4,7 @@ import com.daggle.animory.domain.pet.entity.AdoptionStatus;
 import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.shelter.Shelter;
+import com.daggle.animory.domain.shelter.entity.Shelter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

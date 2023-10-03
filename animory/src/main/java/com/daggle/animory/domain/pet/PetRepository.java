@@ -2,7 +2,7 @@ package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.shelter.Province;
+import com.daggle.animory.domain.shelter.entity.Province;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
-package com.daggle.animory.domain.shelter;
+package com.daggle.animory.domain.shelter.entity;
 
-import com.daggle.animory.domain.account.Account;
+import com.daggle.animory.domain.account.entity.Account;
 import lombok.*;
 
 import javax.persistence.*;

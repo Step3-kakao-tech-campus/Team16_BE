@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.account;
+package com.daggle.animory.domain.account.entity;
 
 import lombok.*;
 
@@ -26,6 +26,4 @@ public class Account {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AccountRole role;
-
-
 }
