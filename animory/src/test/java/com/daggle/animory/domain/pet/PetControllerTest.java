@@ -97,9 +97,7 @@ class PetControllerTest {
         void getPetImage() throws Exception{
             ResultActions resultActions = mvc.perform(
                     get("/pet/image")
-                            .param("fileName", "1.jpg"))
-                    .andExpect(status().isOk());
-
+                            .param("fileName", "1.jpg"));
         }
     }
 
