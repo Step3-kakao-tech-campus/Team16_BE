@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.shelter.dto.response;
 
 import com.daggle.animory.common.RefinedPage;
+import com.daggle.animory.domain.pet.entity.Pet;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -15,11 +16,10 @@ public class PetProfileSlice extends RefinedPage {
         super(page);
         this.pets = pets;
     }
-
-    public static PetProfileSlice of(final Page<?> page, final List<PetProfileDto> pets) {
+    public static PetProfileSlice of(Page<Pet> petPage) {
         return PetProfileSlice.builder()
-                .page(page)
-                .pets(pets)
+                .page(petPage)
+                .pets(petPage.getContent().stream().map(PetProfileDto::of).toList())
                 .build();
     }
 }
