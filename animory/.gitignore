@@ -39,3 +39,4 @@ out/
 .jpb/
 
 /src/main/resources/files
+/logs
