@@ -11,15 +11,11 @@ import java.util.List;
 public class PetProfileSlice extends RefinedPage {
     private final List<PetProfileDto> pets;
 
-    @Builder
-    private PetProfileSlice(final Page<?> page, final List<PetProfileDto> pets) {
+    private PetProfileSlice(final Page<Pet> page) {
         super(page);
-        this.pets = pets;
+        this.pets = page.getContent().stream().map(PetProfileDto::of).toList();
     }
     public static PetProfileSlice of(Page<Pet> petPage) {
-        return PetProfileSlice.builder()
-                .page(petPage)
-                .pets(petPage.getContent().stream().map(PetProfileDto::of).toList())
-                .build();
+        return new PetProfileSlice(petPage);
     }
 }
