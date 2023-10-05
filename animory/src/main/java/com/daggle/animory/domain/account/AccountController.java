@@ -8,6 +8,7 @@ import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
 import com.daggle.animory.domain.account.dto.response.AccountLoginSuccessDto;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/account")
@@ -40,7 +42,7 @@ public class AccountController {
     @PostMapping("/login")
     public ResponseEntity<Response<AccountLoginSuccessDto>> login(@Valid @RequestBody AccountLoginDto request) {
         String accessToken = tokenProvider.create(request.email(), AccountRole.SHELTER);
-
+        log.debug("accessToken : " + accessToken);
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, accessToken)
                 .body(Response.success(
