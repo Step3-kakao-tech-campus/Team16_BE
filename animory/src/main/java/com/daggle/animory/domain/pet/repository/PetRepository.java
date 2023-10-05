@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.pet;
+package com.daggle.animory.domain.pet.repository;
 
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;

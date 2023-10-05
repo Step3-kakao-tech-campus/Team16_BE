@@ -2,7 +2,7 @@ package com.daggle.animory.testutil.datajpatest;
 
 
 import com.daggle.animory.domain.shelter.ShelterFixture;
-import com.daggle.animory.domain.pet.PetRepository;
+import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.fixture.PetFixture;
