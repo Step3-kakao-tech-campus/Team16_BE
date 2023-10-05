@@ -4,6 +4,7 @@ import com.daggle.animory.common.error.exception.Forbidden403;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
 import com.daggle.animory.common.security.TokenFilter;
 import com.daggle.animory.common.security.TokenProvider;
+import com.daggle.animory.common.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @RequiredArgsConstructor
 public class SpringSecurityConfiguration {
     private final TokenProvider tokenProvider;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http,
