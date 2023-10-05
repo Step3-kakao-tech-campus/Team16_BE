@@ -20,12 +20,14 @@ public record PetRegisterRequestDto(
         String description,
         PetPolygonProfileDto petPolygonProfileDto
 ) {
+
     public Pet toEntity(Shelter shelter, String imageUrl, String videoUrl) {
         return Pet.builder()
                 .name(name)
                 .birthDate(PetAgeToBirthDateConverter.ageToBirthDate(age))
                 .type(type)
                 .weight(weight)
+                .sex(sex)
                 .description(description)
                 .protectionExpirationDate(null)
                 .vaccinationStatus(vaccinationStatus)
