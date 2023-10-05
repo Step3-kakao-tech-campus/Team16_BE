@@ -1,7 +1,7 @@
 package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.error.exception.NotFound404;
-import com.daggle.animory.domain.pet.PetRepository;
+import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

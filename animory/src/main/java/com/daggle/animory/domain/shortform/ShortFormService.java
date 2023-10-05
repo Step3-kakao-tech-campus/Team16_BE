@@ -1,6 +1,6 @@
 package com.daggle.animory.domain.shortform;
 
-import com.daggle.animory.domain.pet.PetRepository;
+import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;
 import com.daggle.animory.domain.shortform.dto.response.CategoryShortFormPage;
 import com.daggle.animory.domain.shortform.dto.response.HomeShortFormPage;

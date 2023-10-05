@@ -1,9 +1,6 @@
 package com.daggle.animory.domain.pet.fixture;
 
-import com.daggle.animory.domain.pet.entity.AdoptionStatus;
-import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
-import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.pet.entity.*;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 
 import java.time.LocalDate;
@@ -19,6 +16,7 @@ public class PetFixture {
             .type(PetType.DOG)
             .weight(5.0f)
             .description("멍멍이는 귀여워요")
+            .sex(Sex.MALE)
             .protectionExpirationDate(LocalDate.now().plusMonths(6))
             .vaccinationStatus("접종완료")
             .neutralizationStatus(NeutralizationStatus.UNKNOWN)
@@ -42,6 +40,7 @@ public class PetFixture {
                     .type(PetType.DOG)
                     .weight(5.0f)
                     .description("멍멍이는 귀여워요" + i)
+                    .sex(Sex.MALE)
                     .protectionExpirationDate(LocalDate.now().plusMonths(1))
                     .vaccinationStatus("접종완료" + i)
                     .neutralizationStatus(NeutralizationStatus.UNKNOWN)
