@@ -59,6 +59,9 @@ public class LocalFileRepository implements FileRepository {
     }
 
     public URL save(final MultipartFile file) {
+        if(file.isEmpty()){
+        throw new BadRequest400("존재하지 않는 파일에 대한 요청이 들어왔습니다.");
+        }
         final String fileName = getCurrentTimeString() + StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         validateSafeFileName(fileName);
