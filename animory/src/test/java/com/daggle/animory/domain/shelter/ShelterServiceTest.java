@@ -1,12 +1,11 @@
 package com.daggle.animory.domain.shelter;
 
-import com.daggle.animory.domain.pet.PetRepository;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.fixture.PetFixture;
+import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
 import com.daggle.animory.domain.shelter.entity.Shelter;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
