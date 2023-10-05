@@ -41,11 +41,13 @@ public class TokenProvider {
 
     public String create(String account, AccountRole role) {
         Date now = new Date(); // TODO: Date가 아닌 다른 방법을 찾아보라네요? (java.util... 대신 java.time ... 으로)
+        Date expiration = new Date(now.getTime() + tokenValiditySeconds * 1000);
+        log.debug("expiration : " + expiration);
         return TOKEN_PREFIX + Jwts.builder()
                 .setSubject(account) // 정보 저장
                 .claim(ROLES_CLAIM, role)
                 .setIssuedAt(new Date()) // 토큰 발행 시간
-                .setExpiration(new Date(now.getTime() + tokenValiditySeconds * 1000)) // 토큰 만료 시간
+                .setExpiration(expiration) // 토큰 만료 시간
                 .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
                 .compact();
     }
