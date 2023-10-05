@@ -32,7 +32,6 @@ spring:
       max-request-size: "20MB"
 
 # File Server Path
-upload-path: "./src/main/resources/files/"
 file-server-domain: ${SERVER_DOMAIN}
 
 # Logging
