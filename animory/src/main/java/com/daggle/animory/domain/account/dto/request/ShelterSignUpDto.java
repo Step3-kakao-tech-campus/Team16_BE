@@ -1,7 +1,11 @@
 package com.daggle.animory.domain.account.dto.request;
 
 
+import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.domain.account.entity.AccountRole;
+import com.daggle.animory.domain.shelter.entity.Shelter;
 import lombok.Builder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
@@ -14,4 +18,21 @@ public record ShelterSignUpDto(
         String contact,
         String zonecode,
         ShelterAddressSignUpDto address) {
+
+    public Account getAccount(PasswordEncoder encodePassword) {
+        return Account.builder()
+                .email(email)
+                .password(encodePassword.encode(password))
+                .role(AccountRole.SHELTER)
+                .build();
+    }
+
+    public Shelter getShelter(Account account) {
+        return Shelter.builder()
+                .name(name)
+                .contact(contact)
+                .address(address.getShelterAddress())
+                .account(account)
+                .build();
+    }
 }
