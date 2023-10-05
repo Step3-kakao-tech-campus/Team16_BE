@@ -1,15 +1,12 @@
 package com.daggle.animory.common.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.daggle.animory.domain.account.entity.AccountRole;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -17,8 +14,8 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TokenProvider {
@@ -41,16 +38,13 @@ public class TokenProvider {
         this.key = Base64.getEncoder().encodeToString(key.getBytes());
     }
 
-    public String create(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
 
+    public String create(String account, AccountRole role) {
         Date now = new Date();
 
         return TOKEN_PREFIX + Jwts.builder()
-                .setSubject(authentication.getName()) // 정보 저장
-                .claim(ROLES_CLAIM, authorities)
+                .setSubject(account) // 정보 저장
+                .claim(ROLES_CLAIM, role)
                 .setIssuedAt(new Date()) // 토큰 발행 시간
                 .setExpiration(new Date(now.getTime() + tokenValiditySeconds)) // 토큰 만료 시간
                 .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
@@ -60,7 +54,7 @@ public class TokenProvider {
     // 인증 정보 조회
     public Authentication getAuthentication(String token) {
         String accountSubject = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(accountSubject);
+        UserDetailsImpl userDetails = userDetailsService.loadUserByUsername(accountSubject);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
@@ -78,9 +72,20 @@ public class TokenProvider {
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
+            return true;
+        } catch (SignatureException ex) {
+            log.error("Invalid JWT signature");
+        } catch (MalformedJwtException ex) {
+            log.error("Invalid JWT token");
+        } catch (ExpiredJwtException ex) {
+            log.error("Expired JWT token");
+        } catch (UnsupportedJwtException ex) {
+            log.error("Unsupported JWT token");
+        } catch (IllegalArgumentException ex) {
+            log.error("JWT claims string is empty.");
+        } catch (NullPointerException ex){
+            log.error("JWT RefreshToken is empty");
         }
+        return false;
     }
 }
