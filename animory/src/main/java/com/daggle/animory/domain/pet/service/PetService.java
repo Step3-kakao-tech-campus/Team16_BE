@@ -94,12 +94,12 @@ public class PetService {
     public void updateFile(final Pet updatePet, final MultipartFile image,
             final MultipartFile video) {
         if (image != null) {
-//            fileRepository.delete(updatePet.getProfileImageUrl());
+            fileRepository.delete(updatePet.getProfileImageUrl());
             URL imageUrl = fileRepository.save(image);
             updatePet.updateImage(imageUrl.toString());
         }
         if (video != null) {
-//            fileRepository.delete(updatePet.getProfileShortFormUrl());
+            fileRepository.delete(updatePet.getProfileShortFormUrl());
             URL videoUrl = fileRepository.save(video);
             updatePet.updateVideo(videoUrl.toString());
         }
