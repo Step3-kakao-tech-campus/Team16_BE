@@ -104,4 +104,18 @@ public class PetService {
             updatePet.updateVideo(videoUrl.toString());
         }
     }
+
+    // 기존의 펫 등록 정보 조회
+    public PetRegisterInfoDto getRegisterInfo(final int petId) {
+
+        // 펫 id로 Pet, PetPolygonProfile 얻어오기
+        Pet registerPet = petRepository.findById(petId)
+                .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
+
+        PetPolygonProfile petPolygonProfile = petPolygonRepository.findByPetId(petId)
+                .orElseThrow(() -> new NotFound404("등록된 다각형 프로필이 존재하지 않습니다."));
+
+        // Pet -> PetRegisterInfoDto
+        return PetRegisterInfoDto.fromEntity(registerPet, petPolygonProfile);
+    }
 }

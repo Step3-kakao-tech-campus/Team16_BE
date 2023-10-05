@@ -45,6 +45,12 @@ public class PetController {
                 petService.updatePet(petId, petUpdateRequestDto, image, video));
     }
 
+    @GetMapping(value = "/register-info/{petId}")
+    public Response<PetRegisterInfoDto> getPetRegisterInfo(@PathVariable final int petId) {
+
+        return Response.success(
+                petService.getRegisterInfo(petId));
+    }
 
     /**
      * Pagination이 아닌, 각 8개씩 반환합니다. 이후 더보기 버튼을 통해 다른 API를 호출되는 시나리오 입니다.
