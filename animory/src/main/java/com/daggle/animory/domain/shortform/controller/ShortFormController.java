@@ -1,6 +1,7 @@
-package com.daggle.animory.domain.shortform;
+package com.daggle.animory.domain.shortform.controller;
 
 import com.daggle.animory.common.Response;
+import com.daggle.animory.domain.shortform.ShortFormService;
 import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;
 import com.daggle.animory.domain.shortform.dto.response.CategoryShortFormPage;
 import com.daggle.animory.domain.shortform.dto.response.HomeShortFormPage;

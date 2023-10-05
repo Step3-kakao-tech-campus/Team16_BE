@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.shortform;
+package com.daggle.animory.domain.shortform.controller;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;
