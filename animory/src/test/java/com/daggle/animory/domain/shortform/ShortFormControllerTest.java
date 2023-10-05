@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.web.servlet.ResultActions;
 
 import javax.validation.constraints.Max;
 
@@ -51,7 +52,6 @@ class ShortFormControllerTest extends BaseWebMvcTest {
                 .andExpect(jsonPath("$.success").value(false))
                 .andDo(print());
         }
-
     }
 
     @Nested
