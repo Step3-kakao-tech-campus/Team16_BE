@@ -47,6 +47,6 @@ springdoc.swagger-ui:
 # Security
 jwt:
   secret: ${JWT_SECRET}
-  token-validity-in-seconds: 60 * 60 * 24 # 24시간
+  token-validity-in-seconds: "#{60 * 60 * 24}"
 
 
