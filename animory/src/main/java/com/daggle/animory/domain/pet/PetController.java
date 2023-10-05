@@ -13,8 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -31,23 +29,25 @@ public class PetController {
             @RequestPart(value = "profileVideo") final MultipartFile video
     ) {
 
-        return Response.success(petService.registerPet(account.getAccount(), petRegisterRequestDto, image, video));
+        return Response.success(
+                petService.registerPet(account.getAccount(), petRegisterRequestDto, image, video));
     }
 
-    @PatchMapping(value = "", consumes = {"multipart/form-data"})
-    public Response<UpdatePetSuccessDto> registerPet(
-            @RequestPart(value = "petInfo") final Optional<PetUpdateRequestDto> petUpdateRequestDto,
-            @RequestPart(value = "profileImage") final Optional<MultipartFile> image,
-            @RequestPart(value = "profileVideo") final Optional<MultipartFile> video
+    @PatchMapping(value = "/{petId}", consumes = {"multipart/form-data"})
+    public Response<UpdatePetSuccessDto> updatePet(
+            @PathVariable final int petId,
+            @RequestPart(value = "petInfo") final PetUpdateRequestDto petUpdateRequestDto,
+            @RequestPart(value = "profileImage", required = false) final MultipartFile image,
+            @RequestPart(value = "profileVideo", required = false) final MultipartFile video
     ) {
 
-        return Response.success(petService.updatePet(petUpdateRequestDto, image, video));
+        return Response.success(
+                petService.updatePet(petId, petUpdateRequestDto, image, video));
     }
 
 
     /**
-     * Pagination이 아닌, 각 8개씩 반환합니다.
-     * 이후 더보기 버튼을 통해 다른 API를 호출되는 시나리오 입니다.
+     * Pagination이 아닌, 각 8개씩 반환합니다. 이후 더보기 버튼을 통해 다른 API를 호출되는 시나리오 입니다.
      */
     @GetMapping("/profiles")
     public Response<PetProfilesDto> getPetProfiles() {
