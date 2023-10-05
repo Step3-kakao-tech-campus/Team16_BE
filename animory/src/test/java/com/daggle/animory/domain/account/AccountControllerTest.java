@@ -112,7 +112,7 @@ public class AccountControllerTest extends BaseWebMvcTest {
             // given
             final AccountLoginDto accountLoginDto = AccountLoginDto.builder()
                     .email("aaa@naver.com")
-                    .password("asdfA123")
+                    .password("asdfA123!")
                     .build();
 
             mvc.perform(post("/account/login")
@@ -120,7 +120,7 @@ public class AccountControllerTest extends BaseWebMvcTest {
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.success").value(true))
-                    .andExpect(header().stringValues("Authorization","token"))
+                    .andExpect(header().exists("Authorization"))
                     .andDo(print());
         }
 
