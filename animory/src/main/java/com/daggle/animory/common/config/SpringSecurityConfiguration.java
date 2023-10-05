@@ -1,11 +1,12 @@
 package com.daggle.animory.common.config;
 
-import com.daggle.animory.common.FilterResponseUtils;
 import com.daggle.animory.common.error.exception.Forbidden403;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
 import com.daggle.animory.common.security.TokenFilter;
 import com.daggle.animory.common.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 @EnableWebSecurity // 시큐리티 필터(SpringSecurityConfiguration)가 필터체인에 등록
@@ -26,8 +28,9 @@ public class SpringSecurityConfiguration {
     private final TokenProvider tokenProvider;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
+    public SecurityFilterChain filterChain(final HttpSecurity http,
+                                           @Autowired @Qualifier("handlerExceptionResolver")
+                                           final HandlerExceptionResolver resolver) throws Exception {
         http.csrf().disable() // csrf 해제
                 .formLogin().disable()// form 로그인 비활성화
                 .cors().configurationSource(configurationSource()) // cors 재설정
@@ -42,15 +45,13 @@ public class SpringSecurityConfiguration {
                 .addFilterBefore(new TokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
 
                 // 인증 실패 처리
-                .exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-                    FilterResponseUtils.unAuthorized(response, new UnAuthorized401("인증되지 않았습니다"));
-                })
+                .exceptionHandling().authenticationEntryPoint((request, response, authException) ->
+                    resolver.resolveException(request, response, null, new UnAuthorized401("인증되지 않았습니다")))
 
                 // 권한 실패 처리
                 .and()
-                .exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-                    FilterResponseUtils.forbidden(response, new Forbidden403("권한이 없습니다"));
-                })
+                .exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) ->
+                    resolver.resolveException(request, response, null, new Forbidden403("권한이 없습니다")))
 
                 // Endpoint 인증/인가 필터 설정
                 .and()
