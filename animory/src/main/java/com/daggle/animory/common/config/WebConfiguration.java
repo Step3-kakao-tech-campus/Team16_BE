@@ -2,6 +2,7 @@ package com.daggle.animory.common.config;
 
 import com.daggle.animory.common.logger.RequestLogger;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,4 +17,16 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(new RequestLogger())
             .order(-1);
     }
+
+    @Override
+    public void addCorsMappings(final CorsRegistry registry) {
+        registry.addMapping("/**")
+            .allowedHeaders("*")
+            .allowedMethods("*")
+            .allowedOrigins("*")
+            .exposedHeaders("Authorization")
+            .allowCredentials(true);
+    }
+
+
 }
