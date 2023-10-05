@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -76,6 +77,24 @@ public class LocalFileRepository implements FileRepository {
         }
     }
 
+    public void delete(final String url){
+        // 일단 DB에 저장되어있는 Url 정보로 삭제한다고 가정
+        String fileName = getFileNameFromUrl(url);
+        try{
+            File file = findByName(fileName).getFile();
+            if(!file.delete()){
+                throw new BadRequest400("파일이 존재하지 않습니다." + fileName);
+            }
+        }catch(IOException ex){
+            throw new InternalServerError500("파일을 가져올 수 없습니다.");
+        }
+
+    }
+
+    private String getFileNameFromUrl(final String url){
+        String fileName = url.replaceAll(fileServerDomain + FILE_REQUEST_ENDPOINT, "");
+        return fileName;
+    }
     private void validateSafeFileName(final String fileName) {
         if (fileName.contains("..")) {
             throw new BadRequest400("파일이 유효하지 않은 경로를 포함하고 있습니다." + fileName);
