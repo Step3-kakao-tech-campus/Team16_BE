@@ -14,8 +14,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addInterceptors(final InterceptorRegistry registry) {
 
         // Request Logger 를 모든 요청에 대해 적용
-        registry.addInterceptor(new RequestLogger())
-            .order(-1);
+        registry.addInterceptor(new RequestLogger()).order(-1);
     }
 
     @Override
@@ -25,8 +24,7 @@ public class WebConfiguration implements WebMvcConfigurer {
             .allowedMethods("*")
             .allowedOrigins("*")
             .exposedHeaders("Authorization")
-            .allowCredentials(true);
+            .allowCredentials(false);
     }
-
 
 }
