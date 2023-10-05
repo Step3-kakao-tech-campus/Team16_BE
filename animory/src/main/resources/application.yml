@@ -28,8 +28,8 @@ spring:
     multipart:
       enabled: true
       location: "./src/main/resources/files/"
-      max-file-size: "300MB"
-      max-request-size: "300MB"
+      max-file-size: "50MB"
+      max-request-size: "50MB"
 
 # File Server Path
 file-server-domain: "http://localhost:8080"
