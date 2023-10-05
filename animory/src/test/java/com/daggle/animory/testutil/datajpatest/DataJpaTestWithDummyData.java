@@ -31,7 +31,9 @@ public abstract class DataJpaTestWithDummyData extends WithTimeSupportObjectMapp
         shelterRepository.saveAll(shelters);
 
         final List<Pet> pets = PetFixture.get(20, PetType.DOG, shelters.get(0)); // shelter province = 광주
+        final List<Pet> petsOfOtherShelter = PetFixture.get(10, PetType.DOG, shelters.get(1)); // shelter province = 광주
 
         petRepository.saveAll(pets);
+        petRepository.saveAll(petsOfOtherShelter);
     }
 }
