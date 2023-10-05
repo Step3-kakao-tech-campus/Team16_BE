@@ -17,7 +17,7 @@ import javax.validation.constraints.Min;
 @Validated
 @RestController
 @RequiredArgsConstructor
-public class ShortFormController {
+public class ShortFormController implements ShortFormControllerApi {
 
     private final ShortFormService shortFormService;
 
