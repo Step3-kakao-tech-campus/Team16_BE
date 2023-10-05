@@ -46,7 +46,6 @@ springdoc.swagger-ui:
 
 # Security
 jwt:
-  header: Authorization
   secret: ${JWT_SECRET}
   token-validity-in-seconds: 86400
 
