@@ -18,4 +18,7 @@ public abstract class RefinedPage {
         this.size = page.getSize();
         this.totalPages = page.getTotalPages();
     }
+
+    protected RefinedPage() {
+    }
 }

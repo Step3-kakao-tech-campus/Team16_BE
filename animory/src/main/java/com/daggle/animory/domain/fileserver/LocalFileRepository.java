@@ -39,7 +39,7 @@ public class LocalFileRepository implements FileRepository {
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (final Exception ex) {
-            throw new InternalServerError500("디렉토리를 만들 수 없습니다.");
+            throw new InternalServerError500("LocalFile 저장을 위한 디렉토리를 만들 수 없습니다.");
         }
 
         this.fileServerDomain = fileServerDomain;
@@ -50,10 +50,10 @@ public class LocalFileRepository implements FileRepository {
             final ClassPathResource classPathResource = new ClassPathResource(FILE_SAVED_CLASSPATH + fileName);
             return new InputStreamResource(classPathResource.getInputStream());
         } catch (final FileNotFoundException ex) {
-            log.debug("해당 파일을 찾을 수 없습니다.", ex);
+            log.error("해당 파일을 찾을 수 없습니다.", ex);
             throw new BadRequest400("해당 파일을 찾을 수 없습니다.");
         } catch (final IOException ex) {
-            log.debug("파일을 읽을 수 없습니다.", ex);
+            log.error("파일을 읽을 수 없습니다.", ex);
             throw new InternalServerError500("파일을 읽을 수 없습니다.");
         }
     }

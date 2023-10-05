@@ -28,11 +28,10 @@ spring:
     multipart:
       enabled: true
       location: "./src/main/resources/files/"
-      max-file-size: "20MB"
-      max-request-size: "20MB"
+      max-file-size: "50MB"
+      max-request-size: "50MB"
 
 # File Server Path
-upload-path: "./src/main/resources/files/"
 file-server-domain: ${SERVER_DOMAIN}
 
 # Logging
@@ -47,8 +46,7 @@ springdoc.swagger-ui:
 
 # Security
 jwt:
-  header: Authorization
   secret: ${JWT_SECRET}
-  token-validity-in-seconds: 86400
+  token-validity-in-seconds: "#{60 * 60 * 24}"
 
 
