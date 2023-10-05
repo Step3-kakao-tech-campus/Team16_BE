@@ -27,11 +27,13 @@ public class GlobalValidationHandler {
         List<Object> args = Arrays.stream(jp.getArgs()).toList();
         List<Errors> errors = extractErrors(args);
         for(Errors error : errors){
-            List<FieldError> fieldErrors = extractFieldErrors(error);
-            String errorMessage = parsingErrorMessages(fieldErrors);
-            throw new BadRequest400(
-                    errorMessage
-            );
+            if(error.hasErrors()){
+                List<FieldError> fieldErrors = extractFieldErrors(error);
+                String errorMessage = parsingErrorMessages(fieldErrors);
+                throw new BadRequest400(
+                        errorMessage
+                );
+            }
         }
     }
 
