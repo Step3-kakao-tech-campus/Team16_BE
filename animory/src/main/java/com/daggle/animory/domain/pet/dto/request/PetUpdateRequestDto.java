@@ -5,6 +5,7 @@ import com.daggle.animory.domain.pet.entity.AdoptionStatus;
 import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.entity.Sex;
+import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
 
 public record PetUpdateRequestDto(
@@ -18,6 +19,7 @@ public record PetUpdateRequestDto(
         @NotNull(message = "입양 상태를 입력해주세요.") AdoptionStatus adoptionStatus,
         NeutralizationStatus neutralizationStatus,
         String description,
+        LocalDate protectionExpirationDate,
         PetPolygonProfileDto petPolygonProfileDto
 ) {
 

@@ -87,7 +87,9 @@ public class Pet {
         this.size = petUpdateRequestDto.size();
         this.sex = petUpdateRequestDto.sex();
         this.vaccinationStatus = petUpdateRequestDto.vaccinationStatus();
+        this.neutralizationStatus = petUpdateRequestDto.neutralizationStatus();
         this.adoptionStatus = petUpdateRequestDto.adoptionStatus();
+        this.protectionExpirationDate = petUpdateRequestDto.protectionExpirationDate();
         this.description = petUpdateRequestDto.description();
     }
 }

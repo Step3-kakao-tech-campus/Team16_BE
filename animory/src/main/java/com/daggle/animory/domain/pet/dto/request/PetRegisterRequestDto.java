@@ -1,10 +1,14 @@
 package com.daggle.animory.domain.pet.dto.request;
 
 import com.daggle.animory.domain.pet.dto.PetPolygonProfileDto;
-import com.daggle.animory.domain.pet.entity.*;
+import com.daggle.animory.domain.pet.entity.AdoptionStatus;
+import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
+import com.daggle.animory.domain.pet.entity.Pet;
+import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.pet.entity.Sex;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import com.daggle.animory.domain.shelter.entity.Shelter;
-
+import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
 
 public record PetRegisterRequestDto(
@@ -17,6 +21,7 @@ public record PetRegisterRequestDto(
         String vaccinationStatus,
         @NotNull(message = "입양 상태를 입력해주세요.") AdoptionStatus adoptionStatus,
         NeutralizationStatus neutralizationStatus,
+        LocalDate protectionExpirationDate,
         String description,
         PetPolygonProfileDto petPolygonProfileDto
 ) {
@@ -29,7 +34,7 @@ public record PetRegisterRequestDto(
                 .weight(weight)
                 .sex(sex)
                 .description(description)
-                .protectionExpirationDate(null)
+                .protectionExpirationDate(protectionExpirationDate)
                 .vaccinationStatus(vaccinationStatus)
                 .neutralizationStatus(neutralizationStatus)
                 .adoptionStatus(adoptionStatus)
