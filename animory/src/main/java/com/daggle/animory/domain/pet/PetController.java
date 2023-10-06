@@ -1,8 +1,9 @@
 package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
-import com.daggle.animory.common.security.Auth;
+import com.daggle.animory.common.security.Authorized;
 import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.*;
@@ -22,8 +23,9 @@ public class PetController {
     private final PetService petService;
 
     @PostMapping(value = "", consumes = {"multipart/form-data"})
+    @Authorized(AccountRole.SHELTER)
     public Response<RegisterPetSuccessDto> registerPet(
-            @Auth final Account account,
+            final Account account,
             @RequestPart(value = "petInfo") final PetRegisterRequestDto petRegisterRequestDto,
             @RequestPart(value = "profileImage") final MultipartFile image,
             @RequestPart(value = "profileVideo") final MultipartFile video
