@@ -23,6 +23,8 @@ public class AccountService {
 
     @Transactional
     public void registerShelterAccount(final ShelterSignUpDto shelterSignUpDto) {
+        validateEmailDuplication(new EmailValidateDto(shelterSignUpDto.email()));
+
         Account newAccount = accountRepository.save(
                 shelterSignUpDto.getAccount(passwordEncoder));
 
