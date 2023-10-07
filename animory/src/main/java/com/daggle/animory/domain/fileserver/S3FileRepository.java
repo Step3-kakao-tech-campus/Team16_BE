@@ -72,7 +72,7 @@ public class S3FileRepository implements FileRepository{
 
         }
         catch(SdkClientException ex){
-            throw new InternalServerError500(ex.getMessage());
+            throw new InternalServerError500("aws에 저장하는 과정에서 오류가 발생했습니다."+ex.getMessage());
         }
         catch(IOException ex){
             throw new BadRequest400("올바르지 않은 파일 형식입니다.");
