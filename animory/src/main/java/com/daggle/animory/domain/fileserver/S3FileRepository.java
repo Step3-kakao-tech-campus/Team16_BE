@@ -25,7 +25,7 @@ import java.util.List;
 
 @Slf4j
 @Repository
-public class S3FileRepository implements FileRepository{
+public class S3FileRepository{
 
     private final String accessKey;
     private final String secretKey;
@@ -49,15 +49,12 @@ public class S3FileRepository implements FileRepository{
                 .build();
     }
 
-    @Override
-    public Resource findByName(String fileName) {
-        S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, fileName));
-        S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
 
-        return new InputStreamResource(objectInputStream);
+    public String getUrl(String path) {
+        return amazonS3Client.getUrl(bucket, path).toString();
     }
 
-    @Override
+
     public URL save(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         Path path = Paths.get(fileName);
