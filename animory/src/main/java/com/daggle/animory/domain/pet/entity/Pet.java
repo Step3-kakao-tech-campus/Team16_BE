@@ -4,6 +4,7 @@ import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
 import lombok.*;
 
 import javax.persistence.*;
@@ -61,6 +62,9 @@ public class Pet {
     private String profileShortFormUrl;
 
     private String size;
+
+    @Column(nullable = false, columnDefinition = "datetime")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")

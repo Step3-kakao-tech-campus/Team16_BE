@@ -9,6 +9,7 @@ import com.daggle.animory.domain.pet.entity.Sex;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 
 public record PetRegisterRequestDto(
@@ -41,6 +42,7 @@ public record PetRegisterRequestDto(
                 .profileImageUrl(imageUrl)
                 .profileShortFormUrl(videoUrl)
                 .size(size)
+                .createdAt(LocalDateTime.now())
                 .shelter(shelter)
                 .build();
     }
