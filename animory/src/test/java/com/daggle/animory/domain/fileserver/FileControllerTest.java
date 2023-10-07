@@ -15,6 +15,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class FileControllerTest extends BaseWebMvcTest {
     @MockBean
     LocalFileRepository localFileRepository;
+    @MockBean
+    S3FileRepository s3FileRepository;
 
     @Nested
     class 파일불러오기 {
