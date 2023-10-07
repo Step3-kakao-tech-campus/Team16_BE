@@ -1,7 +1,9 @@
 package com.daggle.animory.domain.pet;
 
 import com.daggle.animory.common.Response;
-import com.daggle.animory.common.security.UserDetailsImpl;
+import com.daggle.animory.common.security.Authorized;
+import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.*;
@@ -9,7 +11,6 @@ import com.daggle.animory.domain.pet.service.PetService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,15 +23,15 @@ public class PetController {
     private final PetService petService;
 
     @PostMapping(value = "", consumes = {"multipart/form-data"})
+    @Authorized(AccountRole.SHELTER)
     public Response<RegisterPetSuccessDto> registerPet(
-            @AuthenticationPrincipal final UserDetailsImpl account,
+            final Account account,
             @RequestPart(value = "petInfo") final PetRegisterRequestDto petRegisterRequestDto,
             @RequestPart(value = "profileImage") final MultipartFile image,
             @RequestPart(value = "profileVideo") final MultipartFile video
     ) {
-
         return Response.success(
-                petService.registerPet(account.getAccount(), petRegisterRequestDto, image, video));
+                petService.registerPet(account, petRegisterRequestDto, image, video));
     }
 
     @PatchMapping(value = "/{petId}", consumes = {"multipart/form-data"})
