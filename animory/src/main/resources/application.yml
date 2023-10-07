@@ -27,20 +27,23 @@ spring:
   servlet:
     multipart:
       enabled: true
-      location_s3: "/home/ec2-user/files/"
       location: "./src/main/resources/files/"
       max-file-size: "50MB"
       max-request-size: "50MB"
 
   #for AWS S3
-  cloud:
-    aws:
-      region:
-        static: ap-northeast-2
-      s3:
-        bucket: kakao-techcampus
-      stack:
-        auto: false
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAVB63YKDR2VXKY2NW
+      secret-key: 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
+      # 이거 어떻게 못 숨기나요..?
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: kakao-techcampus
+    stack:
+      auto: false
 
 # File Server Path
 file-server-domain: "http://localhost:8080"
