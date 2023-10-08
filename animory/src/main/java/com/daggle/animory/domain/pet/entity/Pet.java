@@ -9,6 +9,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -61,6 +62,9 @@ public class Pet {
     private String profileShortFormUrl;
 
     private String size;
+
+    @Column(nullable = false, columnDefinition = "datetime")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")

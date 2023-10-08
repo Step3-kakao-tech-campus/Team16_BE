@@ -10,4 +10,6 @@ public interface FileRepository {
     Resource findByName(String fileName);
 
     URL save(MultipartFile file);
+
+    void delete(String url);
 }

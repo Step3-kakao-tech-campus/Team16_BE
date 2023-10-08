@@ -4,11 +4,18 @@ package com.daggle.animory.domain.pet.service;
 import com.daggle.animory.common.error.exception.NotFound404;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
 import com.daggle.animory.domain.account.entity.Account;
-import com.daggle.animory.domain.fileserver.FileRepository;
-import com.daggle.animory.domain.fileserver.LocalFileRepository;
+import com.daggle.animory.domain.fileserver.S3FileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
-import com.daggle.animory.domain.pet.dto.response.*;
+import com.daggle.animory.domain.pet.dto.response.NewPetDto;
+import com.daggle.animory.domain.pet.dto.response.NewPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.PetDto;
+import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.PetRegisterInfoDto;
+import com.daggle.animory.domain.pet.dto.response.RegisterPetSuccessDto;
+import com.daggle.animory.domain.pet.dto.response.SosPetDto;
+import com.daggle.animory.domain.pet.dto.response.SosPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.UpdatePetSuccessDto;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetPolygonProfile;
 import com.daggle.animory.domain.pet.repository.PetPolygonRepository;
@@ -16,38 +23,63 @@ import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import java.net.URL;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PetService {
 
-    private final LocalFileRepository fileRepository;
+    private final S3FileRepository fileRepository;
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
     private final PetPolygonRepository petPolygonRepository;
 
     public PetProfilesDto getPetProfiles() {
-        throw new NotImplementedException("NotImplemented yet");
+        // sos, new 프로필 각각 최대 8개씩 조회
+        List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate(PageRequest.of(0, 8));
+        List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt(PageRequest.of(0, 8));
+
+        // DTO에 넣어주기
+        List<SosPetDto> sosList = sosProfiles.stream()
+                .map(SosPetDto::fromEntity)
+                .collect(Collectors.toList());
+
+        List<NewPetDto> newList = newProfiles.stream()
+                .map(NewPetDto::fromEntity)
+                .collect(Collectors.toList());
+
+        return new PetProfilesDto(sosList, newList);
     }
 
     public SosPetProfilesDto getPetSosProfiles(final Pageable pageable) {
-        throw new NotImplementedException("NotImplemented yet");
+        return SosPetProfilesDto.of(petRepository.findPageBy(pageable));
     }
 
     public NewPetProfilesDto getPetNewProfiles(final Pageable pageable) {
-        throw new NotImplementedException("NotImplemented yet");
+        return NewPetProfilesDto.of(petRepository.findPageBy(pageable));
     }
 
     public PetDto getPetDetail(final int petId) {
-        throw new NotImplementedException("NotImplemented yet");
+        // petId로 Pet, PetPolygonProfile 얻어오기
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new NotFound404("해당 동물이 존재하지 않습니다."));
+
+        PetPolygonProfile petPolygonProfile = petPolygonRepository.findByPetId(petId)
+                .orElseThrow(() -> new NotFound404("등록된 다각형 프로필이 존재하지 않습니다."));
+
+        return PetDto.fromEntity(pet, petPolygonProfile);
     }
 
+    @Transactional
     public RegisterPetSuccessDto registerPet(final Account account,
             final PetRegisterRequestDto petRequestDTO, final MultipartFile image,
             final MultipartFile video) {
@@ -70,6 +102,7 @@ public class PetService {
         return new RegisterPetSuccessDto(registerPet.getId());
     }
 
+    @Transactional
     public UpdatePetSuccessDto updatePet(final int petId,
             final PetUpdateRequestDto petUpdateRequestDto, final MultipartFile image,
             final MultipartFile video) {

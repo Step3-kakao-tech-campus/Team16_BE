@@ -4,6 +4,7 @@ import com.daggle.animory.domain.pet.entity.*;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class PetFixture {
             .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test1.jpg")
             .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test1.mp4")
             .size("작아요 소형견입니다.")
+            .createdAt(LocalDateTime.now())
             .shelter(shelter)
             .build();
     }
@@ -48,6 +50,7 @@ public class PetFixture {
                     .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test" + i + ".jpg")
                     .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test" + i + ".mp4")
                     .size("작아요 소형견입니다." + i)
+                    .createdAt(LocalDateTime.now())
                     .shelter(shelter)
                     .build()
             );

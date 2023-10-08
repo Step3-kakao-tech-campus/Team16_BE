@@ -6,12 +6,27 @@ import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
-import com.daggle.animory.domain.pet.dto.response.*;
+import com.daggle.animory.domain.pet.dto.response.NewPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.PetDto;
+import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.PetRegisterInfoDto;
+import com.daggle.animory.domain.pet.dto.response.RegisterPetSuccessDto;
+import com.daggle.animory.domain.pet.dto.response.SosPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.UpdatePetSuccessDto;
 import com.daggle.animory.domain.pet.service.PetService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -62,12 +77,14 @@ public class PetController {
     }
 
     @GetMapping("/profiles/sos")
-    public Response<SosPetProfilesDto> getPetSosProfiles(final Pageable pageable) {
+    public Response<SosPetProfilesDto> getPetSosProfiles(
+            @PageableDefault(page = 0, size = 8, sort = "protectionExpirationDate", direction = Sort.Direction.ASC) final Pageable pageable) {
         return Response.success(petService.getPetSosProfiles(pageable));
     }
 
     @GetMapping("/profiles/new")
-    public Response<NewPetProfilesDto> getPetNewProfiles(final Pageable pageable) {
+    public Response<NewPetProfilesDto> getPetNewProfiles(
+            @PageableDefault(page = 0, size = 8, sort = "createdAt", direction = Direction.DESC) final Pageable pageable) {
         return Response.success(petService.getPetNewProfiles(pageable));
     }
 
