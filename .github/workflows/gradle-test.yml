@@ -36,9 +36,15 @@ jobs:
         working-directory: ./animory
         run: chmod +x ./gradlew
 
-      - name: Test with Gradle 
+      - name: Copy Secret File into Project Resource
+        env:
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
+          TARGET_DIR: ./animory/src/main/resources
+        run: echo $AWS_SECRET | base64 -d > $TARGET_DIR/aws-secret.yml
+
+      - name: Test with Gradle
         working-directory: ./animory
-        run: ./gradlew test --warning-mode=all --stacktrace # stacktrace
+        run: ./gradlew test --warning-mode=all --stacktrace
 
       - name: Add Unit Test Results to PR
         uses: mikepenz/action-junit-report@v3.8.0

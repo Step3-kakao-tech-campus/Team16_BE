@@ -49,4 +49,15 @@ jwt:
   secret: ${JWT_SECRET}
   token-validity-in-seconds: "#{60 * 60 * 24}"
 
-
+# AWS S3
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: kakao-techcampus
+    stack:
+      auto: false
