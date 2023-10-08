@@ -7,7 +7,15 @@ import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.fileserver.FileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
-import com.daggle.animory.domain.pet.dto.response.*;
+import com.daggle.animory.domain.pet.dto.response.NewPetDto;
+import com.daggle.animory.domain.pet.dto.response.NewPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.PetDto;
+import com.daggle.animory.domain.pet.dto.response.PetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.PetRegisterInfoDto;
+import com.daggle.animory.domain.pet.dto.response.RegisterPetSuccessDto;
+import com.daggle.animory.domain.pet.dto.response.SosPetDto;
+import com.daggle.animory.domain.pet.dto.response.SosPetProfilesDto;
+import com.daggle.animory.domain.pet.dto.response.UpdatePetSuccessDto;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetPolygonProfile;
 import com.daggle.animory.domain.pet.repository.PetPolygonRepository;
@@ -15,14 +23,18 @@ import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import java.net.URL;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PetService {
 
@@ -32,7 +44,20 @@ public class PetService {
     private final PetPolygonRepository petPolygonRepository;
 
     public PetProfilesDto getPetProfiles() {
-        throw new NotImplementedException("NotImplemented yet");
+        // sos, new 프로필 각각 최대 8개씩 조회
+        List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate();
+        List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt();
+
+        // DTO에 넣어주기
+        List<SosPetDto> sosList = sosProfiles.stream()
+                .map(SosPetDto::fromEntity)
+                .collect(Collectors.toList());
+
+        List<NewPetDto> newList = newProfiles.stream()
+                .map(NewPetDto::fromEntity)
+                .collect(Collectors.toList());
+
+        return new PetProfilesDto(sosList, newList);
     }
 
     public SosPetProfilesDto getPetSosProfiles(final Pageable pageable) {
@@ -47,6 +72,7 @@ public class PetService {
         throw new NotImplementedException("NotImplemented yet");
     }
 
+    @Transactional
     public RegisterPetSuccessDto registerPet(final Account account,
             final PetRegisterRequestDto petRequestDTO, final MultipartFile image,
             final MultipartFile video) {
@@ -69,6 +95,7 @@ public class PetService {
         return new RegisterPetSuccessDto(registerPet.getId());
     }
 
+    @Transactional
     public UpdatePetSuccessDto updatePet(final int petId,
             final PetUpdateRequestDto petUpdateRequestDto, final MultipartFile image,
             final MultipartFile video) {
