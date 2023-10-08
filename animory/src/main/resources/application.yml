@@ -1,0 +1,67 @@
+server:
+  port: 8080
+  forward-headers-strategy: framework
+
+spring:
+  # MVC
+  web.resources.add-mappings: false # endpoint 에 없는 리소스의 경우, 정적 매핑을 하지 않는다.
+  mvc:
+    throw-exception-if-no-handler-found: true
+    dispatch-options-request: false
+
+  # DB
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2.console.enabled: true
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate.ddl-auto: create
+    properties:
+      hibernate.format_sql: true
+
+  # File Upload
+  servlet:
+    multipart:
+      enabled: true
+      location: "./src/main/resources/files/"
+      max-file-size: "50MB"
+      max-request-size: "50MB"
+
+  config.import:
+    - optional:classpath:aws-secret.yml
+
+# AWS S3
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: kakao-techcampus
+    stack:
+      auto: false
+
+# File Server Path
+file-server-domain: "http://localhost:8080"
+
+# Logging
+logging.level:
+    '[com.daggle.animory]': DEBUG
+    '[org.hibernate.type]': TRACE
+    '[com.amazonaws.util.EC2MetadataUtils]': error
+
+# API Docs
+springdoc.swagger-ui:
+    enabled: true
+    path: /docs
+    tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
+
+# Security
+jwt:
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  token-validity-in-seconds: "#{60 * 60 * 24}"
+
+

@@ -1,0 +1,62 @@
+name: Gradle-Test
+
+on:
+  pull_request:
+    branches: [ main, develop, review ]
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  gradle-test:
+    runs-on: ubuntu-22.04 
+
+    steps:
+      - uses: actions/checkout@v3.6.0
+
+      - name: Set up JDK 17 # JAVA 버전 지정
+        uses: actions/setup-java@v3.12.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Gradle Caching
+        uses: actions/cache@v3.3.1
+        with:
+          path: |  
+              ~/.gradle/caches
+              ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+              ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        working-directory: ./animory
+        run: chmod +x ./gradlew
+
+      - name: Copy Secret File into Project Resource
+        env:
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
+          TARGET_DIR: ./animory/src/main/resources
+        run: echo $AWS_SECRET | base64 -d > $TARGET_DIR/aws-secret.yml
+
+      - name: Test with Gradle
+        working-directory: ./animory
+        run: ./gradlew test --warning-mode=all --stacktrace
+
+      - name: Add Unit Test Results to PR
+        uses: mikepenz/action-junit-report@v3.8.0
+        if: always()
+        with:
+          report_paths: animory/build/test-results/test/TEST-*.xml
+    
+      - name: Add Jacoco Test coverage to PR
+        uses: madrapps/jacoco-report@v1.6.1        
+        with:
+          paths: |
+            ${{ github.workspace }}/animory/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 50
+          min-coverage-changed-files: 50
