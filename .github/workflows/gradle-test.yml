@@ -36,13 +36,27 @@ jobs:
         working-directory: ./animory
         run: chmod +x ./gradlew
 
-      - name: Test with Gradle 
-        working-directory: ./animory
-        run: ./gradlew test --warning-mode=all --stacktrace # stacktrace
+      - name: Copy Secret File into Project Resource
+        env:
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
+          TARGET_DIR: ./animory/src/main/resources
+        run: echo $AWS_SECRET | base64 -d > $TARGET_DIR/aws-secret.yml
 
-      - name: Publish Unit Test Results # test 실패 시 PR에 코멘트
+      - name: Test with Gradle
+        working-directory: ./animory
+        run: ./gradlew test --warning-mode=all --stacktrace
+
+      - name: Add Unit Test Results to PR
         uses: mikepenz/action-junit-report@v3.8.0
         if: always()
         with:
           report_paths: animory/build/test-results/test/TEST-*.xml
     
+      - name: Add Jacoco Test coverage to PR
+        uses: madrapps/jacoco-report@v1.6.1        
+        with:
+          paths: |
+            ${{ github.workspace }}/animory/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 50
+          min-coverage-changed-files: 50

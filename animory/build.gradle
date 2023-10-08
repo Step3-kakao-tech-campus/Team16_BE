@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.15'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'jacoco' // Java Code Coverage
 }
 
 group = 'com.daggle'
@@ -30,12 +31,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.security:spring-security-test'
-
-	// jwt
+	// jwt, password encoder
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.springframework.security:spring-security-crypto:6.1.4'
 
 	// db
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -52,8 +50,29 @@ dependencies {
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'io.github.autoparams:autoparams:3.1.0' // test case random generator
+
+	//aws
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
+// Test Task 설정
 tasks.named('test') {
 	useJUnitPlatform()
+
+	finalizedBy('jacocoTestReport') // Code Coverage 검사
+}
+
+// Jacoco (Java Code Coverage) 설정
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+		csv.required = false
+		html.required = true
+		html.destination file("${buildDir}/reports/jacocoReport")
+	}
 }

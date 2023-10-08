@@ -1,0 +1,63 @@
+server:
+  port: 8080
+  forward-headers-strategy: framework
+
+spring:
+  # MVC
+  web.resources.add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+    dispatch-options-request: false
+
+  # DB
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2.console.enabled: true
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate.ddl-auto: create
+    properties:
+      hibernate.format_sql: true
+
+  # File Upload
+  servlet:
+    multipart:
+      enabled: true
+      location: "./src/main/resources/files/"
+      max-file-size: "50MB"
+      max-request-size: "50MB"
+
+# File Server Path
+file-server-domain: ${SERVER_DOMAIN}
+
+# Logging
+logging.level:
+  '[com.daggle.animory]': INFO
+
+# API Docs
+springdoc.swagger-ui:
+  enabled: true
+  path: /docs
+  tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
+
+# Security
+jwt:
+  secret: ${JWT_SECRET}
+  token-validity-in-seconds: "#{60 * 60 * 24}"
+
+# AWS S3
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: kakao-techcampus
+    stack:
+      auto: false

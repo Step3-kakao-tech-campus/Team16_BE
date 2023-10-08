@@ -5,20 +5,22 @@ import com.daggle.animory.domain.pet.entity.AdoptionStatus;
 import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.entity.Sex;
-
-import java.util.Optional;
+import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
 
 public record PetUpdateRequestDto(
-    Optional<String> name,
-    Optional<String> age,
-    Optional<PetType> type,
-    Optional<Float> weight,
-    Optional<String> size,
-    Optional<Sex> sex,
-    Optional<String> vaccinationStatus,
-    Optional<AdoptionStatus> adoptionStatus,
-    Optional<NeutralizationStatus> neutralizationStatus,
-    Optional<String> description,
-    Optional<PetPolygonProfileDto> petPolygonProfileDto
+        @NotNull(message = "이름을 입력해주세요.") String name,
+        @NotNull(message = "나이를 입력해주세요.") String age,
+        @NotNull(message = "종을 입력해주세요.") PetType type,
+        float weight,
+        String size,
+        @NotNull(message = "성별을 입력해주세요.") Sex sex,
+        String vaccinationStatus,
+        @NotNull(message = "입양 상태를 입력해주세요.") AdoptionStatus adoptionStatus,
+        NeutralizationStatus neutralizationStatus,
+        String description,
+        LocalDate protectionExpirationDate,
+        PetPolygonProfileDto petPolygonProfileDto
 ) {
+
 }

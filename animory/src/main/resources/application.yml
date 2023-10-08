@@ -27,25 +27,41 @@ spring:
   servlet:
     multipart:
       enabled: true
-      location: "./files_upload_location/"
-      max-file-size: "300MB"
-      max-request-size: "300MB"
+      location: "./src/main/resources/files/"
+      max-file-size: "50MB"
+      max-request-size: "50MB"
 
-upload-path: "./files_upload_location/"
+  config.import:
+    - optional:classpath:aws-secret.yml
 
+# AWS S3
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: kakao-techcampus
+    stack:
+      auto: false
+
+# File Server Path
+file-server-domain: "http://localhost:8080"
+
+# Logging
 logging.level:
     '[com.daggle.animory]': DEBUG
     '[org.hibernate.type]': TRACE
+    '[com.amazonaws.util.EC2MetadataUtils]': error
 
+# API Docs
 springdoc.swagger-ui:
     enabled: true
     path: /docs
     tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
 
-  # security
+# Security
 jwt:
-  header: Authorization
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-  token-validity-in-seconds: 86700
+  token-validity-in-seconds: "#{60 * 60 * 24}"
 
 
