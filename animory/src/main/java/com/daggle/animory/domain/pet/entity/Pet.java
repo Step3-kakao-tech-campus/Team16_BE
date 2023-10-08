@@ -75,15 +75,15 @@ public class Pet {
     private PetPolygonProfile petPolygonProfile;
 
 
-    public void updateImage(String imageUrl) {
+    public void updateImage(final String imageUrl) {
         this.profileImageUrl = imageUrl;
     }
 
-    public void updateVideo(String videoUrl) {
+    public void updateVideo(final String videoUrl) {
         this.profileShortFormUrl = videoUrl;
     }
 
-    public void updateInfo(PetUpdateRequestDto petUpdateRequestDto) {
+    public void updateInfo(final PetUpdateRequestDto petUpdateRequestDto) {
         this.name = petUpdateRequestDto.name();
         this.birthDate = PetAgeToBirthDateConverter.ageToBirthDate(petUpdateRequestDto.age());
         this.type = petUpdateRequestDto.type();

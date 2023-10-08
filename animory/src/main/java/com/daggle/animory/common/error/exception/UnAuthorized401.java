@@ -9,11 +9,11 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class UnAuthorized401 extends RuntimeException {
 
-    public UnAuthorized401(String message) {
+    public UnAuthorized401(final String message) {
         super(message);
     }
 
-    public Response body(){
+    public Response<Void> body(){
         return Response.error(getMessage(), HttpStatus.UNAUTHORIZED);
     }
 

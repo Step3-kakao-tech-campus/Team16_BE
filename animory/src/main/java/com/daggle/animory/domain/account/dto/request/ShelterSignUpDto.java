@@ -19,7 +19,7 @@ public record ShelterSignUpDto(
         String zonecode,
         ShelterAddressSignUpDto address) {
 
-    public Account getAccount(PasswordEncoder encodePassword) {
+    public Account getAccount(final PasswordEncoder encodePassword) {
         return Account.builder()
                 .email(email)
                 .password(encodePassword.encode(password))
@@ -27,7 +27,7 @@ public record ShelterSignUpDto(
                 .build();
     }
 
-    public Shelter getShelter(Account account) {
+    public Shelter getShelter(final Account account) {
         return Shelter.builder()
                 .name(name)
                 .contact(contact)
