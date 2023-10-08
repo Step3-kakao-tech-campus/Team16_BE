@@ -2,8 +2,9 @@ package com.daggle.animory.domain.pet.dto.response;
 
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
-import java.time.LocalDate;
 import lombok.Builder;
+
+import java.time.LocalDate;
 
 @Builder
 public record SosPetDto(
@@ -16,7 +17,7 @@ public record SosPetDto(
         String shelterName
 ) {
 
-    public static SosPetDto fromEntity(Pet pet) {
+    public static SosPetDto fromEntity(final Pet pet) {
         return SosPetDto.builder()
                 .petId(pet.getId())
                 .petName(pet.getName())

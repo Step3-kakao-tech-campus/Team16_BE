@@ -10,7 +10,7 @@ public record ShelterInfoDto(
         String contact
 ) {
 
-    public static ShelterInfoDto fromEntity(Shelter shelter) {
+    public static ShelterInfoDto fromEntity(final Shelter shelter) {
         return ShelterInfoDto.builder()
                 .id(shelter.getId())
                 .name(shelter.getName())
