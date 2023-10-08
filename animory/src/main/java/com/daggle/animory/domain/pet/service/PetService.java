@@ -4,7 +4,6 @@ package com.daggle.animory.domain.pet.service;
 import com.daggle.animory.common.error.exception.NotFound404;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
 import com.daggle.animory.domain.account.entity.Account;
-import com.daggle.animory.domain.fileserver.FileRepository;
 import com.daggle.animory.domain.fileserver.LocalFileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
@@ -62,11 +61,11 @@ public class PetService {
     }
 
     public SosPetProfilesDto getPetSosProfiles(final Pageable pageable) {
-        throw new NotImplementedException("NotImplemented yet");
+        return SosPetProfilesDto.of(petRepository.findPageBy(pageable));
     }
 
     public NewPetProfilesDto getPetNewProfiles(final Pageable pageable) {
-        throw new NotImplementedException("NotImplemented yet");
+        return NewPetProfilesDto.of(petRepository.findPageBy(pageable));
     }
 
     public PetDto getPetDetail(final int petId) {

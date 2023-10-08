@@ -21,6 +21,8 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 
     Slice<Pet> findSliceBy(Pageable pageable);
 
+    Page<Pet> findPageBy(Pageable pageable);
+
     @Query("select p " +
             "from Pet p " +
             "where p.shelter.id = :shelterId")
