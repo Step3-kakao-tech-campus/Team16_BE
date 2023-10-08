@@ -4,7 +4,7 @@ package com.daggle.animory.domain.pet.service;
 import com.daggle.animory.common.error.exception.NotFound404;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
 import com.daggle.animory.domain.account.entity.Account;
-import com.daggle.animory.domain.fileserver.LocalFileRepository;
+import com.daggle.animory.domain.fileserver.S3FileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.NewPetDto;
@@ -38,7 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class PetService {
 
-    private final LocalFileRepository fileRepository;
+    private final S3FileRepository fileRepository;
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
     private final PetPolygonRepository petPolygonRepository;
@@ -128,12 +128,12 @@ public class PetService {
     public void updateFile(final Pet updatePet, final MultipartFile image,
             final MultipartFile video) {
         if (image != null) {
-            fileRepository.delete(updatePet.getProfileImageUrl());
+//            fileRepository.delete(updatePet.getProfileImageUrl());
             URL imageUrl = fileRepository.save(image);
             updatePet.updateImage(imageUrl.toString());
         }
         if (video != null) {
-            fileRepository.delete(updatePet.getProfileShortFormUrl());
+//            fileRepository.delete(updatePet.getProfileShortFormUrl());
             URL videoUrl = fileRepository.save(video);
             updatePet.updateVideo(videoUrl.toString());
         }
