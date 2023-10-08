@@ -4,6 +4,7 @@ import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.shelter.entity.Province;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -38,4 +39,9 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
             + " JOIN FETCH p.shelter"
             + " ORDER BY p.createdAt DESC")
     List<Pet> findProfilesWithCreatedAt(Pageable pageable);
+
+    @Query(value = "SELECT p FROM Pet p"
+            + " JOIN FETCH p.shelter"
+            + " WHERE p.id = :petId")
+    Optional<Pet> findById(Integer petId);
 }

@@ -26,7 +26,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +69,14 @@ public class PetService {
     }
 
     public PetDto getPetDetail(final int petId) {
-        throw new NotImplementedException("NotImplemented yet");
+        // petId로 Pet, PetPolygonProfile 얻어오기
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new NotFound404("해당 동물이 존재하지 않습니다."));
+
+        PetPolygonProfile petPolygonProfile = petPolygonRepository.findByPetId(petId)
+                .orElseThrow(() -> new NotFound404("등록된 다각형 프로필이 존재하지 않습니다."));
+
+        return PetDto.fromEntity(pet, petPolygonProfile);
     }
 
     @Transactional
