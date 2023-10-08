@@ -31,6 +31,19 @@ spring:
       max-file-size: "50MB"
       max-request-size: "50MB"
 
+  config.import:
+    - classpath:aws-secret.yml
+
+# AWS S3
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: kakao-techcampus
+    stack:
+      auto: false
+
 # File Server Path
 file-server-domain: "http://localhost:8080"
 
@@ -38,6 +51,7 @@ file-server-domain: "http://localhost:8080"
 logging.level:
     '[com.daggle.animory]': DEBUG
     '[org.hibernate.type]': TRACE
+    '[com.amazonaws.util.EC2MetadataUtils]': error
 
 # API Docs
 springdoc.swagger-ui:

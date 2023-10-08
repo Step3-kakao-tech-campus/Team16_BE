@@ -5,6 +5,7 @@ import com.daggle.animory.common.error.exception.NotFound404;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.fileserver.FileRepository;
+import com.daggle.animory.domain.fileserver.LocalFileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.NewPetDto;
@@ -38,7 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class PetService {
 
-    private final FileRepository fileRepository;
+    private final LocalFileRepository fileRepository;
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
     private final PetPolygonRepository petPolygonRepository;
