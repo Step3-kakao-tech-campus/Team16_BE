@@ -22,7 +22,7 @@ public class PetProfileSlice extends RefinedPage {
         this.pets = new ArrayList<>();
     }
 
-    public static PetProfileSlice of(Page<Pet> petPage) {
+    public static PetProfileSlice of(final Page<Pet> petPage) {
         if (petPage == null) return new PetProfileSlice();
         return new PetProfileSlice(petPage);
     }

@@ -29,6 +29,11 @@
             <appender-ref ref="parameter-appender"/>
         </logger>
 
+        <!-- Amazon S3 Error -->
+        <logger name="com.amazonaws.util.EC2MetadataUtils" level="ERROR">
+            <appender-ref ref="console-appender"/>
+        </logger>
+
         <!-- 모든 로그를 확인하고 싶다면 아래 블록의 주석을 해제하고 root 레벨의 logger를 활성화 시키세요. -->
 <!--        <logger name="root" level="TRACE">-->
 <!--            <appender-ref ref="console-appender"/>-->

@@ -13,7 +13,8 @@ public class ShelterService {
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
 
-    public ShelterProfilePage getShelterProfile(Integer shelterId, int page) {
+    public ShelterProfilePage getShelterProfile(final Integer shelterId,
+                                                final int page) {
         return ShelterProfilePage.of(
                 shelterRepository.findById(shelterId).orElseThrow(
                         () -> new NotFound404("해당하는 보호소가 존재하지 않습니다.")),

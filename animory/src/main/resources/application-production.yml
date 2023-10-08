@@ -31,13 +31,6 @@ spring:
       max-file-size: "50MB"
       max-request-size: "50MB"
 
-# File Server Path
-file-server-domain: ${SERVER_DOMAIN}
-
-# Logging
-logging.level:
-  '[com.daggle.animory]': INFO
-
 # API Docs
 springdoc.swagger-ui:
   enabled: true
@@ -55,9 +48,6 @@ cloud:
     credentials:
       access-key: ${AWS_ACCESS_KEY}
       secret-key: ${AWS_SECRET_KEY}
-    region:
-      static: ap-northeast-2
-    s3:
-      bucket: kakao-techcampus
-    stack:
-      auto: false
+    region.static: ap-northeast-2
+    s3.bucket: kakao-techcampus
+    stack.auto: false

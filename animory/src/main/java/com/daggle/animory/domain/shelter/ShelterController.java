@@ -15,7 +15,8 @@ public class ShelterController {
     private final ShelterService shelterService;
 
     @GetMapping("/{shelterId}")
-    public Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) Integer shelterId, @RequestParam("page") @Min(0) final int page) {
+    public Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) final Integer shelterId,
+                                                   @RequestParam("page") @Min(0) final int page) {
         return Response.success(shelterService.getShelterProfile(shelterId, page));
     }
 }
