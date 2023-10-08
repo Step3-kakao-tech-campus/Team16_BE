@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,8 +46,8 @@ public class PetService {
 
     public PetProfilesDto getPetProfiles() {
         // sos, new 프로필 각각 최대 8개씩 조회
-        List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate();
-        List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt();
+        List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate(PageRequest.of(0, 8));
+        List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt(PageRequest.of(0, 8));
 
         // DTO에 넣어주기
         List<SosPetDto> sosList = sosProfiles.stream()
