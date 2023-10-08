@@ -8,11 +8,11 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class BadRequest400 extends RuntimeException {
 
-    public BadRequest400(String message) {
+    public BadRequest400(final String message) {
         super(message);
     }
 
-    public Response body(){
+    public Response<Void> body(){
         return Response.error(getMessage(), HttpStatus.BAD_REQUEST);
     }
 

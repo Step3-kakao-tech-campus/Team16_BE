@@ -9,11 +9,11 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class Forbidden403 extends RuntimeException {
 
-    public Forbidden403(String message) {
+    public Forbidden403(final String message) {
         super(message);
     }
 
-    public Response body(){
+    public Response<Void> body(){
         return Response.error(getMessage(), HttpStatus.FORBIDDEN);
     }
 
