@@ -71,19 +71,19 @@ class PetControllerTest {
         @Test
         void getPetProfiles() throws Exception {
             mvc.perform(get("/pet/profiles"))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(jsonPath("$.success").value(true));
         }
 
         @Test
         void getPetSosProfiles() throws Exception {
             mvc.perform(get("/pet/profiles/sos"))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(jsonPath("$.success").value(true));
         }
 
         @Test
         void getPetNewProfiles() throws Exception {
             mvc.perform(get("/pet/profiles/new"))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(jsonPath("$.success").value(true));
         }
 
         @ParameterizedTest
