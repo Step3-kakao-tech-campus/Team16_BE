@@ -16,18 +16,20 @@ public class MethodExecutionTimeLogger {
      */
     @Around("execution(* com.daggle.animory..*(..))")
     public Object logExecutionTime(final ProceedingJoinPoint joinPoint) throws Throwable {
+        // 메소드 실행시간 측정
         final long startTime = System.currentTimeMillis();
         final Object result = joinPoint.proceed();
         final long endTime = System.currentTimeMillis();
 
         final long executionTimeMillis = endTime - startTime;
 
+        // 클래스명, 메소드명 읽기
         final String className = joinPoint.getSignature()
             .getDeclaringType()
             .getSimpleName();
         final String methodName = joinPoint.getSignature()
             .getName();
-
+        
         log.info("{}.{} took {}ms", className, methodName, executionTimeMillis);
 
         return result;
