@@ -28,12 +28,14 @@ public interface PetControllerApi {
 
     @Operation(summary = "Pet 수정 페이지 진입, 기존 펫 정보 확인",
         description = "Pet 수정 페이지에서, 기존 등록된 정보를 확인하기 위해 호출하는 API 입니다. 보호소 계정 권한이 필요합니다.")
-    Response<PetRegisterInfoDto> getPetRegisterInfo(@PathVariable int petId);
+    Response<PetRegisterInfoDto> getPetRegisterInfo(Account account,
+                                                    @PathVariable int petId);
 
     // Pet 수정 요청
     @Operation(summary = "Pet 수정 요청",
         description = "보호소 계정 권한이 필요합니다.")
     Response<UpdatePetSuccessDto> updatePet(
+        Account account,
         @PathVariable int petId,
         @RequestPart(value = "petInfo") PetUpdateRequestDto petUpdateRequestDto,
         @RequestPart(value = "profileImage", required = false) MultipartFile image,
