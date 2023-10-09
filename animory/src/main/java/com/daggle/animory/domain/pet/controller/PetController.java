@@ -36,6 +36,7 @@ public class PetController implements PetControllerApi {
         @RequestPart(value = "profileImage") final MultipartFile image,
         @RequestPart(value = "profileVideo") final MultipartFile video
     ) {
+
         return Response.success(
             petWriteService.registerPet(account, petRegisterRequestDto, image, video));
     }

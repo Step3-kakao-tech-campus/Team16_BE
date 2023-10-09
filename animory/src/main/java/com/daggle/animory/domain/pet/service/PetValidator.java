@@ -4,7 +4,6 @@ import com.daggle.animory.common.error.exception.Forbidden403;
 import com.daggle.animory.common.error.exception.NotFound404;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class PetValidator {
 
     private final ShelterRepository shelterRepository;
-    private final PetRepository petRepository;
 
     /** <pre>
      * 펫 수정 요청이 올바른지 검사합니다.
