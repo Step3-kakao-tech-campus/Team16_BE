@@ -29,6 +29,7 @@ public class PetWriteService {
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
     private final PetPolygonRepository petPolygonRepository;
+
     private final PetValidator petValidator;
 
     public RegisterPetSuccessDto registerPet(final Account account,

@@ -33,7 +33,7 @@ public class PetPolygonProfile {
 
     private int activeness;
 
-    public void update(PetPolygonProfileDto petPolygonProfileDto) {
+    public void update(final PetPolygonProfileDto petPolygonProfileDto) {
         this.intelligence = petPolygonProfileDto.intelligence();
         this.affinity = petPolygonProfileDto.affinity();
         this.athletic = petPolygonProfileDto.athletic();

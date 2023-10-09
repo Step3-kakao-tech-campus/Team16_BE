@@ -35,7 +35,7 @@ class PetRepositoryTest extends DataJpaTestWithDummyData {
         final Integer shelterId = 1;
         final Page<Pet> page = petRepository.findByShelterId(shelterId, PageRequest.of(0, 10));
 
-        List<Pet> pets = page.getContent();
+        final List<Pet> pets = page.getContent();
         print(pets);
 
         pets.forEach(

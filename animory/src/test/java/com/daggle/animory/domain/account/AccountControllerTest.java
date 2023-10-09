@@ -6,10 +6,8 @@ import com.daggle.animory.domain.account.dto.request.ShelterAddressSignUpDto;
 import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.testutil.webmvctest.BaseWebMvcTest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -20,9 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Import(AccountController.class)
 public class AccountControllerTest extends BaseWebMvcTest {
-
-    @Autowired
-    ObjectMapper om;
 
     @MockBean
     AccountService accountService;

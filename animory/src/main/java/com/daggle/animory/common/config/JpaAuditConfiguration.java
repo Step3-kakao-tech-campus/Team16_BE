@@ -1,2 +1,9 @@
-package com.daggle.animory.common.config;public class JpaAuditConfiguration {
+package com.daggle.animory.common.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+@Configuration
+@EnableJpaAuditing
+public class JpaAuditConfiguration {
 }
