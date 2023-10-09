@@ -4,11 +4,13 @@ import com.daggle.animory.domain.pet.dto.PetPolygonProfileDto;
 import com.daggle.animory.domain.pet.entity.*;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import com.daggle.animory.domain.shelter.entity.Shelter;
+import lombok.Builder;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Builder
 public record PetRegisterRequestDto(
         @NotNull(message = "이름을 입력해주세요.") String name,
         @NotNull(message = "나이를 입력해주세요.") String age,
