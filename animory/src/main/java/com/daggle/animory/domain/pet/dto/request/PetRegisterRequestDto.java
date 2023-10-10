@@ -8,7 +8,6 @@ import lombok.Builder;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Builder
 public record PetRegisterRequestDto(
@@ -41,7 +40,6 @@ public record PetRegisterRequestDto(
                 .profileImageUrl(imageUrl)
                 .profileShortFormUrl(videoUrl)
                 .size(size)
-                .createdAt(LocalDateTime.now())
                 .shelter(shelter)
                 .build();
     }

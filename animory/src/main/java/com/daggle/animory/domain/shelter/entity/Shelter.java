@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.shelter.entity;
 
+import com.daggle.animory.common.entity.BaseEntity;
 import com.daggle.animory.domain.account.entity.Account;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Table(name = "shelter")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Shelter {
+public class Shelter extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

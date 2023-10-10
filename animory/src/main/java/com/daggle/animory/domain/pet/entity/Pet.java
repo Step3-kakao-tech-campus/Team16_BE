@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.pet.entity;
 
+import com.daggle.animory.common.entity.BaseEntity;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import com.daggle.animory.domain.shelter.entity.Shelter;
@@ -9,7 +10,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "pet")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Pet {
+public class Pet extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class Pet {
     @Column(length = 1000)
     private String description;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate protectionExpirationDate;
 
     private String vaccinationStatus;
@@ -62,9 +62,6 @@ public class Pet {
     private String profileShortFormUrl;
 
     private String size;
-
-    @Column(nullable = false, columnDefinition = "datetime")
-    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")
