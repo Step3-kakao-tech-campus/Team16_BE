@@ -9,6 +9,7 @@ import com.daggle.animory.domain.pet.fixture.PetFixture;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.domain.shelter.entity.Shelter;
+import com.daggle.animory.testutil.WithTimeSupportObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
