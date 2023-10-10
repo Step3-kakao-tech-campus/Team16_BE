@@ -90,5 +90,14 @@ public class PetController implements PetControllerApi {
         return Response.success(petReadService.getPetDetail(petId));
     }
 
+    // Pet 입양 완료 상태 등록
+    @PostMapping("/adoption/{petId}")
+    @Authorized(AccountRole.SHELTER)
+    public Response<Void> updatePetAdopted(final Account account,
+                                           @PathVariable final int petId) {
+        petWriteService.updatePetAdopted(account, petId);
+        return Response.success();
+    }
+
 
 }

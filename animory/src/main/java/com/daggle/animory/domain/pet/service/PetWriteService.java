@@ -82,6 +82,17 @@ public class PetWriteService {
         return new UpdatePetSuccessDto(updatePet.getId());
     }
 
+    public void updatePetAdopted(final Account account,
+                                 final int petId) {
+        final Pet pet = petRepository.findById(petId)
+            .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
+
+        petValidator.validatePetUpdateAuthority(account, pet);
+
+        // 입양상태를 YES로 변경하고, 보호 만료일을 null로 바꾼다.
+        pet.setAdopted(); // TODO: 더 이상 보호소와 관련이 없어서.. 연결된 보호소 정보를 제거할 필요 ?
+    }
+
     // 이미지, 비디오 파일 수정 요청 시 기존 파일 삭제 후 업데이트
     private void updateFile(final Pet updatePet, final MultipartFile image,
                            final MultipartFile video) {
@@ -94,7 +105,6 @@ public class PetWriteService {
             updatePet.updateVideo(videoUrl.toString());
         }
     }
-
 
 
 }
