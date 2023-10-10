@@ -7,6 +7,7 @@ import com.daggle.animory.domain.shelter.entity.Shelter;
 import lombok.Builder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -18,7 +19,7 @@ public record ShelterSignUpDto(
         @NotNull(message = "보호소 이름을 입력해주세요.") String name,
         @NotNull(message = "보호소 연락처를 입력해주세요.") String contact,
         String zonecode,
-        @NotNull(message = "보호소 주소를 입력해주세요.") ShelterAddressSignUpDto address) {
+        @Valid @NotNull(message = "보호소 주소를 입력해주세요.") ShelterAddressSignUpDto address) {
 
     public Account getAccount(final PasswordEncoder encodePassword) {
         return Account.builder()
