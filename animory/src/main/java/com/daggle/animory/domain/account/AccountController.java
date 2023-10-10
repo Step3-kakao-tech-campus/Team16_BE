@@ -55,7 +55,7 @@ public class AccountController {
      * 이메일 중복 검증 API
      */
     @PostMapping("/email")
-    public Response<Void> validateEmail(@RequestBody final EmailValidateDto emailValidateDto) {
+    public Response<Void> validateEmail(@Valid @RequestBody final EmailValidateDto emailValidateDto) {
         accountService.validateEmailDuplication(emailValidateDto);
         return Response.success();
     }
