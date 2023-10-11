@@ -78,7 +78,6 @@ class AnimoryAcceptanceTest extends AcceptanceTest {
 
 
     // Account
-
     void 계정에_사용할_이메일과_비밀번호를_결정한다() {
         client.put("email", "Test1234@gmail.com");
         client.put("password", "Test1234@");
@@ -142,7 +141,6 @@ class AnimoryAcceptanceTest extends AcceptanceTest {
 
 
     // Pet
-
     void 강아지를_한마리_등록한다() throws Exception {
         final PetRegisterRequestDto petInfo = PetRegisterRequestDto.builder()
             .name("뽀삐")
