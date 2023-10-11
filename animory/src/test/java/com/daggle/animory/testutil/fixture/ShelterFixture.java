@@ -16,6 +16,9 @@ public class ShelterFixture {
             .contact("010-1234-5678")
             .address(
                 ShelterAddress.builder()
+                    .kakaoLocationId(14569757)
+                    .x(126.88180407139231)
+                    .y(35.22252870361165)
                     .province(Province.광주)
                     .city("북구")
                     .roadName("본촌동 378-6")

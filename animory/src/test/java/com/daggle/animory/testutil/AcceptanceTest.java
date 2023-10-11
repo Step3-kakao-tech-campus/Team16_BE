@@ -76,7 +76,7 @@ public abstract class AcceptanceTest {
         final Account shelterAccount = accountRepository.save(AccountFixture.getShelter());
 
         // Shelter 등록
-        final Shelter shelter = shelterRepository.save(ShelterFixture.getOne(shelterAccount));
+        final Shelter shelter = shelterRepository.save(ShelterFixture.getOne(shelterAccount)); // ShelterId = 1
 
         // Pet 1마리 등록
         final Pet firstPet = petRepository.save(PetFixture.getOne(shelter)); // PetId =  1
