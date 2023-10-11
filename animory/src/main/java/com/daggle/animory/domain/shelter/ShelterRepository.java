@@ -12,7 +12,7 @@ public interface ShelterRepository extends JpaRepository<Shelter, Integer> {
 
     @Query("select s.id " +
         "from Shelter s " +
-        "where s.kakaoLocationId " +
+        "where s.address.kakaoLocationId " +
         "in :shelterLocationIdList")
     List<Shelter> findAllByKakaoLocationIdIn(List<Integer> shelterLocationIdList);
 }
