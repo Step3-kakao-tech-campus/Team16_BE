@@ -10,17 +10,17 @@ import java.util.List;
 
 public class ShelterFixture {
 
-    public static Shelter getOne(Account account) {
+    public static Shelter getOne(final Account account) {
         return Shelter.builder()
-            .name("테스트 보호소")
+            .name("광주광역시동물보호소")
+            .contact("010-1234-5678")
             .address(
                 ShelterAddress.builder()
                     .province(Province.광주)
-                    .city("테스트시군구")
-                    .detail("테스트도로명주소")
+                    .city("북구")
+                    .roadName("본촌동 378-6")
                     .build()
             )
-            .contact("010-1234-5678")
             .account(account)
             .build();
     }

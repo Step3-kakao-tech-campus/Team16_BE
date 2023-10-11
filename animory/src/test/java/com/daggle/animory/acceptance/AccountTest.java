@@ -22,7 +22,7 @@ class AccountTest extends AcceptanceTest {
 
     @Test
     void 이메일_중복_검사() throws Exception {
-        final EmailValidateDto emailValidateDto = new EmailValidateDto(EMAIL);
+        final EmailValidateDto emailValidateDto = new EmailValidateDto(EMAIL + "1");
 
         result = mvc.perform(post("/account/email")
             .contentType(MediaType.APPLICATION_JSON)
@@ -34,7 +34,7 @@ class AccountTest extends AcceptanceTest {
     @Test
     void 보호소_회원가입() throws Exception {
         final ShelterSignUpDto shelterSignUpDto = ShelterSignUpDto.builder()
-            .email(EMAIL)
+            .email(EMAIL + "1")
             .password(PASSWORD)
             .name("테스트 보호소")
             .address(
@@ -58,8 +58,6 @@ class AccountTest extends AcceptanceTest {
 
     @Test
     void 보호소_로그인() throws Exception {
-        givenShelterAccount();
-
         final AccountLoginDto accountLoginDto = AccountLoginDto.builder()
             .email(EMAIL)
             .password(PASSWORD)
