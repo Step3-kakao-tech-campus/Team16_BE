@@ -12,6 +12,14 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShelterAddress {
 
+    // 카카오 API에서 제공하는 주소 ID
+    // kakao Id와 x, y 좌표는 가입 프로세스가 자동화 된다면 @NotNull이 될 수 있음.
+    private Integer kakaoLocationId;
+
+    private double x;
+
+    private double y;
+
     @NotNull
     private Province province;
 
