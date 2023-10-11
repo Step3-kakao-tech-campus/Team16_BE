@@ -9,14 +9,13 @@ import com.daggle.animory.testutil.AcceptanceTest;
 import com.daggle.animory.testutil.fixture.AccountFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Transactional
+
 class AccountTest extends AcceptanceTest {
 
     private final String EMAIL = AccountFixture.EMAIL;

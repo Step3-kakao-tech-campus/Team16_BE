@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class PetPolygonProfile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @MapsId
@@ -23,7 +22,6 @@ public class PetPolygonProfile {
     private Pet pet;
 
     private int intelligence;
-
 
     private int affinity;
 

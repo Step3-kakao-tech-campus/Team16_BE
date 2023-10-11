@@ -5,22 +5,25 @@ import com.daggle.animory.domain.account.AccountRepository;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.entity.Pet;
+import com.daggle.animory.domain.pet.entity.PetPolygonProfile;
 import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.pet.repository.PetPolygonRepository;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.daggle.animory.testutil.fixture.AccountFixture;
 import com.daggle.animory.testutil.fixture.PetFixture;
+import com.daggle.animory.testutil.fixture.PetPolygonProfileFixture;
 import com.daggle.animory.testutil.fixture.ShelterFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,9 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Transactional
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class AcceptanceTest {
     @Autowired
     protected MockMvc mvc;
@@ -64,8 +67,10 @@ public abstract class AcceptanceTest {
     protected ShelterRepository shelterRepository;
     @Autowired
     protected PetRepository petRepository;
+    @Autowired
+    protected PetPolygonRepository petPolygonRepository;
 
-    @BeforeAll
+    @BeforeEach
     void setUpDummyData() {
         // 보호소 계정 생성
         final Account shelterAccount = accountRepository.save(AccountFixture.getShelter());
@@ -75,6 +80,7 @@ public abstract class AcceptanceTest {
 
         // Pet 1마리 등록
         final Pet firstPet = petRepository.save(PetFixture.getOne(shelter)); // PetId =  1
+        final PetPolygonProfile firstPetPolygonProfile = petPolygonRepository.save(PetPolygonProfileFixture.getOne(firstPet));
 
         // Pet 10마리 등록
         final List<Pet> pets = petRepository.saveAll(PetFixture.get(10, PetType.DOG, shelter));

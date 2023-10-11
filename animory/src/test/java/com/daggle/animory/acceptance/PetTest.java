@@ -12,16 +12,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
-@Transactional
 class PetTest extends AcceptanceTest {
 
     final MockMultipartFile image = new MockMultipartFile("profileImage", "image.jpg", "image/jpeg", "image".getBytes(StandardCharsets.UTF_8));
@@ -68,9 +70,6 @@ class PetTest extends AcceptanceTest {
     }
 
 
-
-
-
     /**<pre>
      * 상세정보
      * 	동물 상세 정보 조회 API에서는
@@ -78,14 +77,34 @@ class PetTest extends AcceptanceTest {
      * 	2. 오각형으로 이뤄진 동물 특성을 알 수 있다.
      * 	3. 해당 동물의 프로필 사진 한 개를 볼 수 있다. </pre>
      */
-//    @Test
-//    void 펫_상세정보_조회() throws Exception {
-//        result = mvc.perform(get("/pet/{petId}", 1))
-//            .andExpect(status().isOk())
-//            .andExpect(jsonPath("$.response.shelterInfo.id").isNotEmpty())
-//            .andExpect(jsonPath("$.response.petPolygonProfileDto").isNotEmpty())
-//            .andExpect(jsonPath("$.response.profileImageUrl").isNotEmpty());
-//    }
+    @Test
+    void 펫_상세정보_조회() throws Exception {
+        result = mvc.perform(get("/pet/{petId}", 1))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.response.shelterInfo.id").isNotEmpty())
+            .andExpect(jsonPath("$.response.shelterInfo.name").isNotEmpty())
+            .andExpect(jsonPath("$.response.shelterInfo.contact").isNotEmpty())
+            .andExpect(jsonPath("$.response.petPolygonProfileDto").isNotEmpty())
+            .andExpect(jsonPath("$.response.petPolygonProfileDto.intelligence").value(3))
+            .andExpect(jsonPath("$.response.profileImageUrl").isNotEmpty());
+    }
+
+    /**
+     * 유기동물 프로필 리스트
+     * 	동물 기본 정보(식별자, 프로필 사진, 이름, 나이, 소속 보호소, 입양상태, 안락사 예정여부)를 확인할 수 있다.
+     * 	조회 기준은 둥록일 최신순 또는 보호만료일이 가까운 순으로 확인할 수 있다.
+     * 	더보기 버튼을 통해 최신순 또는 안락사 기간 기준으로 각각 전체 리스트를 확인할 수 있다.
+     * 	페이지 당 프로필을 각각 8개 단위로 확인할 수 있다.
+     */
+    @Test
+    void 유기동물_프로필_리스트() throws Exception {
+        result = mvc.perform(get("/pet/profiles"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.response.sosList").isNotEmpty())
+            .andExpect(jsonPath("$.response.newList").isNotEmpty())
+            // TODO:
+            .andDo(print());
+    }
 
 
 }
