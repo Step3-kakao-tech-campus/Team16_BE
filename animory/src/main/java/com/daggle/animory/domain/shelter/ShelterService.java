@@ -2,10 +2,13 @@ package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.error.exception.NotFound404;
 import com.daggle.animory.domain.pet.repository.PetRepository;
+import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,5 +23,12 @@ public class ShelterService {
                         () -> new NotFound404("해당하는 보호소가 존재하지 않습니다.")),
                 petRepository.findByShelterId(shelterId, PageRequest.of(page, 10))
         );
+    }
+
+    public List<ShelterLocationDto> filterExistShelterListByLocationId(final List<Integer> shelterLocationIdList) {
+        return shelterRepository.findAllByKakaoLocationIdIn(shelterLocationIdList)
+                .stream()
+                .map(ShelterLocationDto::of)
+                .toList();
     }
 }
