@@ -6,6 +6,7 @@ import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.daggle.animory.testutil.fixture.AccountFixture;
@@ -61,6 +62,8 @@ public abstract class AcceptanceTest {
     protected AccountRepository accountRepository;
     @Autowired
     protected ShelterRepository shelterRepository;
+    @Autowired
+    protected PetRepository petRepository;
 
     @BeforeAll
     void setUpDummyData() {
@@ -70,12 +73,12 @@ public abstract class AcceptanceTest {
         // Shelter 등록
         final Shelter shelter = shelterRepository.save(ShelterFixture.getOne(shelterAccount));
 
+        // Pet 1마리 등록
+        final Pet firstPet = petRepository.save(PetFixture.getOne(shelter)); // PetId =  1
+
         // Pet 10마리 등록
-        final List<Pet> pets = PetFixture.get(10, PetType.DOG, shelter);
+        final List<Pet> pets = petRepository.saveAll(PetFixture.get(10, PetType.DOG, shelter));
     }
-
-
-
 
 
 }

@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
 class AccountTest extends AcceptanceTest {
@@ -57,6 +59,31 @@ class AccountTest extends AcceptanceTest {
     }
 
     @Test
+    void 중복된_이메일로_회원가입_불가() throws Exception {
+        final ShelterSignUpDto shelterSignUpDto = ShelterSignUpDto.builder()
+            .email(EMAIL)
+            .password(PASSWORD)
+            .name("테스트 보호소")
+            .address(
+                ShelterAddressSignUpDto.builder()
+                    .province(Province.광주)
+                    .city("무슨무슨구")
+                    .roadName("무슨무슨로")
+                    .detail("상세주소 1234-56")
+                    .build()
+            )
+            .contact("010-1234-5678")
+            .build();
+
+
+        result = mvc.perform(post("/account/shelter")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(om.writeValueAsString(shelterSignUpDto)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
     void 보호소_로그인() throws Exception {
         final AccountLoginDto accountLoginDto = AccountLoginDto.builder()
             .email(EMAIL)
@@ -73,6 +100,22 @@ class AccountTest extends AcceptanceTest {
         assertThat( result.andReturn()
             .getResponse()
             .getHeader("Authorization") ).isNotNull();
+    }
+
+    @Test
+    void 존재하지_않는_계정으로_로그인_실패와_안내문구() throws Exception {
+        final AccountLoginDto accountLoginDto = AccountLoginDto.builder()
+            .email(EMAIL + "1")
+            .password(PASSWORD)
+            .build();
+
+        result = mvc.perform(post("/account/login")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(om.writeValueAsString(accountLoginDto)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.error.message").value("이메일 또는 비밀번호를 확인해주세요."));
+
     }
 
 }
