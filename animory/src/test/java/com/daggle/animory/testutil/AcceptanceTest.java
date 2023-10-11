@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -70,8 +71,13 @@ public abstract class AcceptanceTest {
     @Autowired
     protected PetPolygonRepository petPolygonRepository;
 
+    @Autowired
+    private EntityManager em;
+
     @BeforeEach
     void setUpDummyData() {
+        resetDB();
+
         // 보호소 계정 생성
         final Account shelterAccount = accountRepository.save(AccountFixture.getShelter());
 
@@ -84,6 +90,17 @@ public abstract class AcceptanceTest {
 
         // Pet 10마리 등록
         final List<Pet> pets = petRepository.saveAll(PetFixture.get(10, PetType.DOG, shelter));
+    }
+
+    private void resetDB() {
+        em.createNativeQuery("""
+            SET REFERENTIAL_INTEGRITY FALSE;
+            TRUNCATE TABLE account RESTART IDENTITY;
+            TRUNCATE TABLE shelter RESTART IDENTITY;
+            TRUNCATE TABLE pet RESTART IDENTITY;
+            TRUNCATE TABLE pet_polygon_profile RESTART IDENTITY;
+            SET REFERENTIAL_INTEGRITY TRUE;
+        """).executeUpdate();
     }
 
 
