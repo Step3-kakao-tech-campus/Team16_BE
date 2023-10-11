@@ -80,6 +80,11 @@ public class Pet extends BaseEntity {
         this.profileShortFormUrl = videoUrl;
     }
 
+    public void setAdopted() {
+        this.adoptionStatus = AdoptionStatus.YES;
+        this.protectionExpirationDate = null;
+    }
+
     public void updateInfo(final PetUpdateRequestDto petUpdateRequestDto) {
         this.name = petUpdateRequestDto.name();
         this.birthDate = PetAgeToBirthDateConverter.ageToBirthDate(petUpdateRequestDto.age());
