@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ShelterRepository extends JpaRepository<Shelter, Integer> {
     Optional<Shelter> findByAccountId(Integer accountId);
 
-    @Query("select s.id " +
+    @Query("select s " +
         "from Shelter s " +
         "where s.address.kakaoLocationId " +
         "in :shelterLocationIdList")
