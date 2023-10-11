@@ -1,9 +1,7 @@
 package com.daggle.animory.domain.shelter.dto.response;
 
 import com.daggle.animory.domain.shelter.entity.Shelter;
-import lombok.Getter;
 
-@Getter
 public record ShelterLocationDto(
     Integer id,
     String name,
