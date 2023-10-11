@@ -24,7 +24,7 @@ class ShelterRepositoryTest {
             .name("테스트 보호소")
             .address(
                 ShelterAddress.builder()
-                    .province(Province.광주)p
+                    .province(Province.광주)
                     .kakaoLocationId(123456789)
                     .build()
             )
