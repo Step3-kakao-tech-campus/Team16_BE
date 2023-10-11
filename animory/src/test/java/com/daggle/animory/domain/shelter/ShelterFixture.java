@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.shelter;
 
+import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.daggle.animory.domain.shelter.entity.ShelterAddress;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class ShelterFixture {
 
-    public static Shelter getOne() {
+    public static Shelter getOne(Account account) {
         return Shelter.builder()
             .name("테스트 보호소")
             .address(
@@ -20,12 +21,13 @@ public class ShelterFixture {
                     .build()
             )
             .contact("010-1234-5678")
-            .account(null) // TODO: Account Fixture
+            .account(account)
             .build();
     }
 
     public static List<Shelter> get(final int n,
-                                    final Province province) {
+                                    final Province province,
+                                    final Account account) {
         final List<Shelter> shelters = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             shelters.add(
@@ -39,7 +41,7 @@ public class ShelterFixture {
                             .build()
                     )
                     .contact("010-1234-5678")
-                    .account(null) // TODO: Account Fixture
+                    .account(account)
                     .build());
 
         }
