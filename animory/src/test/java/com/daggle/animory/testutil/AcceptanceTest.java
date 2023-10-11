@@ -1,5 +1,7 @@
 package com.daggle.animory.testutil;
 
+import com.daggle.animory.domain.account.AccountRepository;
+import com.daggle.animory.testutil.fixture.AccountFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,15 @@ public abstract class AcceptanceTest {
         result.andExpect(status().isOk())
             .andExpect(jsonPath("$.success").value(true))
             .andDo(print());
+    }
+
+    // dummy data setting
+
+    @Autowired
+    protected AccountRepository accountRepository;
+
+    protected void givenShelterAccount(){
+        accountRepository.save(AccountFixture.getShelter());
     }
 
 }
