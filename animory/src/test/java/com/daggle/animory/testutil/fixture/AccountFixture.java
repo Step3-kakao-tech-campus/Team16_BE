@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.account;
+package com.daggle.animory.testutil.fixture;
 
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;

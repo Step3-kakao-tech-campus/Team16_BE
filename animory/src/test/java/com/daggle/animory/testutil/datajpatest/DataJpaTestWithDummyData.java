@@ -1,11 +1,12 @@
 package com.daggle.animory.testutil.datajpatest;
 
 
-import com.daggle.animory.domain.shelter.ShelterFixture;
+import com.daggle.animory.testutil.fixture.AccountFixture;
+import com.daggle.animory.testutil.fixture.ShelterFixture;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.pet.fixture.PetFixture;
+import com.daggle.animory.testutil.fixture.PetFixture;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.domain.shelter.entity.Shelter;
@@ -29,7 +30,7 @@ public abstract class DataJpaTestWithDummyData extends WithTimeSupportObjectMapp
 
     @BeforeEach
     void setUp() {
-        final List<Shelter> shelters = ShelterFixture.get(5, Province.광주);
+        final List<Shelter> shelters = ShelterFixture.get(5, Province.광주, AccountFixture.getShelter());
 
         shelterRepository.saveAll(shelters);
 
