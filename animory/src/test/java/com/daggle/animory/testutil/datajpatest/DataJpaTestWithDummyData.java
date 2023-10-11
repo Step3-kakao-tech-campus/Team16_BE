@@ -1,6 +1,8 @@
 package com.daggle.animory.testutil.datajpatest;
 
 
+import com.daggle.animory.domain.account.AccountRepository;
+import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.testutil.fixture.AccountFixture;
 import com.daggle.animory.testutil.fixture.ShelterFixture;
 import com.daggle.animory.domain.pet.repository.PetRepository;
@@ -26,11 +28,18 @@ public abstract class DataJpaTestWithDummyData extends WithTimeSupportObjectMapp
     private ShelterRepository shelterRepository;
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
     private PetRepository petRepository;
 
     @BeforeEach
     void setUp() {
-        final List<Shelter> shelters = ShelterFixture.get(5, Province.광주, AccountFixture.getShelter());
+        final Account shelter = AccountFixture.getShelter();
+
+        accountRepository.save(shelter);
+
+        final List<Shelter> shelters = ShelterFixture.get(5, Province.광주, shelter);
 
         shelterRepository.saveAll(shelters);
 
