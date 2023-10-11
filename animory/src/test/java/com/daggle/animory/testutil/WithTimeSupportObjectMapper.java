@@ -1,4 +1,4 @@
-package com.daggle.animory.testutil.datajpatest;
+package com.daggle.animory.testutil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
