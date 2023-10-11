@@ -11,7 +11,7 @@ public record ShelterAddressSignUpDto(
         @NotNull(message = "광역시/도를 입력해주세요.") Province province,
         @NotNull(message = "시/군/구를 입력해주세요.") String city,
         @NotNull(message = "도로명을 입력해주세요.") String roadName,
-        @NotNull(message = "상세 주소를 입력해주세요.") String detail) {
+        String detail) {
     public ShelterAddress getShelterAddress() {
         return ShelterAddress.builder()
                 .province(province)
