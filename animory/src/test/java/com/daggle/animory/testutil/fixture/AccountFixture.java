@@ -8,34 +8,40 @@ import java.util.List;
 
 public class AccountFixture {
 
+    public static final String EMAIL = "test@test.com";
+    public static final String PASSWORD = "Test1234!";
+
+    private static final String encodedPassword = "$2a$12$9XLsbe0Qd3Ifd5GBYiv3y.vb4Q0ZK5IOxAmXNw2ENLYNyH3j6JUkq";
+
     public static Account getUser() {
         return Account.builder()
-                .email("test@test.com")
-                .password("Test1234!")
+                .email(EMAIL)
+                .password(encodedPassword)
                 .role(AccountRole.USER)
             .build();
     }
 
     public static Account getShelter() {
         return Account.builder()
-                .email("shelter@test.com")
-                .password("Test1234!")
+                .email(EMAIL)
+                .password(encodedPassword)
                 .role(AccountRole.SHELTER)
                 .build();
     }
 
     public static List<Account> get(final int n,
-                                    AccountRole role) {
+                                    final AccountRole role) {
         final List<Account> accounts = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             accounts.add(
                     Account.builder()
-                            .email(i + "test@test.com")
-                            .password("Test1234!")
+                            .email(i + EMAIL)
+                            .password(PASSWORD)
                             .role(role)
                             .build());
 
         }
         return accounts;
     }
+
 }

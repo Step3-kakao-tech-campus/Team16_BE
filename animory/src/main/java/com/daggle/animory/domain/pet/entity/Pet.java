@@ -67,11 +67,6 @@ public class Pet extends BaseEntity {
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
 
-    @OneToOne(mappedBy = "pet")
-    @JoinColumn(name = "pet_polygon_profile_id")
-    private PetPolygonProfile petPolygonProfile;
-
-
     public void updateImage(final String imageUrl) {
         this.profileImageUrl = imageUrl;
     }
