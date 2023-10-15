@@ -8,8 +8,6 @@ import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.RegisterPetSuccessDto;
 import com.daggle.animory.domain.pet.dto.response.UpdatePetSuccessDto;
 import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.pet.entity.PetPolygonProfile;
-import com.daggle.animory.domain.pet.repository.PetPolygonRepository;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
@@ -28,7 +26,6 @@ public class PetWriteService {
     private final S3FileRepository fileRepository;
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
-    private final PetPolygonRepository petPolygonRepository;
 
     private final PetValidator petValidator;
 
@@ -50,9 +47,6 @@ public class PetWriteService {
         final Pet registerPet = petRepository.save(
             petRequestDTO.toEntity(shelter, imageUrl.toString(), videoUrl.toString()));
 
-        // 펫 다각형 프로필 DB 저장
-        petPolygonRepository.save(petRequestDTO.petPolygonProfileDto().toEntity(registerPet));
-
         return new RegisterPetSuccessDto(registerPet.getId());
     }
 
@@ -68,16 +62,12 @@ public class PetWriteService {
 
         petValidator.validatePetUpdateAuthority(account, updatePet);
 
-        final PetPolygonProfile petPolygonProfile = petPolygonRepository.findByPetId(petId)
-            .orElseThrow(() -> new NotFound404("등록된 다각형 프로필이 존재하지 않습니다."));
-
         // 이미지, 비디오 파일 업데이트
         // TODO: 파일 수정 Rollback 처리
         updateFile(updatePet, image, video);
 
         // 펫 정보 업데이트
         updatePet.updateInfo(petUpdateRequestDto);
-        petPolygonProfile.update(petUpdateRequestDto.petPolygonProfileDto());
 
         return new UpdatePetSuccessDto(updatePet.getId());
     }

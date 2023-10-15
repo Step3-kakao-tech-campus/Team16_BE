@@ -94,6 +94,7 @@ public class Pet extends BaseEntity {
         this.neutralizationStatus = petUpdateRequestDto.neutralizationStatus();
         this.adoptionStatus = petUpdateRequestDto.adoptionStatus();
         this.protectionExpirationDate = petUpdateRequestDto.protectionExpirationDate();
+        this.petPolygonProfile = petUpdateRequestDto.petPolygonProfileDto().toEntity();
         this.description = petUpdateRequestDto.description();
     }
 }

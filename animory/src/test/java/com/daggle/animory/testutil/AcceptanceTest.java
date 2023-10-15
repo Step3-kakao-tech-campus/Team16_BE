@@ -5,15 +5,12 @@ import com.daggle.animory.domain.account.AccountRepository;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.pet.entity.PetPolygonProfile;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.pet.repository.PetPolygonRepository;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.daggle.animory.testutil.fixture.AccountFixture;
 import com.daggle.animory.testutil.fixture.PetFixture;
-import com.daggle.animory.testutil.fixture.PetPolygonProfileFixture;
 import com.daggle.animory.testutil.fixture.ShelterFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -68,8 +65,6 @@ public abstract class AcceptanceTest {
     protected ShelterRepository shelterRepository;
     @Autowired
     protected PetRepository petRepository;
-    @Autowired
-    protected PetPolygonRepository petPolygonRepository;
 
     @Autowired
     private EntityManager em;
@@ -86,7 +81,6 @@ public abstract class AcceptanceTest {
 
         // Pet 1마리 등록
         final Pet firstPet = petRepository.save(PetFixture.getOne(shelter)); // PetId =  1
-        final PetPolygonProfile firstPetPolygonProfile = petPolygonRepository.save(PetPolygonProfileFixture.getOne(firstPet));
 
         // Pet 10마리 등록
         final List<Pet> pets = petRepository.saveAll(PetFixture.get(10, PetType.DOG, shelter));
@@ -98,7 +92,6 @@ public abstract class AcceptanceTest {
             TRUNCATE TABLE account RESTART IDENTITY;
             TRUNCATE TABLE shelter RESTART IDENTITY;
             TRUNCATE TABLE pet RESTART IDENTITY;
-            TRUNCATE TABLE pet_polygon_profile RESTART IDENTITY;
             SET REFERENTIAL_INTEGRITY TRUE;
         """).executeUpdate();
     }
