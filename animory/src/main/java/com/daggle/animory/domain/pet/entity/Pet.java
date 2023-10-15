@@ -63,6 +63,9 @@ public class Pet extends BaseEntity {
 
     private String size;
 
+    @Embedded
+    private PetPolygonProfile petPolygonProfile;
+
     @ManyToOne
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
@@ -91,6 +94,7 @@ public class Pet extends BaseEntity {
         this.neutralizationStatus = petUpdateRequestDto.neutralizationStatus();
         this.adoptionStatus = petUpdateRequestDto.adoptionStatus();
         this.protectionExpirationDate = petUpdateRequestDto.protectionExpirationDate();
+        this.petPolygonProfile = petUpdateRequestDto.petPolygonProfileDto().toEntity();
         this.description = petUpdateRequestDto.description();
     }
 }

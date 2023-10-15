@@ -22,6 +22,7 @@ spring:
     hibernate.ddl-auto: create
     properties:
       hibernate.format_sql: true
+  flyway.enabled: false # H2 Error
 
   # File Upload
   servlet:
