@@ -3,7 +3,7 @@ package com.daggle.animory.domain.pet.util;
 import autoparams.AutoSource;
 import autoparams.Repeat;
 import com.daggle.animory.common.error.exception.BadRequest400;
-import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+@Slf4j
 class PetAgeToBirthDateConverterTest {
 
     @Nested
@@ -68,10 +69,21 @@ class PetAgeToBirthDateConverterTest {
     @ParameterizedTest
     @AutoSource
     @Repeat
-    void birthDateToAge(final LocalDate birthDate) {
-        final String age = PetAgeToBirthDateConverter.birthDateToAge(birthDate);
+    void birthDateToAge(@Min(1990) @Max(2023) final int year,
+                        @Min(1) @Max(12) final int month) {
+        final LocalDate birthDate = LocalDate.of(year, month, 1);
 
-        assertThat(age).isEqualTo(birthDate.getYear() + "년" + birthDate.getMonthValue() + "개월");
+        if(birthDate.isAfter(LocalDate.now())) return;
+
+        final String calculatedAge = PetAgeToBirthDateConverter.birthDateToAge(birthDate);
+
+        final LocalDate now = LocalDate.now();
+        final LocalDate expectedBirthDate = now.minusYears(birthDate.getYear()).minusMonths(birthDate.getMonthValue());
+        final String expectedAge = expectedBirthDate.getYear() + "년" + expectedBirthDate.getMonthValue() + "개월";
+
+        log.debug("\n birthDate: {},\n expectedAge: {},\n calculatedAge: {}", birthDate, expectedAge, calculatedAge);
+
+        assertThat(calculatedAge).isEqualTo(expectedAge);
     }
 
 

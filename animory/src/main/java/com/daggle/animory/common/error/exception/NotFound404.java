@@ -9,11 +9,11 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class NotFound404 extends RuntimeException {
 
-    public NotFound404(String message) {
+    public NotFound404(final String message) {
         super(message);
     }
 
-    public Response body(){
+    public Response<Void> body(){
         return Response.error(getMessage(), HttpStatus.NOT_FOUND);
     }
 

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Builder
 public record AccountLoginDto(
-        @Email @NotNull(message = "이메일을 입력해주세요.") String email,
+        @Email(message = "이메일 형식에 맞지 않습니다.")
+        @NotNull(message = "이메일을 입력해주세요.") String email,
         @NotNull(message = "비밀번호를 입력해주세요.") String password) {
 }

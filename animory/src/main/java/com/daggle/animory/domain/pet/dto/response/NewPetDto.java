@@ -16,7 +16,7 @@ public record NewPetDto(
         String shelterName
 ) {
 
-    public static NewPetDto fromEntity(Pet pet) {
+    public static NewPetDto fromEntity(final Pet pet) {
         return NewPetDto.builder()
                 .petId(pet.getId())
                 .petName(pet.getName())

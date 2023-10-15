@@ -5,9 +5,12 @@ import com.daggle.animory.domain.pet.entity.AdoptionStatus;
 import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.entity.Sex;
-import java.time.LocalDate;
-import javax.validation.constraints.NotNull;
+import lombok.Builder;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+
+@Builder
 public record PetUpdateRequestDto(
         @NotNull(message = "이름을 입력해주세요.") String name,
         @NotNull(message = "나이를 입력해주세요.") String age,

@@ -1,5 +1,6 @@
-package com.daggle.animory.domain.shelter;
+package com.daggle.animory.testutil.fixture;
 
+import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.daggle.animory.domain.shelter.entity.ShelterAddress;
@@ -9,23 +10,27 @@ import java.util.List;
 
 public class ShelterFixture {
 
-    public static Shelter getOne() {
+    public static Shelter getOne(final Account account) {
         return Shelter.builder()
-            .name("테스트 보호소")
+            .name("광주광역시동물보호소")
+            .contact("010-1234-5678")
             .address(
                 ShelterAddress.builder()
+                    .kakaoLocationId(14569757)
+                    .x(126.88180407139231)
+                    .y(35.22252870361165)
                     .province(Province.광주)
-                    .city("테스트시군구")
-                    .detail("테스트도로명주소")
+                    .city("북구")
+                    .roadName("본촌동 378-6")
                     .build()
             )
-            .contact("010-1234-5678")
-            .account(null) // TODO: Account Fixture
+            .account(account)
             .build();
     }
 
     public static List<Shelter> get(final int n,
-                                    final Province province) {
+                                    final Province province,
+                                    final Account account) {
         final List<Shelter> shelters = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             shelters.add(
@@ -39,7 +44,7 @@ public class ShelterFixture {
                             .build()
                     )
                     .contact("010-1234-5678")
-                    .account(null) // TODO: Account Fixture
+                    .account(account)
                     .build());
 
         }

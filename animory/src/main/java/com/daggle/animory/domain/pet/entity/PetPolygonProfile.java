@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class PetPolygonProfile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @MapsId
@@ -24,7 +23,6 @@ public class PetPolygonProfile {
 
     private int intelligence;
 
-
     private int affinity;
 
     private int athletic;
@@ -33,7 +31,7 @@ public class PetPolygonProfile {
 
     private int activeness;
 
-    public void update(PetPolygonProfileDto petPolygonProfileDto) {
+    public void update(final PetPolygonProfileDto petPolygonProfileDto) {
         this.intelligence = petPolygonProfileDto.intelligence();
         this.affinity = petPolygonProfileDto.affinity();
         this.athletic = petPolygonProfileDto.athletic();

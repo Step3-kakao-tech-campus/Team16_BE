@@ -6,10 +6,8 @@ import com.daggle.animory.domain.account.dto.request.ShelterAddressSignUpDto;
 import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.testutil.webmvctest.BaseWebMvcTest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -20,9 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Import(AccountController.class)
 public class AccountControllerTest extends BaseWebMvcTest {
-
-    @Autowired
-    ObjectMapper om;
 
     @MockBean
     AccountService accountService;
@@ -91,6 +86,52 @@ public class AccountControllerTest extends BaseWebMvcTest {
                     .address(ShelterAddressSignUpDto.builder()
                             .province(Province.광주)
                             .city("북구")
+                            .roadName("용봉동")
+                            .detail("전남대")
+                            .build())
+                    .build();
+
+            mvc.perform(post("/account/shelter")
+                            .content(om.writeValueAsString(shelterSignUpDto))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andDo(print());
+        }
+
+        @Test
+        void 실패_보호소_회원가입_주소null() throws Exception {
+            // given
+            final ShelterSignUpDto shelterSignUpDto = ShelterSignUpDto.builder()
+                    .name("animory")
+                    .email("aaa@jnu.ac.kr")
+                    .password("secreT123!")
+                    .contact("01012345678")
+                    .zonecode("3143")
+                    .address(null)
+                    .build();
+
+            mvc.perform(post("/account/shelter")
+                            .content(om.writeValueAsString(shelterSignUpDto))
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.error.message").value("보호소 주소를 입력해주세요."))
+                    .andDo(print());
+        }
+
+        @Test
+        void 실패_보호소_회원가입_주소_중_일부null() throws Exception {
+            // given
+            final ShelterSignUpDto shelterSignUpDto = ShelterSignUpDto.builder()
+                    .name("animory")
+                    .email("aaa@jnu.ac.kr")
+                    .password("secreT123!")
+                    .contact("01012345678")
+                    .zonecode("3143")
+                    .address(ShelterAddressSignUpDto.builder()
+                            .province(Province.광주)
+                            .city(null)
                             .roadName("용봉동")
                             .detail("전남대")
                             .build())

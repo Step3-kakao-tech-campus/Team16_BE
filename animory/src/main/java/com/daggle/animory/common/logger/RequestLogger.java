@@ -22,6 +22,7 @@ public class RequestLogger implements HandlerInterceptor {
                              @NonNull final HttpServletResponse response,
                              @NonNull final Object handler) {
 
+        // 서로 다른 스레드에 대한 요청을 구분하기 위한 ID를 생성합니다.
         MDC.put("correlationId", UUID.randomUUID()
             .toString()
             .substring(0, 8));
@@ -34,7 +35,8 @@ public class RequestLogger implements HandlerInterceptor {
         return true;
     }
 
-    private static String getQueryParameters(final HttpServletRequest request) {
+    // HTTP Request의 Query Parameter를 추출합니다.
+    private String getQueryParameters(final HttpServletRequest request) {
         final String queryString = request.getQueryString();
 
         if (queryString == null) return StringUtils.EMPTY;
