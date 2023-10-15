@@ -63,6 +63,9 @@ public class Pet extends BaseEntity {
 
     private String size;
 
+    @Embedded
+    private PetPolygonProfile petPolygonProfile;
+
     @ManyToOne
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
