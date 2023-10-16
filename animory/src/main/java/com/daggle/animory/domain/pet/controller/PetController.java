@@ -1,7 +1,7 @@
 package com.daggle.animory.domain.pet.controller;
 
 import com.daggle.animory.common.Response;
-import com.daggle.animory.common.security.Authorized;
+import com.daggle.animory.common.security.RequireRole;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
@@ -28,7 +28,7 @@ public class PetController implements PetControllerApi {
     private final PetWriteService petWriteService;
 
     // Pet 등록
-    @Authorized(AccountRole.SHELTER)
+    @RequireRole(AccountRole.SHELTER)
     @PostMapping(value = "", consumes = {"multipart/form-data"})
     public Response<RegisterPetSuccessDto> registerPet(
         final Account account,
@@ -42,7 +42,7 @@ public class PetController implements PetControllerApi {
     }
 
     // Pet 수정 페이지에서, 기존 등록된 정보를 확인하기 위해 호출하는 API
-    @Authorized(AccountRole.SHELTER)
+    @RequireRole(AccountRole.SHELTER)
     @GetMapping(value = "/register-info/{petId}")
     public Response<PetRegisterInfoDto> getPetRegisterInfo(final Account account,
                                                            @PathVariable final int petId) {
@@ -52,7 +52,7 @@ public class PetController implements PetControllerApi {
     }
 
     // Pet 수정 요청
-    @Authorized(AccountRole.SHELTER)
+    @RequireRole(AccountRole.SHELTER)
     @PatchMapping(value = "/{petId}", consumes = {"multipart/form-data"})
     public Response<UpdatePetSuccessDto> updatePet(
         final Account account,
@@ -92,7 +92,7 @@ public class PetController implements PetControllerApi {
 
     // Pet 입양 완료 상태 등록
     @PostMapping("/adoption/{petId}")
-    @Authorized(AccountRole.SHELTER)
+    @RequireRole(AccountRole.SHELTER)
     public Response<Void> updatePetAdopted(final Account account,
                                            @PathVariable final int petId) {
         petWriteService.updatePetAdopted(account, petId);

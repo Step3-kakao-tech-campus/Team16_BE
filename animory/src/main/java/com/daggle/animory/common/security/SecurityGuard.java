@@ -37,7 +37,7 @@ public class SecurityGuard {
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
     // TODO: 인증 과정의 예외와, 예상치 못한 에러를 구분할 수 있어야 함.
-    @Around("@within(Authorized) || @annotation(Authorized)")
+    @Around("@within(com.daggle.animory.common.security.RequireRole) || @annotation(com.daggle.animory.common.security.RequireRole)")
     public Object validateAuthorization(final ProceedingJoinPoint joinPoint) throws Throwable {
         try{
             final AccountRole[] allowedRoles = getAllowedRoles(joinPoint);
@@ -79,7 +79,7 @@ public class SecurityGuard {
     private AccountRole[] getAllowedRoles(final ProceedingJoinPoint joinPoint) {
         // 먼저 메소드 레벨 어노테이션 획득을 시도합니다.
         final MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        final Authorized methodLevelAnnotation = methodSignature.getMethod().getAnnotation(Authorized.class);
+        final RequireRole methodLevelAnnotation = methodSignature.getMethod().getAnnotation(RequireRole.class);
 
         if (methodLevelAnnotation != null) {
             return methodLevelAnnotation.value();
@@ -87,7 +87,7 @@ public class SecurityGuard {
 
         // 메소드 레벨 어노테이션이 없으면 클래스 레벨 어노테이션 획득을 시도합니다.(반드시 존재합니다.)
         final Class<?> declaringType = joinPoint.getSignature().getDeclaringType();
-        final Authorized classLevelAnnotation = declaringType.getAnnotation(Authorized.class);
+        final RequireRole classLevelAnnotation = declaringType.getAnnotation(RequireRole.class);
 
         return classLevelAnnotation.value();
     }
