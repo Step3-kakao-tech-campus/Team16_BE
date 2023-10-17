@@ -12,6 +12,7 @@ import com.daggle.animory.domain.shelter.entity.Shelter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class ShelterService {
                 .toList();
     }
 
+    @Transactional
     public ShelterUpdateSuccessDto updateShelterInfo(Account account, Integer shelterId, ShelterUpdateDto shelterUpdateDto) {
         Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
                 () -> new NotFound404("해당하는 보호소가 존재하지 않습니다.")
