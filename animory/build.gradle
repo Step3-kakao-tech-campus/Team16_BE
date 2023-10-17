@@ -80,4 +80,12 @@ jacocoTestReport {
 		html.required = true
 		html.destination file("${buildDir}/reports/jacocoReport")
 	}
+	
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [ // 테스트 커버리지 측정에서 제외할 파일
+					"com/daggle/animory/AnimoryApplication.class",
+			])
+		}))
+	}
 }
