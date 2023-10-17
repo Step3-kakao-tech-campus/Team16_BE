@@ -82,7 +82,9 @@ public class ShelterServiceTest {
     class 보호소_수정 {
         @Test
         void 성공_보호소_수정() {
-            Account account = AccountFixture.getShelter();
+            Account account = Account.builder()
+                    .id(1)
+                    .build();
 
             Shelter shelter = Shelter.builder()
                     .id(1)
@@ -113,11 +115,17 @@ public class ShelterServiceTest {
 
         @Test
         void 실패_보호소_수정_권한없음() {
-            List<Account> accounts = AccountFixture.get(2, AccountRole.SHELTER);
+            Account account = Account.builder()
+                    .id(1)
+                    .build();
+
+            Account otherAccount = Account.builder()
+                    .id(2)
+                    .build();
 
             Shelter shelter = Shelter.builder()
                     .id(1)
-                    .account(accounts.get(0))
+                    .account(account)
                     .build();
 
             ShelterUpdateDto shelterUpdateDto = ShelterUpdateDto.builder()
@@ -133,7 +141,7 @@ public class ShelterServiceTest {
             // stub
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
-            assertThatThrownBy(() -> shelterService.updateShelterInfo(accounts.get(1), shelter.getId(), shelterUpdateDto))
+            assertThatThrownBy(() -> shelterService.updateShelterInfo(otherAccount, shelter.getId(), shelterUpdateDto))
                     .isInstanceOf(Forbidden403.class)
                     .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }
