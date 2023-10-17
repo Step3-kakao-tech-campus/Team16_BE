@@ -62,5 +62,6 @@ jobs:
           update-comment: true
           pass-emoji: ':heart_eyes:'
           fail-emoji: ':disappointed:'
-          min-coverage-overall: 60
+          skip-if-no-changes: true
+          min-coverage-overall: 70
           min-coverage-changed-files: 50
