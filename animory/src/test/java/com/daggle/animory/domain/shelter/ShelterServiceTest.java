@@ -1,6 +1,8 @@
 package com.daggle.animory.domain.shelter;
 
+import com.daggle.animory.common.error.exception.Forbidden403;
 import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.shelter.dto.request.ShelterAddressUpdateDto;
@@ -22,9 +24,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -105,6 +109,33 @@ public class ShelterServiceTest {
                     () -> assertThat(shelter.getName()).isEqualTo(shelterUpdateDto.name()),
                     () -> assertThat(shelter.getAddress().getCity()).isEqualTo(shelterUpdateDto.shelterAddressUpdateDto().city())
             );
+        }
+
+        @Test
+        void 실패_보호소_수정_권한없음() {
+            List<Account> accounts = AccountFixture.get(2, AccountRole.SHELTER);
+
+            Shelter shelter = Shelter.builder()
+                    .id(1)
+                    .account(accounts.get(0))
+                    .build();
+
+            ShelterUpdateDto shelterUpdateDto = ShelterUpdateDto.builder()
+                    .contact("0101010101")
+                    .name("변경한 이름")
+                    .shelterAddressUpdateDto(ShelterAddressUpdateDto.builder()
+                            .province(Province.광주)
+                            .city("변경한 시")
+                            .roadName("변경한 도로명 주소")
+                            .build())
+                    .build();
+
+            // stub
+            Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
+
+            assertThatThrownBy(() -> shelterService.updateShelterInfo(accounts.get(1), shelter.getId(), shelterUpdateDto))
+                    .isInstanceOf(Forbidden403.class)
+                    .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }
     }
 }
