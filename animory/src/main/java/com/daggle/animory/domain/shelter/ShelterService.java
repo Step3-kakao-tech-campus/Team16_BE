@@ -1,6 +1,8 @@
 package com.daggle.animory.domain.shelter;
 
+import com.daggle.animory.common.error.exception.Forbidden403;
 import com.daggle.animory.common.error.exception.NotFound404;
+import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
@@ -35,10 +37,14 @@ public class ShelterService {
                 .toList();
     }
 
-    public ShelterUpdateSuccessDto updateShelterInfo(Integer shelterId, ShelterUpdateDto shelterUpdateDto) {
+    public ShelterUpdateSuccessDto updateShelterInfo(Account account, Integer shelterId, ShelterUpdateDto shelterUpdateDto) {
         Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
                 () -> new NotFound404("해당하는 보호소가 존재하지 않습니다.")
         );
+
+        if (!shelter.getAccount().getEmail().equals(account.getEmail())) {
+            throw new Forbidden403("보호소 정보를 수정할 권한이 없습니다.");
+        }
 
         shelter.updateInfo(shelterUpdateDto);
 
