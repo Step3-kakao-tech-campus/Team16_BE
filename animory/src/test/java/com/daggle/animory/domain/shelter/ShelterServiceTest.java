@@ -1,11 +1,13 @@
 package com.daggle.animory.domain.shelter;
 
+import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.shelter.dto.request.ShelterAddressUpdateDto;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import com.daggle.animory.domain.shelter.entity.Province;
+import com.daggle.animory.testutil.fixture.AccountFixture;
 import com.daggle.animory.testutil.fixture.PetFixture;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
@@ -23,6 +25,7 @@ import org.springframework.data.domain.PageImpl;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,8 +78,11 @@ public class ShelterServiceTest {
     class 보호소_수정 {
         @Test
         void 성공_보호소_수정() {
+            Account account = AccountFixture.getShelter();
+
             Shelter shelter = Shelter.builder()
                     .id(1)
+                    .account(account)
                     .build();
 
             ShelterUpdateDto shelterUpdateDto = ShelterUpdateDto.builder()
@@ -92,11 +98,13 @@ public class ShelterServiceTest {
             // stub
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
-            ShelterUpdateSuccessDto shelterUpdateSuccessDto = shelterService.updateShelterInfo(shelter.getId(), shelterUpdateDto);
+            ShelterUpdateSuccessDto shelterUpdateSuccessDto = shelterService.updateShelterInfo(account, shelter.getId(), shelterUpdateDto);
 
-            assertThat(shelterUpdateSuccessDto.getShelterId()).isEqualTo(shelter.getId());
-            assertThat(shelter.getName()).isEqualTo(shelterUpdateDto.name());
-            assertThat(shelter.getAddress().getCity()).isEqualTo(shelterUpdateDto.shelterAddressUpdateDto().city());
+            assertAll(
+                    () -> assertThat(shelterUpdateSuccessDto.getShelterId()).isEqualTo(shelter.getId()),
+                    () -> assertThat(shelter.getName()).isEqualTo(shelterUpdateDto.name()),
+                    () -> assertThat(shelter.getAddress().getCity()).isEqualTo(shelterUpdateDto.shelterAddressUpdateDto().city())
+            );
         }
     }
 }
