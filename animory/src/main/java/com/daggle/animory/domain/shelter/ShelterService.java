@@ -2,8 +2,11 @@ package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.error.exception.NotFound404;
 import com.daggle.animory.domain.pet.repository.PetRepository;
+import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
+import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
+import com.daggle.animory.domain.shelter.entity.Shelter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -30,5 +33,17 @@ public class ShelterService {
                 .stream()
                 .map(ShelterLocationDto::of)
                 .toList();
+    }
+
+    public ShelterUpdateSuccessDto updateShelterInfo(Integer shelterId, ShelterUpdateDto shelterUpdateDto) {
+        Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
+                () -> new NotFound404("해당하는 보호소가 존재하지 않습니다.")
+        );
+
+        shelter.updateInfo(shelterUpdateDto);
+
+        return ShelterUpdateSuccessDto.builder()
+                .shelterId(shelterId)
+                .build();
     }
 }

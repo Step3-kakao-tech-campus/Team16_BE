@@ -1,8 +1,10 @@
 package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.Response;
+import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
+import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,12 @@ public class ShelterController {
     public Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) final Integer shelterId,
                                                    @RequestParam("page") @Min(0) final int page) {
         return Response.success(shelterService.getShelterProfile(shelterId, page));
+    }
+
+    @PutMapping("/{shelterId}")
+    public Response<ShelterUpdateSuccessDto> updateShelter(@PathVariable @Min(0) final Integer shelterId,
+                                                           @RequestBody final ShelterUpdateDto shelterUpdateDto) {
+        return Response.success(shelterService.updateShelterInfo(shelterId, shelterUpdateDto));
     }
 
     /** 등록된 보호소 필터링 API <br>
