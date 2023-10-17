@@ -15,6 +15,7 @@ public class AccountFixture {
 
     public static Account getUser() {
         return Account.builder()
+                .id(1)
                 .email(EMAIL)
                 .password(encodedPassword)
                 .role(AccountRole.USER)
@@ -23,6 +24,7 @@ public class AccountFixture {
 
     public static Account getShelter() {
         return Account.builder()
+                .id(2)
                 .email(EMAIL)
                 .password(encodedPassword)
                 .role(AccountRole.SHELTER)
@@ -35,6 +37,7 @@ public class AccountFixture {
         for (int i = 0; i < n; i++) {
             accounts.add(
                     Account.builder()
+                            .id(i + 1)
                             .email(i + EMAIL)
                             .password(PASSWORD)
                             .role(role)
