@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
 
@@ -18,26 +19,21 @@ import java.util.Date;
 public class TokenProvider {
 
     private final String key;
-    private final long tokenValiditySeconds;
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String ROLES_CLAIM = "roles";
 
-    public TokenProvider(@Value("${jwt.secret}") final String key,
-                         @Value("${jwt.token-validity-in-seconds}") final long tokenValiditySeconds) {
+    private static final int TOKEN_EXPIRATION_DATE_TO_PLUS = 1;
+    private static final int TOKEN_EXPIRATION_FIXED_HOUR = 3;
+
+    public TokenProvider(@Value("${jwt.secret}") final String key) {
         this.key = Base64.getEncoder().encodeToString(key.getBytes());
-        this.tokenValiditySeconds = tokenValiditySeconds;
     }
 
 
     public String create(final String email, final AccountRole role) {
-        final Date now = new Date();
-        final Date expiration = new Date(now.getTime() + tokenValiditySeconds * 1000);
-
-        log.debug("expiration : " + expiration);
-
         return TOKEN_PREFIX + Jwts.builder().setSubject(email) // 정보 저장
             .claim(ROLES_CLAIM, role).setIssuedAt(new Date()) // 토큰 발행 시간
-            .setExpiration(expiration) // 토큰 만료 시간
+            .setExpiration(calcExpirationDateTime()) // 토큰 만료 시간
             .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
             .compact();
     }
@@ -76,6 +72,18 @@ public class TokenProvider {
             .setSigningKey(key)
             .parseClaimsJws(token)
             .getBody();
+    }
+
+    private Date calcExpirationDateTime() {
+        final LocalDateTime currentTime = LocalDateTime.now();
+
+        final LocalDateTime expirationDateTime = currentTime
+            .plusDays(TOKEN_EXPIRATION_DATE_TO_PLUS)
+            .withHour(TOKEN_EXPIRATION_FIXED_HOUR)
+            .withMinute(0)
+            .withSecond(0);
+
+        return Date.from(expirationDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
     }
 
 

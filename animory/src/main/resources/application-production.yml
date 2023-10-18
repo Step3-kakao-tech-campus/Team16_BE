@@ -43,9 +43,7 @@ springdoc.swagger-ui:
   tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
 
 # Security
-jwt:
-  secret: ${JWT_SECRET}
-  token-validity-in-seconds: "#{60 * 60 * 24}"
+jwt.secret: ${JWT_SECRET}
 
 # AWS S3
 cloud:
