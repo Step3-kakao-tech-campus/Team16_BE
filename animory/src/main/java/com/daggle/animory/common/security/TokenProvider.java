@@ -75,15 +75,17 @@ public class TokenProvider {
     }
 
     private Date calcExpirationDateTime() {
-        final LocalDateTime currentTime = LocalDateTime.now();
+        final LocalDateTime currentTime = LocalDateTime.now(); // 현재 시각으로 부터
 
         final LocalDateTime expirationDateTime = currentTime
-            .plusDays(TOKEN_EXPIRATION_DATE_TO_PLUS)
-            .withHour(TOKEN_EXPIRATION_FIXED_HOUR)
-            .withMinute(0)
-            .withSecond(0);
+            .plusDays(TOKEN_EXPIRATION_DATE_TO_PLUS) // day를 더하고
+            .withHour(TOKEN_EXPIRATION_FIXED_HOUR); // 고정된 시각
 
-        return Date.from(expirationDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
+        return convertLocalDateTimeToDate(expirationDateTime);
+    }
+
+    private Date convertLocalDateTimeToDate(final LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
     }
 
 
