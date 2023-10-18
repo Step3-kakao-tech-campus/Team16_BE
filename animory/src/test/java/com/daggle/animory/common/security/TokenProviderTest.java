@@ -34,7 +34,7 @@ class TokenProviderTest {
             );
 
         assertThat(now.plusDays(1).withHour(3).truncatedTo(ChronoUnit.MINUTES))
-            .isEqualTo(expectedExpirationTime);
+            .isEqualTo(expectedExpirationTime.truncatedTo(ChronoUnit.MINUTES));
     }
 
 
