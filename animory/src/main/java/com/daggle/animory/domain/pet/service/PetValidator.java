@@ -8,12 +8,14 @@ import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PetValidator {
@@ -72,6 +74,6 @@ public class PetValidator {
 
     private String getFileExtension(final MultipartFile file) {
         final String fileName = file.getOriginalFilename();
-        return Objects.requireNonNull(fileName).substring(fileName.lastIndexOf(".")).toLowerCase();
+        return Objects.requireNonNull(fileName).substring(fileName.lastIndexOf(".")).substring(1).toLowerCase();
     }
 }

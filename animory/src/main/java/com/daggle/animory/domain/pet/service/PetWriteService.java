@@ -2,7 +2,6 @@ package com.daggle.animory.domain.pet.service;
 
 import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.domain.account.entity.Account;
-import com.daggle.animory.domain.fileserver.S3FileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.RegisterPetSuccessDto;
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class PetWriteService {
 
-    private final S3FileRepository fileRepository;
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
 
@@ -44,7 +42,6 @@ public class PetWriteService {
 
         return new RegisterPetSuccessDto(registerPet.getId());
     }
-
 
 
     public UpdatePetSuccessDto updatePet(final Account account,
@@ -76,8 +73,6 @@ public class PetWriteService {
         // 입양상태를 YES로 변경하고, 보호 만료일을 null로 바꾼다.
         pet.setAdopted(); // TODO: 더 이상 보호소와 관련이 없어서.. 연결된 보호소 정보를 제거할 필요 ?
     }
-
-
 
 
 }

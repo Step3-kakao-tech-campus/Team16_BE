@@ -11,9 +11,11 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 public class S3Util {
+    private S3Util() {
+    }
 
     public static ObjectMetadata buildObjectMetadata(final MultipartFile file,
-                                                    final String fileName) throws IOException {
+                                                     final String fileName) throws IOException {
         final ObjectMetadata metadata = new ObjectMetadata();
 
         // get content type

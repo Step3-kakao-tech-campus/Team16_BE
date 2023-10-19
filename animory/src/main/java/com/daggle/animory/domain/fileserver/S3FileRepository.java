@@ -44,7 +44,7 @@ public class S3FileRepository {
     }
 
     public void deleteAll(final List<String> savedFileUrls) {
-        try{
+        try {
             final DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucket)
                 .withKeys(savedFileUrls.toArray(new String[0])); // S3 SDK method가 이런 수준이라 어쩔수없이 다시 array로 만드는 코드입니다.
 
@@ -72,7 +72,6 @@ public class S3FileRepository {
             throw new BadRequest400Exception("올바르지 않은 파일 형식입니다.");
         }
     }
-
 
 
 }

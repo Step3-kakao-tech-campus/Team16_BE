@@ -24,11 +24,13 @@ public class PetWriteServiceTransactionManager {
     private final S3FileRepository fileRepository;
     private final PetRepository petRepository;
 
-    /** <pre>
+    /**
+     * <pre>
      * 펫 등록 트랜잭션
      * 1. 이미지, 비디오 파일 저장 (URL 반환)
      * 2. 펫 DB 저장
-     * </pre> */
+     * </pre>
+     */
     public Pet doPetRegisterTransaction(final PetRegisterRequestDto petRequestDTO,
                                         final MultipartFile image,
                                         final MultipartFile video,
@@ -40,7 +42,7 @@ public class PetWriteServiceTransactionManager {
         final String videoUrl;
         final Pet registerPet;
 
-        try{
+        try {
             // 이미지 파일 저장 후 url을 얻어온다.
             imageUrl = fileRepository.save(image);
             savedFileUrls.add(imageUrl);
@@ -62,21 +64,23 @@ public class PetWriteServiceTransactionManager {
         return registerPet;
     }
 
-    /**<pre>
+    /**
+     * <pre>
      * 펫 수정 트랜잭션
      * 1. Input에 이미지, 비디오 파일이 존재한다면, 기존 파일을 덮어쓴다.
      * 2. 펫 DB 업데이트
-     * </pre>*/
+     * </pre>
+     */
     public void doPetUpdateTransaction(final Pet updatePet,
                                        final PetUpdateRequestDto petUpdateRequestDto,
                                        final MultipartFile image,
-                                       final MultipartFile video){
+                                       final MultipartFile video) {
         final String imageKey = S3Util.getFileNameFromUrl(updatePet.getProfileImageUrl());
         final String videoKey = S3Util.getFileNameFromUrl(updatePet.getProfileShortFormUrl());
 
-        try{
-            if(image != null && !image.isEmpty()) fileRepository.overwrite(image, imageKey);
-            if(video != null && !video.isEmpty()) fileRepository.overwrite(video, videoKey);
+        try {
+            if (image != null && !image.isEmpty()) fileRepository.overwrite(image, imageKey);
+            if (video != null && !video.isEmpty()) fileRepository.overwrite(video, videoKey);
 
             updatePet.updateInfo(petUpdateRequestDto); // 펫 정보 수정
         } catch (final RuntimeException e) {
