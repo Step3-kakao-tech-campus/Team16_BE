@@ -33,6 +33,8 @@ public class PetWriteService {
                                              final PetRegisterRequestDto petRequestDTO,
                                              final MultipartFile image,
                                              final MultipartFile video) {
+        petValidator.validateImageFile(image);
+        petValidator.validateVideoFile(video);
 
         // 이미지, 숏폼 파일 저장 후 url 얻어오기
         // TODO: 이미지, 비디오 저장 요청 둘 중 하나가 실패했을 때, 또는 파일 저장에는 성공하였으나, 이후 DB Insert 등에 실패하였을 때, 파일 모두 삭제하는 Rollback 처리
@@ -55,6 +57,8 @@ public class PetWriteService {
                                          final PetUpdateRequestDto petUpdateRequestDto,
                                          final MultipartFile image,
                                          final MultipartFile video) {
+        petValidator.validateImageFile(image);
+        petValidator.validateVideoFile(video);
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet updatePet = petRepository.findById(petId)
@@ -86,14 +90,11 @@ public class PetWriteService {
     // 이미지, 비디오 파일 수정 요청 시 기존 파일 삭제 후 업데이트
     private void updateFile(final Pet updatePet, final MultipartFile image,
                            final MultipartFile video) {
-        if (image != null) {
-            final URL imageUrl = fileRepository.save(image);
-            updatePet.updateImage(imageUrl.toString());
-        }
-        if (video != null) {
-            final URL videoUrl = fileRepository.save(video);
-            updatePet.updateVideo(videoUrl.toString());
-        }
+        final URL imageUrl = fileRepository.save(image);
+        updatePet.updateImage(imageUrl.toString());
+
+        final URL videoUrl = fileRepository.save(video);
+        updatePet.updateVideo(videoUrl.toString());
     }
 
 
