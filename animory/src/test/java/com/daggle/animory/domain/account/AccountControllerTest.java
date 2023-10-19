@@ -130,8 +130,8 @@ public class AccountControllerTest extends BaseWebMvcTest {
                     .contact("01012345678")
                     .zonecode("3143")
                     .address(ShelterAddressSignUpDto.builder()
-                            .province(Province.광주)
-                            .city(null)
+                            .province(null)
+                            .city(null) // city는 null 허용
                             .roadName("용봉동")
                             .detail("전남대")
                             .build())
