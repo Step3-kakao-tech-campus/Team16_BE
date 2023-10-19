@@ -30,7 +30,7 @@ public enum Province {
             case 울산 -> "울산광역시";
             case 세종 -> "세종특별자치시";
             case 경기 -> "경기도";
-            case 강원 -> "강원도";
+            case 강원 -> "강원특별자치도";
             case 충북 -> "충청북도";
             case 충남 -> "충청남도";
             case 전북 -> "전라북도";
