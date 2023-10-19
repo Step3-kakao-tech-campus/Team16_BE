@@ -27,6 +27,8 @@ public class PetWriteService {
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
 
+    private final PetWriteServiceTransactionManager txManager;
+
     private final PetValidator petValidator;
 
     public RegisterPetSuccessDto registerPet(final Account account,
@@ -36,21 +38,16 @@ public class PetWriteService {
         petValidator.validateImageFile(image);
         petValidator.validateVideoFile(video);
 
-        // 이미지, 숏폼 파일 저장 후 url 얻어오기
-        // TODO: 이미지, 비디오 저장 요청 둘 중 하나가 실패했을 때, 또는 파일 저장에는 성공하였으나, 이후 DB Insert 등에 실패하였을 때, 파일 모두 삭제하는 Rollback 처리
-        final URL imageUrl = fileRepository.save(image);
-        final URL videoUrl = fileRepository.save(video);
-
         // 펫 등록을 요청한 유저의 보호소 조회
         final Shelter shelter = shelterRepository.findByAccountId(account.getId())
             .orElseThrow(() -> new NotFound404("반려동물을 등록하고자 하는 보호소 정보가 존재하지 않습니다."));
 
-        // 펫 DB 저장
-        final Pet registerPet = petRepository.save(
-            petRequestDTO.toEntity(shelter, imageUrl.toString(), videoUrl.toString()));
+        final Pet registerPet = txManager.doPetRegisterTransaction(petRequestDTO, image, video, shelter);
 
         return new RegisterPetSuccessDto(registerPet.getId());
     }
+
+
 
     public UpdatePetSuccessDto updatePet(final Account account,
                                          final int petId,

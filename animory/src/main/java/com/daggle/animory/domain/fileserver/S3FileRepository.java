@@ -18,6 +18,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -53,5 +54,8 @@ public class S3FileRepository {
         }
 
         return amazonS3Client.getUrl(bucket, fileName);
+    }
+
+    public void deleteAll(final List<URL> savedFileUrls) {
     }
 }
