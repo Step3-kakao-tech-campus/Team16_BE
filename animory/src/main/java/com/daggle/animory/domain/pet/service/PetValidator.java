@@ -26,11 +26,11 @@ public class PetValidator {
      * 요청받은 계정에 연결된 보호소가 같은지 확인합니다.
      * </pre>
      */
-    public void validatePetUpdateAuthority(final Account account,
+    public void validatePetUpdateAuthority(final String email,
                                            final Pet pet){
 
         // Data Integrity Validation
-        final Shelter shelterFromRequest = shelterRepository.findByAccountId(account.getId())
+        final Shelter shelterFromRequest = shelterRepository.findByAccount_Email(email)
             .orElseThrow(() -> new NotFound404("보호소 정보가 존재하지 않습니다."));
         final Shelter shelterToUpdate = pet.getShelter();
 
