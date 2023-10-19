@@ -1,15 +1,13 @@
 package com.daggle.animory.domain.shelter;
 
-import com.daggle.animory.common.error.exception.Forbidden403;
+import com.daggle.animory.common.error.exception.Forbidden403Exception;
 import com.daggle.animory.domain.account.entity.Account;
-import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.shelter.dto.request.ShelterAddressUpdateDto;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import com.daggle.animory.domain.shelter.entity.Province;
-import com.daggle.animory.testutil.fixture.AccountFixture;
 import com.daggle.animory.testutil.fixture.PetFixture;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
@@ -24,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -142,7 +139,7 @@ public class ShelterServiceTest {
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
             assertThatThrownBy(() -> shelterService.updateShelterInfo(otherAccount, shelter.getId(), shelterUpdateDto))
-                    .isInstanceOf(Forbidden403.class)
+                    .isInstanceOf(Forbidden403Exception.class)
                     .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }
     }

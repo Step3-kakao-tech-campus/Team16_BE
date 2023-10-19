@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 
 
 @Getter
-public class NotFound404 extends RuntimeException {
+public class NotFound404Exception extends RuntimeException {
 
-    public NotFound404(final String message) {
+    public NotFound404Exception(final String message) {
         super(message);
     }
 

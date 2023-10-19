@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 
 
 @Getter
-public class InternalServerError500 extends RuntimeException {
+public class InternalServerError500Exception extends RuntimeException {
 
-    public InternalServerError500(final String message) {
+    public InternalServerError500Exception(final String message) {
         super(message);
     }
 

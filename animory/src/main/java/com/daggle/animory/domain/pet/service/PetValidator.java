@@ -1,8 +1,8 @@
 package com.daggle.animory.domain.pet.service;
 
-import com.daggle.animory.common.error.exception.BadRequest400;
-import com.daggle.animory.common.error.exception.Forbidden403;
-import com.daggle.animory.common.error.exception.NotFound404;
+import com.daggle.animory.common.error.exception.BadRequest400Exception;
+import com.daggle.animory.common.error.exception.Forbidden403Exception;
+import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.shelter.ShelterRepository;
@@ -40,33 +40,33 @@ public class PetValidator {
 
         // Data Integrity Validation
         final Shelter shelterFromRequest = shelterRepository.findByAccountId(account.getId())
-            .orElseThrow(() -> new NotFound404("보호소 정보가 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFound404Exception("보호소 정보가 존재하지 않습니다."));
         final Shelter shelterToUpdate = pet.getShelter();
 
         // Authorization Validation
         if (!shelterFromRequest.equals(shelterToUpdate)) {
-            throw new Forbidden403("펫 수정 권한이 없습니다.");
+            throw new Forbidden403Exception("펫 수정 권한이 없습니다.");
         }
     }
 
     public void validateImageFile(final MultipartFile image) {
         if (image == null || image.isEmpty()) {
-            throw new BadRequest400("이미지 파일이 존재하지 않습니다.");
+            throw new BadRequest400Exception("이미지 파일이 존재하지 않습니다.");
         }
 
         if (!IMAGE_FILE_EXTENSIONS.contains(getFileExtension(image))) {
-            throw new BadRequest400("이미지 파일이 아닙니다.");
+            throw new BadRequest400Exception("이미지 파일이 아닙니다.");
         }
 
     }
 
     public void validateVideoFile(final MultipartFile video) {
         if (video == null || video.isEmpty()) {
-            throw new BadRequest400("비디오 파일이 존재하지 않습니다.");
+            throw new BadRequest400Exception("비디오 파일이 존재하지 않습니다.");
         }
 
         if (!VIDEO_FILE_EXTENSIONS.contains(getFileExtension(video))) {
-            throw new BadRequest400("비디오 파일이 아닙니다.");
+            throw new BadRequest400Exception("비디오 파일이 아닙니다.");
         }
     }
 

@@ -1,6 +1,6 @@
 package com.daggle.animory.domain.pet.service;
 
-import com.daggle.animory.common.error.exception.NotFound404;
+import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.fileserver.S3FileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
@@ -38,7 +38,7 @@ public class PetWriteService {
 
         // 펫 등록을 요청한 유저의 보호소 조회
         final Shelter shelter = shelterRepository.findByAccountId(account.getId())
-            .orElseThrow(() -> new NotFound404("반려동물을 등록하고자 하는 보호소 정보가 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFound404Exception("반려동물을 등록하고자 하는 보호소 정보가 존재하지 않습니다."));
 
         final Pet registerPet = txManager.doPetRegisterTransaction(petRequestDTO, image, video, shelter);
 
@@ -57,7 +57,7 @@ public class PetWriteService {
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet updatePet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
+            .orElseThrow(() -> new NotFound404Exception("등록되지 않은 펫입니다."));
 
         petValidator.validatePetUpdateAuthority(account, updatePet);
 
@@ -74,7 +74,7 @@ public class PetWriteService {
     public void updatePetAdopted(final Account account,
                                  final int petId) {
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
+            .orElseThrow(() -> new NotFound404Exception("등록되지 않은 펫입니다."));
 
         petValidator.validatePetUpdateAuthority(account, pet);
 

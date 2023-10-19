@@ -2,10 +2,10 @@ package com.daggle.animory.common.error;
 
 
 import com.daggle.animory.common.Response;
-import com.daggle.animory.common.error.exception.BadRequest400;
-import com.daggle.animory.common.error.exception.Forbidden403;
-import com.daggle.animory.common.error.exception.NotFound404;
-import com.daggle.animory.common.error.exception.UnAuthorized401;
+import com.daggle.animory.common.error.exception.BadRequest400Exception;
+import com.daggle.animory.common.error.exception.Forbidden403Exception;
+import com.daggle.animory.common.error.exception.NotFound404Exception;
+import com.daggle.animory.common.error.exception.UnAuthorized401Exception;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     // BAD REQUEST 400
 
     @ExceptionHandler({
-        BadRequest400.class,
+        BadRequest400Exception.class,
         MethodArgumentTypeMismatchException.class,
         HttpMessageNotReadableException.class,
         IllegalArgumentException.class,
@@ -63,13 +63,13 @@ public class GlobalExceptionHandler {
 
     // 401, 403
 
-    @ExceptionHandler(UnAuthorized401.class)
-    public ResponseEntity<Response<Void>> unAuthorized(final UnAuthorized401 e){
+    @ExceptionHandler(UnAuthorized401Exception.class)
+    public ResponseEntity<Response<Void>> unAuthorized(final UnAuthorized401Exception e){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED));
     }
 
     @ExceptionHandler({
-        Forbidden403.class,
+        Forbidden403Exception.class,
         MaxUploadSizeExceededException.class // File Size, Request Size 제한 초과
     })
     public ResponseEntity<Response<Void>> forbidden(final RuntimeException e){
@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
 
     // NOT FOUND 404
     @ExceptionHandler({
-        NotFound404.class,
+        NotFound404Exception.class,
         NotImplementedException.class
     })
     public ResponseEntity<Response<Void>> notFound(final RuntimeException e){

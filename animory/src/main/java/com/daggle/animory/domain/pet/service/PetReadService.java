@@ -1,7 +1,7 @@
 package com.daggle.animory.domain.pet.service;
 
 
-import com.daggle.animory.common.error.exception.NotFound404;
+import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.dto.response.*;
 import com.daggle.animory.domain.pet.entity.Pet;
@@ -51,7 +51,7 @@ public class PetReadService {
     public PetDto getPetDetail(final int petId) {
         // petId로 Pet, PetPolygonProfile 얻어오기
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404("해당 Pet이 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFound404Exception("해당 Pet이 존재하지 않습니다."));
 
         return PetDto.fromEntity(pet);
     }
@@ -63,7 +63,7 @@ public class PetReadService {
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet registerPet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
+            .orElseThrow(() -> new NotFound404Exception("등록되지 않은 펫입니다."));
 
         petValidator.validatePetUpdateAuthority(account, registerPet);
 

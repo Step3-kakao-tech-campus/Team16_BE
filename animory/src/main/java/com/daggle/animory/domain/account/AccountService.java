@@ -1,6 +1,6 @@
 package com.daggle.animory.domain.account;
 
-import com.daggle.animory.common.error.exception.BadRequest400;
+import com.daggle.animory.common.error.exception.BadRequest400Exception;
 import com.daggle.animory.domain.account.dto.request.EmailValidateDto;
 import com.daggle.animory.domain.account.dto.request.AccountLoginDto;
 import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
@@ -33,10 +33,10 @@ public class AccountService {
 
     public AccountLoginSuccessDto loginShelterAccount(final AccountLoginDto accountLoginDto) {
         final Account account = accountRepository.findByEmail(accountLoginDto.email())
-                .orElseThrow(() -> new BadRequest400("이메일 또는 비밀번호를 확인해주세요."));
+                .orElseThrow(() -> new BadRequest400Exception("이메일 또는 비밀번호를 확인해주세요."));
 
         if (!passwordEncoder.matches(accountLoginDto.password(), account.getPassword())) {
-            throw new BadRequest400("이메일 또는 비밀번호를 확인해주세요.");
+            throw new BadRequest400Exception("이메일 또는 비밀번호를 확인해주세요.");
         }
 
         return AccountLoginSuccessDto.builder()
@@ -47,6 +47,6 @@ public class AccountService {
 
     public void validateEmailDuplication(final EmailValidateDto emailValidateDto) {
         if (accountRepository.existsByEmail(emailValidateDto.email()))
-            throw new BadRequest400("존재하는 이메일입니다.");
+            throw new BadRequest400Exception("존재하는 이메일입니다.");
     }
 }

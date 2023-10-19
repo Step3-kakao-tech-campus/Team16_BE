@@ -5,8 +5,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.daggle.animory.common.error.exception.BadRequest400;
-import com.daggle.animory.common.error.exception.InternalServerError500;
+import com.daggle.animory.common.error.exception.BadRequest400Exception;
+import com.daggle.animory.common.error.exception.InternalServerError500Exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,9 +48,9 @@ public class S3FileRepository {
                 ).withCannedAcl(CannedAccessControlList.PublicRead));
 
         } catch (final AmazonClientException ex) {
-            throw new InternalServerError500("aws에 저장하는 과정에서 오류가 발생했습니다." + ex.getMessage());
+            throw new InternalServerError500Exception("aws에 저장하는 과정에서 오류가 발생했습니다." + ex.getMessage());
         } catch (final IOException ex) {
-            throw new BadRequest400("올바르지 않은 파일 형식입니다.");
+            throw new BadRequest400Exception("올바르지 않은 파일 형식입니다.");
         }
 
         return amazonS3Client.getUrl(bucket, fileName).toString();

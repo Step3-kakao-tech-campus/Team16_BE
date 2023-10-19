@@ -1,7 +1,7 @@
 package com.daggle.animory.common.security;
 
-import com.daggle.animory.common.error.exception.Forbidden403;
-import com.daggle.animory.common.error.exception.UnAuthorized401;
+import com.daggle.animory.common.error.exception.Forbidden403Exception;
+import com.daggle.animory.common.error.exception.UnAuthorized401Exception;
 import com.daggle.animory.domain.account.AccountRepository;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
@@ -65,7 +65,7 @@ public class SecurityGuard {
         if(allowedAllRoles(allowedRoles)) return;
 
         if (Arrays.stream(allowedRoles).noneMatch(allowedRole -> allowedRole.equals(role)))
-            throw new Forbidden403("권한이 없습니다.");
+            throw new Forbidden403Exception("권한이 없습니다.");
     }
     private boolean allowedAllRoles(final AccountRole[] allowedRoles) {
         return allowedRoles.length == 0; // Authorized 어노테이션은 기본값으로 배열이 비어있는데, 이 경우는 모든 권한을 허용한다는 의미입니다.
@@ -102,7 +102,7 @@ public class SecurityGuard {
 
     private Account findAccountByEmail(final String email) {
         return accountRepository.findByEmail(email)
-            .orElseThrow(() -> new UnAuthorized401("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> new UnAuthorized401Exception("존재하지 않는 사용자입니다."));
     }
 
     private String getAuthorizationHeaderFromRequest() {
