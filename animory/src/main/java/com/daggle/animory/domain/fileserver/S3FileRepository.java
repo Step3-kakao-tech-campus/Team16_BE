@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.fileserver;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
@@ -51,8 +52,8 @@ public class S3FileRepository {
                     bucket, fileName, file.getInputStream(), metadata
                 ).withCannedAcl(CannedAccessControlList.PublicRead));
 
-        } catch (final SdkClientException ex) {
-            throw new InternalServerError500("aws에 저장하는 과정에서 오류가 발생했습니다." + ex.getMessage());
+        } catch (final AmazonClientException ex) {
+            throw new InternalServerError500("aws에 저장하는 과정에서 오류가 발생했습니다." + ex.getMessage());)
         } catch (final IOException ex) {
             throw new BadRequest400("올바르지 않은 파일 형식입니다.");
         }
