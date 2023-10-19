@@ -3,6 +3,7 @@ package com.daggle.animory.common.security;
 import com.daggle.animory.common.error.exception.Forbidden403;
 import com.daggle.animory.common.error.exception.UnAuthorized401;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -46,12 +47,12 @@ public class SecurityConfig {
         http.apply(new SecurityFilterManagerImpl());
 
         http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-            System.out.println(authException.getMessage());
+            log.info(authException.getMessage());
             resolver.resolveException(request, response, null, new UnAuthorized401("인증되지 않은 사용자입니다."));
         });
 
         http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-            System.out.println(accessDeniedException.getMessage());
+            log.info(accessDeniedException.getMessage());
             resolver.resolveException(request, response, null, new Forbidden403("권한이 없습니다"));
         });
 

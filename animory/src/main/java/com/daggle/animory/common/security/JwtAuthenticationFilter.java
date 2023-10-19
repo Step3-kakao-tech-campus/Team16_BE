@@ -60,9 +60,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
             log.debug("디버그 : 인증 객체 만들어짐");
         } catch (SignatureException sve) {
-            log.error("토큰 검증 실패");
+            log.warn("토큰 검증 실패");
         } catch (ExpiredJwtException tee) {
-            log.error("토큰 만료됨");
+            log.warn("토큰 만료됨");
         } finally {
             super.doFilterInternal(request, response, chain);
         }
