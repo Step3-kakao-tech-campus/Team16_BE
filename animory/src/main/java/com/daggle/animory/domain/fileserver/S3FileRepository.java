@@ -34,12 +34,6 @@ public class S3FileRepository {
         this.amazonS3Client = amazonS3Client;
     }
 
-
-    public String getUrl(final String path) {
-        return amazonS3Client.getUrl(bucket, path).toString();
-    }
-
-
     public URL save(final MultipartFile file) {
         final String fileName = file.getOriginalFilename();
         final Path path = Paths.get(Objects.requireNonNull(fileName));
