@@ -2,9 +2,7 @@ package com.daggle.animory.domain.fileserver;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import com.daggle.animory.common.error.exception.BadRequest400Exception;
 import com.daggle.animory.common.error.exception.InternalServerError500Exception;
 import lombok.extern.slf4j.Slf4j;
@@ -57,8 +55,17 @@ public class S3FileRepository {
     }
 
     public void deleteAll(final List<String> savedFileUrls) {
-    }
+        try{
+            final DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(bucket)
+                .withKeys(savedFileUrls.toArray(new String[0])); // S3 SDK method가 이런 수준이라 어쩔수없이 다시 array로 만드는 코드입니다.
 
+            amazonS3Client.deleteObjects(deleteObjectsRequest);
+        } catch (final Exception e) {
+            // TODO: DB에 로그를 저장하고, 주기적으로 Garbage Objects를 삭제하는 로직을 추가해야합니다.
+            log.error("S3 파일 삭제 중 오류 발생으로 Garbage Objects가 남아있을 수 있습니다 :{}: cause: {}", savedFileUrls, e.getMessage());
+            throw e;
+        }
+    }
 
 
     private ObjectMetadata buildObjectMetadata(final MultipartFile file,

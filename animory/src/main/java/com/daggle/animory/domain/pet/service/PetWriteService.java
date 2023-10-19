@@ -86,10 +86,10 @@ public class PetWriteService {
     private void updateFile(final Pet updatePet, final MultipartFile image,
                            final MultipartFile video) {
         final String imageUrl = fileRepository.save(image);
-        updatePet.updateImage(imageUrl.toString());
+        updatePet.updateImage(imageUrl);
 
         final String videoUrl = fileRepository.save(video);
-        updatePet.updateVideo(videoUrl.toString());
+        updatePet.updateVideo(videoUrl);
     }
 
 

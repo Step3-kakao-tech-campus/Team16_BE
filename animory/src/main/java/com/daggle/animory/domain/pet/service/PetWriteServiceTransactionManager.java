@@ -53,7 +53,7 @@ public class PetWriteServiceTransactionManager {
             log.warn("Pet Register 저장 트랜잭션에 문제발생, {}", e.getMessage());
             fileRepository.deleteAll(savedFileUrls); // rollback: 저장된 파일 삭제. 현재는 삭제과정의 예외까지는 고려하지 않는다.
 
-            throw e; // DB는 Transactional이므로 자동 rollback
+            throw e; // DB는 @Transactional 이므로 자동 rollback
         }
 
         return registerPet;
