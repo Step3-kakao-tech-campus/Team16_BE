@@ -55,18 +55,13 @@ public class PetWriteService {
         petValidator.validateImageFile(image);
         petValidator.validateVideoFile(video);
 
-        // 펫 id로 Pet, PetPolygonProfile 얻어오기
+        // 펫 id로 Pet 얻어오기
         final Pet updatePet = petRepository.findById(petId)
             .orElseThrow(() -> new NotFound404Exception("등록되지 않은 펫입니다."));
 
         petValidator.validatePetUpdateAuthority(account, updatePet);
 
-        // 이미지, 비디오 파일 업데이트
-        // TODO: 파일 수정 Rollback 처리
-        updateFile(updatePet, image, video);
-
-        // 펫 정보 업데이트
-        updatePet.updateInfo(petUpdateRequestDto);
+        txManager.doPetUpdateTransaction(updatePet, petUpdateRequestDto, image, video);
 
         return new UpdatePetSuccessDto(updatePet.getId());
     }
@@ -82,15 +77,7 @@ public class PetWriteService {
         pet.setAdopted(); // TODO: 더 이상 보호소와 관련이 없어서.. 연결된 보호소 정보를 제거할 필요 ?
     }
 
-    // 이미지, 비디오 파일 수정 요청 시 기존 파일 삭제 후 업데이트
-    private void updateFile(final Pet updatePet, final MultipartFile image,
-                           final MultipartFile video) {
-        final String imageUrl = fileRepository.save(image);
-        updatePet.updateImage(imageUrl);
 
-        final String videoUrl = fileRepository.save(video);
-        updatePet.updateVideo(videoUrl);
-    }
 
 
 }
