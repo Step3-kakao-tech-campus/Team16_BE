@@ -34,6 +34,6 @@ public class ShortFormService {
 
 
     private String buildCategoryPageTitle(final ShortFormSearchCondition searchCondition) {
-        return searchCondition.area().getFullProvinceName() + " 기준 " + searchCondition.type().getKoreanName() + " 친구들";
+        return searchCondition.area().getProvinceNameForUI() + " 기준 " + searchCondition.type().getKoreanName() + " 친구들";
     }
 }
