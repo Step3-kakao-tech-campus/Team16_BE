@@ -57,7 +57,7 @@ public class SecurityConfig {
 
         http.authorizeRequests(
                 authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/pet/**", "/shelter/**").hasAuthority("SHELTER")
+                        .antMatchers(HttpMethod.POST, "/pet/**").hasAuthority("SHELTER")
                         .antMatchers(HttpMethod.PATCH).hasAuthority("SHELTER")
                         .antMatchers(HttpMethod.PUT).hasAuthority("SHELTER")
                         .anyRequest().permitAll()
