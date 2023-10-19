@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,7 +34,7 @@ public class S3FileRepository {
         this.amazonS3Client = amazonS3Client;
     }
 
-    public URL save(final MultipartFile file) {
+    public String save(final MultipartFile file) {
         final String fileName = file.getOriginalFilename();
         final Path path = Paths.get(Objects.requireNonNull(fileName));
         try {
@@ -53,9 +52,9 @@ public class S3FileRepository {
             throw new BadRequest400("올바르지 않은 파일 형식입니다.");
         }
 
-        return amazonS3Client.getUrl(bucket, fileName);
+        return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
-    public void deleteAll(final List<URL> savedFileUrls) {
+    public void deleteAll(final List<String> savedFileUrls) {
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +32,10 @@ public class PetWriteServiceTransactionManager {
                                         final MultipartFile video,
                                         final Shelter shelter) {
 
-        final List<URL> savedFileUrls = new ArrayList<>();
+        final List<String> savedFileUrls = new ArrayList<>();
 
-        final URL imageUrl;
-        final URL videoUrl;
+        final String imageUrl;
+        final String videoUrl;
         final Pet registerPet;
 
         try{
@@ -49,7 +48,7 @@ public class PetWriteServiceTransactionManager {
 
             // 펫 DB 저장
             registerPet = petRepository.save(
-                petRequestDTO.toEntity(shelter, imageUrl.toString(), videoUrl.toString()));
+                petRequestDTO.toEntity(shelter, imageUrl, videoUrl));
         } catch (final RuntimeException e) {
             log.warn("Pet Register 저장 트랜잭션에 문제발생, {}", e.getMessage());
             fileRepository.deleteAll(savedFileUrls); // rollback: 저장된 파일 삭제. 현재는 삭제과정의 예외까지는 고려하지 않는다.

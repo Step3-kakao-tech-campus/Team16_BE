@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URL;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -87,10 +85,10 @@ public class PetWriteService {
     // 이미지, 비디오 파일 수정 요청 시 기존 파일 삭제 후 업데이트
     private void updateFile(final Pet updatePet, final MultipartFile image,
                            final MultipartFile video) {
-        final URL imageUrl = fileRepository.save(image);
+        final String imageUrl = fileRepository.save(image);
         updatePet.updateImage(imageUrl.toString());
 
-        final URL videoUrl = fileRepository.save(video);
+        final String videoUrl = fileRepository.save(video);
         updatePet.updateVideo(videoUrl.toString());
     }
 
