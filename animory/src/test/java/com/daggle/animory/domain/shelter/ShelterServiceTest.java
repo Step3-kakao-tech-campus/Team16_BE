@@ -85,6 +85,7 @@ public class ShelterServiceTest {
         void 성공_보호소_수정() {
             Account account = Account.builder()
                     .id(1)
+                    .email("asd@asd.com")
                     .build();
 
             Shelter shelter = Shelter.builder()
@@ -118,10 +119,12 @@ public class ShelterServiceTest {
         void 실패_보호소_수정_권한없음() {
             Account account = Account.builder()
                     .id(1)
+                    .email("as231d@asd.com")
                     .build();
 
             Account otherAccount = Account.builder()
                     .id(2)
+                    .email("asd@asd.com")
                     .build();
 
             Shelter shelter = Shelter.builder()
