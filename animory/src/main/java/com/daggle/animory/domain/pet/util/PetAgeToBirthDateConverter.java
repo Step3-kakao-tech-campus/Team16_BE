@@ -46,7 +46,7 @@ public class PetAgeToBirthDateConverter {
         final int month = getMonth(age);
 
         if( year < 0 || year > 9999 ) throw new BadRequest400("잘못된 나이 형식입니다(year): " + year);
-        if( month < 0 || month > 12 ) throw new BadRequest400("잘못된 나이 형식입니다(month): " + month);
+        if( month < 0 || month > 11 ) throw new BadRequest400("잘못된 나이 형식입니다(month): " + month);
     }
 
     private static int getYear(final String age) {

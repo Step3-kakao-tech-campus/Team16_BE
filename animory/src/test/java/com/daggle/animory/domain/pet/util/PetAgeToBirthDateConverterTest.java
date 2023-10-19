@@ -58,7 +58,7 @@ class PetAgeToBirthDateConverterTest {
     @Repeat
     void ageToBirthDate(
         @Min(0) @Max(9999) final int year,
-        @Min(0) @Max(12) final int month) {
+        @Min(0) @Max(11) final int month) {
         final String age = year + "년" + month + "개월";
 
         final LocalDate birthDate = PetAgeToBirthDateConverter.ageToBirthDate(age);
@@ -70,7 +70,7 @@ class PetAgeToBirthDateConverterTest {
     @AutoSource
     @Repeat
     void birthDateToAge(@Min(1990) @Max(2023) final int year,
-                        @Min(1) @Max(12) final int month) {
+                        @Min(1) @Max(11) final int month) {
         final LocalDate birthDate = LocalDate.of(year, month, 1);
 
         if(birthDate.isAfter(LocalDate.now())) return;
