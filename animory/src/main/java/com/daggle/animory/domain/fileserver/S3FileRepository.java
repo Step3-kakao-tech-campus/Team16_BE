@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Slf4j
@@ -35,7 +36,7 @@ public class S3FileRepository {
     }
 
     public String save(final MultipartFile file) {
-        final String fileName = file.getOriginalFilename();
+        final String fileName = UUID.randomUUID().toString();
         final Path path = Paths.get(Objects.requireNonNull(fileName));
         try {
             final String contentType = Files.probeContentType(path);
