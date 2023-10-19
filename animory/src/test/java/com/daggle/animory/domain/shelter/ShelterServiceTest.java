@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.error.exception.Forbidden403;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.entity.Pet;
@@ -104,7 +105,7 @@ public class ShelterServiceTest {
             // stub
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
-            ShelterUpdateSuccessDto shelterUpdateSuccessDto = shelterService.updateShelterInfo(account, shelter.getId(), shelterUpdateDto);
+            ShelterUpdateSuccessDto shelterUpdateSuccessDto = shelterService.updateShelterInfo(new UserDetailsImpl(account), shelter.getId(), shelterUpdateDto);
 
             assertAll(
                     () -> assertThat(shelterUpdateSuccessDto.getShelterId()).isEqualTo(shelter.getId()),
@@ -141,7 +142,7 @@ public class ShelterServiceTest {
             // stub
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
-            assertThatThrownBy(() -> shelterService.updateShelterInfo(otherAccount, shelter.getId(), shelterUpdateDto))
+            assertThatThrownBy(() -> shelterService.updateShelterInfo(new UserDetailsImpl(otherAccount), shelter.getId(), shelterUpdateDto))
                     .isInstanceOf(Forbidden403.class)
                     .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }
