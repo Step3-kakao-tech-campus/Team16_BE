@@ -65,7 +65,7 @@ public class PetReadService {
         final Pet registerPet = petRepository.findById(petId)
             .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
 
-        petValidator.validatePetUpdateAuthority(userDetails.getUsername(), registerPet);
+        petValidator.validatePetUpdateAuthority(userDetails.getEmail(), registerPet);
 
         // Pet -> PetRegisterInfoDto
         return PetRegisterInfoDto.fromEntity(registerPet);
