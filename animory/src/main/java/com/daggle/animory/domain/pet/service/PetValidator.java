@@ -30,7 +30,7 @@ public class PetValidator {
                                            final Pet pet){
 
         // Data Integrity Validation
-        final Shelter shelterFromRequest = shelterRepository.findByAccount_Email(email)
+        final Shelter shelterFromRequest = shelterRepository.findByAccountEmail(email)
             .orElseThrow(() -> new NotFound404("보호소 정보가 존재하지 않습니다."));
         final Shelter shelterToUpdate = pet.getShelter();
 
