@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.pet.service;
 
 import com.daggle.animory.common.error.exception.NotFound404;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.fileserver.S3FileRepository;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
@@ -29,7 +30,7 @@ public class PetWriteService {
 
     private final PetValidator petValidator;
 
-    public RegisterPetSuccessDto registerPet(final Account account,
+    public RegisterPetSuccessDto registerPet(final UserDetailsImpl userDetails,
                                              final PetRegisterRequestDto petRequestDTO,
                                              final MultipartFile image,
                                              final MultipartFile video) {
@@ -40,7 +41,7 @@ public class PetWriteService {
         final URL videoUrl = fileRepository.save(video);
 
         // 펫 등록을 요청한 유저의 보호소 조회
-        final Shelter shelter = shelterRepository.findByAccountId(account.getId())
+        final Shelter shelter = shelterRepository.findByAccountEmail(userDetails.getEmail())
             .orElseThrow(() -> new NotFound404("반려동물을 등록하고자 하는 보호소 정보가 존재하지 않습니다."));
 
         // 펫 DB 저장
@@ -50,7 +51,7 @@ public class PetWriteService {
         return new RegisterPetSuccessDto(registerPet.getId());
     }
 
-    public UpdatePetSuccessDto updatePet(final Account account,
+    public UpdatePetSuccessDto updatePet(final UserDetailsImpl userDetails,
                                          final int petId,
                                          final PetUpdateRequestDto petUpdateRequestDto,
                                          final MultipartFile image,
@@ -60,7 +61,7 @@ public class PetWriteService {
         final Pet updatePet = petRepository.findById(petId)
             .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
 
-        petValidator.validatePetUpdateAuthority(account, updatePet);
+        petValidator.validatePetUpdateAuthority(userDetails.getEmail(), updatePet);
 
         // 이미지, 비디오 파일 업데이트
         // TODO: 파일 수정 Rollback 처리
@@ -72,12 +73,12 @@ public class PetWriteService {
         return new UpdatePetSuccessDto(updatePet.getId());
     }
 
-    public void updatePetAdopted(final Account account,
+    public void updatePetAdopted(final UserDetailsImpl userDetails,
                                  final int petId) {
         final Pet pet = petRepository.findById(petId)
             .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
 
-        petValidator.validatePetUpdateAuthority(account, pet);
+        petValidator.validatePetUpdateAuthority(userDetails.getEmail(), pet);
 
         // 입양상태를 YES로 변경하고, 보호 만료일을 null로 바꾼다.
         pet.setAdopted(); // TODO: 더 이상 보호소와 관련이 없어서.. 연결된 보호소 정보를 제거할 필요 ?

@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.error.exception.Forbidden403;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.pet.entity.Pet;
@@ -84,6 +85,7 @@ public class ShelterServiceTest {
         void 성공_보호소_수정() {
             Account account = Account.builder()
                     .id(1)
+                    .email("asd@asd.com")
                     .build();
 
             Shelter shelter = Shelter.builder()
@@ -104,7 +106,7 @@ public class ShelterServiceTest {
             // stub
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
-            ShelterUpdateSuccessDto shelterUpdateSuccessDto = shelterService.updateShelterInfo(account, shelter.getId(), shelterUpdateDto);
+            ShelterUpdateSuccessDto shelterUpdateSuccessDto = shelterService.updateShelterInfo(new UserDetailsImpl(account), shelter.getId(), shelterUpdateDto);
 
             assertAll(
                     () -> assertThat(shelterUpdateSuccessDto.getShelterId()).isEqualTo(shelter.getId()),
@@ -117,10 +119,12 @@ public class ShelterServiceTest {
         void 실패_보호소_수정_권한없음() {
             Account account = Account.builder()
                     .id(1)
+                    .email("as231d@asd.com")
                     .build();
 
             Account otherAccount = Account.builder()
                     .id(2)
+                    .email("asd@asd.com")
                     .build();
 
             Shelter shelter = Shelter.builder()
@@ -141,7 +145,7 @@ public class ShelterServiceTest {
             // stub
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
-            assertThatThrownBy(() -> shelterService.updateShelterInfo(otherAccount, shelter.getId(), shelterUpdateDto))
+            assertThatThrownBy(() -> shelterService.updateShelterInfo(new UserDetailsImpl(otherAccount), shelter.getId(), shelterUpdateDto))
                     .isInstanceOf(Forbidden403.class)
                     .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }

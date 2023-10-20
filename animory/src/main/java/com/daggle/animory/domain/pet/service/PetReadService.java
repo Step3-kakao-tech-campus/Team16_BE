@@ -2,7 +2,7 @@ package com.daggle.animory.domain.pet.service;
 
 
 import com.daggle.animory.common.error.exception.NotFound404;
-import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.pet.dto.response.*;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.repository.PetRepository;
@@ -58,14 +58,14 @@ public class PetReadService {
 
 
     // 기존의 펫 등록 정보 조회
-    public PetRegisterInfoDto getRegisterInfo(final Account account,
+    public PetRegisterInfoDto getRegisterInfo(final UserDetailsImpl userDetails,
                                               final int petId) {
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet registerPet = petRepository.findById(petId)
             .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
 
-        petValidator.validatePetUpdateAuthority(account, registerPet);
+        petValidator.validatePetUpdateAuthority(userDetails.getEmail(), registerPet);
 
         // Pet -> PetRegisterInfoDto
         return PetRegisterInfoDto.fromEntity(registerPet);
