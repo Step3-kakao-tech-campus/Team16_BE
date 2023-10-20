@@ -24,15 +24,15 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private final TokenProvider tokenProvider;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
+    public JwtAuthenticationFilter(final AuthenticationManager authenticationManager, final TokenProvider tokenProvider) {
         super(authenticationManager);
         this.tokenProvider = tokenProvider;
     }
 
     // 권한 확인을 수행하는 로직
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String jwt = request.getHeader(AUTHORIZATION_HEADER);
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) throws IOException, ServletException {
+        final String jwt = request.getHeader(AUTHORIZATION_HEADER);
 
         if (jwt == null) {
             super.doFilterInternal(request, response, chain);
@@ -45,13 +45,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             final String email = tokenProvider.getEmailFromToken(claims);
             final AccountRole role = tokenProvider.getRoleFromToken(claims);
 
-            Account account = Account.builder()
+            final Account account = Account.builder()
                     .email(email)
                     .role(role)
                     .build();
-            UserDetailsImpl userDetails = new UserDetailsImpl(account);
+            final UserDetailsImpl userDetails = new UserDetailsImpl(account);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
+            final Authentication authentication = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     userDetails.getPassword(),
                     userDetails.getAuthorities());
@@ -59,9 +59,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             log.debug("디버그 : 인증 객체 만들어짐");
-        } catch (SignatureException sve) {
+        } catch (final SignatureException sve) {
             log.warn("토큰 검증 실패");
-        } catch (ExpiredJwtException tee) {
+        } catch (final ExpiredJwtException tee) {
             log.warn("토큰 만료됨");
         } finally {
             super.doFilterInternal(request, response, chain);

@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 @Slf4j
@@ -26,15 +27,20 @@ public class SecurityConfig {
     // Custom SecurityFilterManagerImpl 클래스를 통해 JWT 필터를 추가
     public class SecurityFilterManagerImpl extends AbstractHttpConfigurer<SecurityFilterManagerImpl, HttpSecurity> {
         @Override
-        public void configure(HttpSecurity builder) throws Exception {
-            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+        public void configure(final HttpSecurity builder) throws Exception {
+            final AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder.addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider));
             super.configure(builder);
         }
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+    public BCryptPasswordEncoder registerPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http,
                                                    @Autowired @Qualifier("handlerExceptionResolver")
                                                    final HandlerExceptionResolver resolver) throws Exception {
         http.csrf().disable();

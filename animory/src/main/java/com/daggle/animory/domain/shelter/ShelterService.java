@@ -39,13 +39,13 @@ public class ShelterService {
     }
 
     @Transactional
-    public ShelterUpdateSuccessDto updateShelterInfo(UserDetailsImpl userDetails, Integer shelterId, ShelterUpdateDto shelterUpdateDto) {
-        Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
+    public ShelterUpdateSuccessDto updateShelterInfo(final UserDetailsImpl userDetails, final Integer shelterId, final ShelterUpdateDto shelterUpdateDto) {
+        final Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
                 () -> new NotFound404Exception("해당하는 보호소가 존재하지 않습니다.")
         );
 
         if (!shelter.getAccount().getEmail().equals(userDetails.getEmail())) {
-            throw new Forbidden403("보호소 정보를 수정할 권한이 없습니다.");
+            throw new Forbidden403Exception("보호소 정보를 수정할 권한이 없습니다.");
         }
 
         shelter.updateInfo(shelterUpdateDto);

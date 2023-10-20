@@ -2,7 +2,6 @@ package com.daggle.animory.domain.pet.service;
 
 import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.common.security.UserDetailsImpl;
-import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.RegisterPetSuccessDto;
@@ -37,7 +36,7 @@ public class PetWriteService {
 
         // 펫 등록을 요청한 유저의 보호소 조회
         final Shelter shelter = shelterRepository.findByAccountEmail(userDetails.getEmail())
-            .orElseThrow(() -> new NotFound404("반려동물을 등록하고자 하는 보호소 정보가 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFound404Exception("반려동물을 등록하고자 하는 보호소 정보가 존재하지 않습니다."));
 
         final Pet registerPet = txManager.doPetRegisterTransaction(petRequestDTO, image, video, shelter);
 
