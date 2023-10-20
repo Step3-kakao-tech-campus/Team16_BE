@@ -7,17 +7,17 @@ import org.springframework.http.HttpStatus;
 
 
 @Getter
-public class Forbidden403 extends RuntimeException {
+public class UnAuthorized401Exception extends RuntimeException {
 
-    public Forbidden403(final String message) {
+    public UnAuthorized401Exception(final String message) {
         super(message);
     }
 
     public Response<Void> body(){
-        return Response.error(getMessage(), HttpStatus.FORBIDDEN);
+        return Response.error(getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     public HttpStatus status(){
-        return HttpStatus.FORBIDDEN;
+        return HttpStatus.UNAUTHORIZED;
     }
 }

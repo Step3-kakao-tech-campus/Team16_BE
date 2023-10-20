@@ -2,7 +2,7 @@ package com.daggle.animory.domain.pet.util;
 
 import autoparams.AutoSource;
 import autoparams.Repeat;
-import com.daggle.animory.common.error.exception.BadRequest400;
+import com.daggle.animory.common.error.exception.BadRequest400Exception;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,7 +41,7 @@ class PetAgeToBirthDateConverterTest {
         @ValueSource(strings = {"1년 2개월", "-3년4개월", "2 년1개월", "1년12 개월", "3년4개 월"})
         void 실패_생일계산테스트_문자열내부공백(final String age) {
             assertThatThrownBy(() -> PetAgeToBirthDateConverter.ageToBirthDate(age))
-                .isInstanceOf(BadRequest400.class);
+                .isInstanceOf(BadRequest400Exception.class);
         }
 
         @ParameterizedTest

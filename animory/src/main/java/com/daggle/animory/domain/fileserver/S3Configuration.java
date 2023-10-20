@@ -16,10 +16,10 @@ public class S3Configuration {
     private final String secretKey;
     private final String region;
 
-    public S3Configuration(@Value("${cloud.aws.credentials.access-key}")final String accessKey,
-                           @Value("${cloud.aws.credentials.secret-key}")final String secretKey,
-                           @Value("${cloud.aws.region.static}")final String region
-    ){
+    public S3Configuration(@Value("${cloud.aws.credentials.access-key}") final String accessKey,
+                           @Value("${cloud.aws.credentials.secret-key}") final String secretKey,
+                           @Value("${cloud.aws.region.static}") final String region
+    ) {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
         this.region = region;
