@@ -1,7 +1,7 @@
 package com.daggle.animory.domain.pet.controller;
 
 import com.daggle.animory.common.Response;
-import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.*;
@@ -20,7 +20,7 @@ public interface PetControllerApi {
     @Operation(summary = "Pet 등록 요청",
         description = "Pet 등록 요청 API 입니다. 보호소 계정 권한이 필요합니다.")
     Response<RegisterPetSuccessDto> registerPet(
-        Account account,
+         UserDetailsImpl userDetails,
         @RequestPart(value = "petInfo") PetRegisterRequestDto petRegisterRequestDto,
         @RequestPart(value = "profileImage") MultipartFile image,
         @RequestPart(value = "profileVideo") MultipartFile video
@@ -28,14 +28,14 @@ public interface PetControllerApi {
 
     @Operation(summary = "Pet 수정 페이지 진입, 기존 펫 정보 확인",
         description = "Pet 수정 페이지에서, 기존 등록된 정보를 확인하기 위해 호출하는 API 입니다. 보호소 계정 권한이 필요합니다.")
-    Response<PetRegisterInfoDto> getPetRegisterInfo(Account account,
+    Response<PetRegisterInfoDto> getPetRegisterInfo(UserDetailsImpl userDetails,
                                                     @PathVariable int petId);
 
     // Pet 수정 요청
     @Operation(summary = "Pet 수정 요청",
         description = "보호소 계정 권한이 필요합니다.")
     Response<UpdatePetSuccessDto> updatePet(
-        Account account,
+            UserDetailsImpl userDetails,
         @PathVariable int petId,
         @RequestPart(value = "petInfo") PetUpdateRequestDto petUpdateRequestDto,
         @RequestPart(value = "profileImage", required = false) MultipartFile image,

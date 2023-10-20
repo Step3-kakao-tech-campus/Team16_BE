@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 public class UserDetailsImpl implements UserDetails {
     private final Account account;
 
+    public String getEmail() {
+        return account.getEmail();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(account.getRole().toString().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());

@@ -1,14 +1,13 @@
 package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.Response;
-import com.daggle.animory.common.security.RequireRole;
-import com.daggle.animory.domain.account.entity.Account;
-import com.daggle.animory.domain.account.entity.AccountRole;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +27,11 @@ public class ShelterController {
         return Response.success(shelterService.getShelterProfile(shelterId, page));
     }
 
-    @RequireRole(AccountRole.SHELTER)
     @PutMapping("/{shelterId}")
-    public Response<ShelterUpdateSuccessDto> updateShelter(final Account account,
+    public Response<ShelterUpdateSuccessDto> updateShelter(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @PathVariable @Min(0) final Integer shelterId,
                                                            @RequestBody final ShelterUpdateDto shelterUpdateDto) {
-        return Response.success(shelterService.updateShelterInfo(account, shelterId, shelterUpdateDto));
+        return Response.success(shelterService.updateShelterInfo(userDetails, shelterId, shelterUpdateDto));
     }
 
     /**
