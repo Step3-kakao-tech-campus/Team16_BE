@@ -30,7 +30,6 @@ public class AccountController implements AccountControllerApi {
     /**
      * 보호소 계정으로 회원가입 API
      */
-    @Override
     @PostMapping("/shelter")
     public Response<Void> signUp(@Valid @RequestBody final ShelterSignUpDto shelterSignUpDto) {
         accountService.registerShelterAccount(shelterSignUpDto);
@@ -40,7 +39,6 @@ public class AccountController implements AccountControllerApi {
     /**
      * 로그인 API
      */
-    @Override
     @PostMapping("/login")
     public ResponseEntity<Response<AccountLoginSuccessDto>> login(@Valid @RequestBody final AccountLoginDto request) {
         final String accessToken = tokenProvider.create(request.email(), AccountRole.SHELTER);
@@ -57,7 +55,6 @@ public class AccountController implements AccountControllerApi {
     /**
      * 이메일 중복 검증 API
      */
-    @Override
     @PostMapping("/email")
     public Response<Void> validateEmail(@Valid @RequestBody final EmailValidateDto emailValidateDto) {
         accountService.validateEmailDuplication(emailValidateDto);

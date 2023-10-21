@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "Pet", description = "Pet 등록, 수정 및 조회 관련 API")
 public interface PetControllerApi {
 
-    @Operation(summary = "Pet 등록 요청",
+    @Operation(summary = "[로그인 필요: 보호소] Pet 등록 요청",
         description = "Pet 등록 요청 API 입니다. 보호소 계정 권한이 필요합니다.")
     Response<RegisterPetSuccessDto> registerPet(
          UserDetailsImpl userDetails,
@@ -32,7 +33,7 @@ public interface PetControllerApi {
                                                     @PathVariable int petId);
 
     // Pet 수정 요청
-    @Operation(summary = "Pet 수정 요청",
+    @Operation(summary = "[로그인 필요: 보호소] Pet 수정 요청",
         description = "보호소 계정 권한이 필요합니다.")
     Response<UpdatePetSuccessDto> updatePet(
             UserDetailsImpl userDetails,
@@ -59,4 +60,10 @@ public interface PetControllerApi {
     @Operation(summary = "Pet 상세 조회",
         description = "")
     Response<PetDto> getPetDetail(@PathVariable int petId);
+
+
+    @Operation(summary = "[로그인 필요: 보호소] Pet 입양 완료 처리",
+        description = "입양 상태가 변경되고, 보호만료날짜가 삭제됩니다.")
+    Response<Void> updatePetAdopted(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                    @PathVariable int petId);
 }

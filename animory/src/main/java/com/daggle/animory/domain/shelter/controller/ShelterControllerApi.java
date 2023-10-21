@@ -22,7 +22,7 @@ public interface ShelterControllerApi {
     Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) Integer shelterId,
                                             @RequestParam("page") @Min(0) int page);
 
-    @Operation(summary = "보호소 정보 수정", description = "보호소 정보를 수정합니다.")
+    @Operation(summary = "[로그인 필요: 보호소] 보호소 정보 수정", description = "보호소 정보를 수정합니다.")
     @PutMapping("/{shelterId}")
     Response<ShelterUpdateSuccessDto> updateShelter(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                     @PathVariable @Min(0) Integer shelterId,

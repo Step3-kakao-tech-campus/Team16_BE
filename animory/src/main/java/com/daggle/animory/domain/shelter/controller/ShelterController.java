@@ -22,14 +22,12 @@ import java.util.List;
 public class ShelterController implements ShelterControllerApi {
     private final ShelterService shelterService;
 
-    @Override
     @GetMapping("/{shelterId}")
     public Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) final Integer shelterId,
                                                    @RequestParam("page") @Min(0) final int page) {
         return Response.success(shelterService.getShelterProfile(shelterId, page));
     }
 
-    @Override
     @PutMapping("/{shelterId}")
     public Response<ShelterUpdateSuccessDto> updateShelter(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @PathVariable @Min(0) final Integer shelterId,
@@ -41,7 +39,6 @@ public class ShelterController implements ShelterControllerApi {
      * 등록된 보호소 필터링 API <br>
      * 리스트 형태의 보호소 정보를 입력받아서, DB에서 kakaoLocationId가 일치하는 Shelter목록을 반환한다.
      */
-    @Override
     @PostMapping("/filter")
     public Response<List<ShelterLocationDto>> filterExistShelterListByLocationId(@RequestBody final List<Integer> shelterLocationIdList) {
         return Response.success(shelterService.filterExistShelterListByLocationId(shelterLocationIdList));
