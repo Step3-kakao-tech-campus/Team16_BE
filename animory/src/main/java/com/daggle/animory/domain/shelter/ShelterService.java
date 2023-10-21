@@ -1,7 +1,6 @@
 package com.daggle.animory.domain.shelter;
 
 import com.daggle.animory.common.security.UserDetailsImpl;
-import com.daggle.animory.domain.pet.exception.PetPermissionDeniedException;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
@@ -9,6 +8,7 @@ import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.daggle.animory.domain.shelter.exception.ShelterNotFoundException;
+import com.daggle.animory.domain.shelter.exception.ShelterPermissionDeniedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class ShelterService {
         );
 
         if (!shelter.getAccount().getEmail().equals(userDetails.getEmail())) {
-            throw new PetPermissionDeniedException();
+            throw new ShelterPermissionDeniedException();
         }
 
         shelter.updateInfo(shelterUpdateDto);

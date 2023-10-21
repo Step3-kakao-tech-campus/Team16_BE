@@ -144,7 +144,7 @@ public class ShelterServiceTest {
 
             assertThatThrownBy(() -> shelterService.updateShelterInfo(new UserDetailsImpl(otherAccount), shelter.getId(), shelterUpdateDto))
                     .isInstanceOf(PetPermissionDeniedException.class)
-                    .hasMessage("해당 동물에 대한 권한이 없습니다.");
+                    .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }
     }
 }
