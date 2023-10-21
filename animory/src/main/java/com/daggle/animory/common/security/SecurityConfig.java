@@ -24,14 +24,14 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final TokenProvider tokenProvider;
-    private final JwtExceptionFilter jwtExceptionFilter;
 
     // Custom SecurityFilterManagerImpl 클래스를 통해 JWT 필터를 추가
     public class SecurityFilterManagerImpl extends AbstractHttpConfigurer<SecurityFilterManagerImpl, HttpSecurity> {
         @Override
         public void configure(final HttpSecurity builder) throws Exception {
             final AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider));
+            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider))
+                    .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
             super.configure(builder);
         }
     }
@@ -53,7 +53,6 @@ public class SecurityConfig {
 
         // 커스텀 필터 적용 (시큐리티 필터 교환)
         http.apply(new SecurityFilterManagerImpl());
-        http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
         http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
             log.info(authException.getMessage());
