@@ -1,7 +1,8 @@
-package com.daggle.animory.domain.shelter;
+package com.daggle.animory.domain.shelter.controller;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.common.security.UserDetailsImpl;
+import com.daggle.animory.domain.shelter.ShelterService;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/shelter")
-public class ShelterController {
+public class ShelterController implements ShelterControllerApi {
     private final ShelterService shelterService;
 
     @GetMapping("/{shelterId}")

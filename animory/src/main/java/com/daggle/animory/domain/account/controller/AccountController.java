@@ -1,7 +1,8 @@
-package com.daggle.animory.domain.account;
+package com.daggle.animory.domain.account.controller;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.common.security.TokenProvider;
+import com.daggle.animory.domain.account.AccountService;
 import com.daggle.animory.domain.account.dto.request.AccountLoginDto;
 import com.daggle.animory.domain.account.dto.request.EmailValidateDto;
 import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/account")
-public class AccountController {
+public class AccountController implements AccountControllerApi {
     private final AccountService accountService;
     private final TokenProvider tokenProvider;
 

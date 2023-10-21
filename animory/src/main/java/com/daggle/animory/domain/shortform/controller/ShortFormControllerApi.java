@@ -22,11 +22,7 @@ public interface ShortFormControllerApi {
     Response<CategoryShortFormPage> getShortForms(@ModelAttribute @Valid ShortFormSearchCondition searchCondition);
 
 
-    @Operation(summary = "홈 화면 숏폼 비디오 조회", description = """
-    <pre>
-    홈 화면에서 보여 줄 숏폼 비디오들을 조회합니다.    
-    </pre>
-    """)
+    @Operation(summary = "홈 화면 숏폼 비디오 조회", description = "홈 화면에서 보여 줄 숏폼 비디오들을 조회합니다.")
     @GetMapping("/short-forms/home")
     Response<HomeShortFormPage> getHomeShortForms(@RequestParam("page") @Min(0) int page);
 
