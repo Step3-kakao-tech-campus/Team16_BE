@@ -7,6 +7,7 @@ import com.daggle.animory.common.security.exception.InvalidTokenException;
 import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
 import com.daggle.animory.common.security.exception.UnAuthorizedException;
 import com.daggle.animory.domain.account.exception.AlreadyExistEmailException;
+import com.daggle.animory.domain.account.exception.CheckEmailOrPasswordException;
 import com.daggle.animory.domain.fileserver.exception.*;
 import com.daggle.animory.domain.pet.exception.InvalidPetAgeFormatException;
 import com.daggle.animory.domain.pet.exception.InvalidPetMonthRangeException;
@@ -45,6 +46,11 @@ public class GlobalExceptionHandler {
     @ApiResponse(responseCode = "400", description = "이메일 중복 오류", content = @Content)
     @ExceptionHandler({AlreadyExistEmailException.class})
     public ResponseEntity<Response<Void>> handleAlreadyExistEmailException(final Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+    }
+    @ApiResponse(responseCode = "400", description = "로그인 올바르지 못한 이메일 또는 비밀번호 오류", content = @Content)
+    @ExceptionHandler({CheckEmailOrPasswordException.class})
+    public ResponseEntity<Response<Void>> handleCheckEmailOrPasswordException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
