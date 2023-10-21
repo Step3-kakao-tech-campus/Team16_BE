@@ -37,6 +37,15 @@ public class RequestLogger implements HandlerInterceptor {
         return true;
     }
 
+    @Override
+    public void afterCompletion(@NonNull final HttpServletRequest request,
+                                @NonNull final HttpServletResponse response,
+                                @NonNull final Object handler,
+                                final Exception ex) {
+        // 요청 처리가 끝난 후 correlationId를 클리어합니다.
+        MDC.remove("correlationId");
+    }
+
     // HTTP Request의 Query Parameter를 추출합니다.
     private String getQueryParameters(final HttpServletRequest request) {
         final String queryString = request.getQueryString();
