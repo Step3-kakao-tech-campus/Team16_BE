@@ -3,13 +3,12 @@ package com.daggle.animory.common.config;
 import com.daggle.animory.common.logger.RequestLogger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebConfiguration implements WebMvcConfigurer {
+public class InterceptorConfiguration implements WebMvcConfigurer {
 
     private final RequestLogger requestLogger;
 
@@ -19,15 +18,4 @@ public class WebConfiguration implements WebMvcConfigurer {
         // Request Logger 를 모든 요청에 대해 적용
         registry.addInterceptor(requestLogger);
     }
-
-    @Override
-    public void addCorsMappings(final CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedHeaders("*")
-            .allowedMethods("*")
-            .allowedOrigins("*")
-            .exposedHeaders("Authorization")
-            .allowCredentials(false);
-    }
-
 }
