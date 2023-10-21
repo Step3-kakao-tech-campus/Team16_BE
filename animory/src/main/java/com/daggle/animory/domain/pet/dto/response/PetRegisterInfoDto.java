@@ -1,15 +1,11 @@
 package com.daggle.animory.domain.pet.dto.response;
 
 import com.daggle.animory.domain.pet.dto.PetPolygonProfileDto;
-import com.daggle.animory.domain.pet.entity.AdoptionStatus;
-import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
-import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.pet.entity.PetPolygonProfile;
-import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.pet.entity.Sex;
+import com.daggle.animory.domain.pet.entity.*;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
-import java.time.LocalDate;
 import lombok.Builder;
+
+import java.time.LocalDate;
 
 @Builder
 public record PetRegisterInfoDto(
@@ -29,8 +25,8 @@ public record PetRegisterInfoDto(
         PetPolygonProfileDto petPolygonProfileDto
 ) {
 
-    public static PetRegisterInfoDto fromEntity(Pet registerPet,
-            PetPolygonProfile petPolygonProfile) {
+    public static PetRegisterInfoDto fromEntity(final Pet registerPet,
+                                                final PetPolygonProfile petPolygonProfile) {
         return PetRegisterInfoDto.builder()
                 .name(registerPet.getName())
                 .age(PetAgeToBirthDateConverter.birthDateToAge(registerPet.getBirthDate()))

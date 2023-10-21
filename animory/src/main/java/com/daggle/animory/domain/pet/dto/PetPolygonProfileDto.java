@@ -13,7 +13,7 @@ public record PetPolygonProfileDto(
         int activeness
 ) {
 
-    public PetPolygonProfile toEntity(Pet pet) {
+    public PetPolygonProfile toEntity(final Pet pet) {
         return PetPolygonProfile.builder()
                 .pet(pet)
                 .intelligence(intelligence)
@@ -24,7 +24,7 @@ public record PetPolygonProfileDto(
                 .build();
     }
 
-    public static PetPolygonProfileDto fromEntity(PetPolygonProfile petPolygonProfile) {
+    public static PetPolygonProfileDto fromEntity(final PetPolygonProfile petPolygonProfile) {
         return PetPolygonProfileDto.builder()
                 .intelligence(petPolygonProfile.getIntelligence())
                 .affinity(petPolygonProfile.getAffinity())

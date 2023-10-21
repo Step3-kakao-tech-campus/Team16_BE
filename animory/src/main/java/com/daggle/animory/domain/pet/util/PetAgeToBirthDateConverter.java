@@ -33,7 +33,10 @@ public class PetAgeToBirthDateConverter {
     }
 
     public static String birthDateToAge(final LocalDate birthDate) {
-        return birthDate.getYear() + "년" + birthDate.getMonthValue() + "개월";
+        final LocalDate age = LocalDate.now()
+            .minusYears(birthDate.getYear())
+            .minusMonths(birthDate.getMonthValue());
+        return age.getYear() + "년" + age.getMonthValue() + "개월";
     }
 
     public static void validateAgeFormat(final String age) {

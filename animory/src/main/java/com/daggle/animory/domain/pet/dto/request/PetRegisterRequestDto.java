@@ -1,17 +1,15 @@
 package com.daggle.animory.domain.pet.dto.request;
 
 import com.daggle.animory.domain.pet.dto.PetPolygonProfileDto;
-import com.daggle.animory.domain.pet.entity.AdoptionStatus;
-import com.daggle.animory.domain.pet.entity.NeutralizationStatus;
-import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.pet.entity.Sex;
+import com.daggle.animory.domain.pet.entity.*;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import com.daggle.animory.domain.shelter.entity.Shelter;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import javax.validation.constraints.NotNull;
+import lombok.Builder;
 
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+
+@Builder
 public record PetRegisterRequestDto(
         @NotNull(message = "이름을 입력해주세요.") String name,
         @NotNull(message = "나이를 입력해주세요.") String age,
@@ -27,7 +25,7 @@ public record PetRegisterRequestDto(
         PetPolygonProfileDto petPolygonProfileDto
 ) {
 
-    public Pet toEntity(Shelter shelter, String imageUrl, String videoUrl) {
+    public Pet toEntity(final Shelter shelter, final String imageUrl, final String videoUrl) {
         return Pet.builder()
                 .name(name)
                 .birthDate(PetAgeToBirthDateConverter.ageToBirthDate(age))
@@ -42,7 +40,6 @@ public record PetRegisterRequestDto(
                 .profileImageUrl(imageUrl)
                 .profileShortFormUrl(videoUrl)
                 .size(size)
-                .createdAt(LocalDateTime.now())
                 .shelter(shelter)
                 .build();
     }

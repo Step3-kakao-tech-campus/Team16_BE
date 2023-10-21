@@ -9,10 +9,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.validation.constraints.Min;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Import(ShelterController.class)
 public class ShelterControllerTest extends BaseWebMvcTest {
@@ -47,5 +50,15 @@ public class ShelterControllerTest extends BaseWebMvcTest {
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.success").value(false));
         }
+    }
+
+    @Test
+    void 보호소_위치_필터링() throws Exception {
+        mvc.perform(post("/shelter/filter")
+                .contentType("application/json")
+                .content( om.writeValueAsBytes( List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) ) ))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andDo(print());
     }
 }

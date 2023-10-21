@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.pet.fixture;
+package com.daggle.animory.testutil.fixture;
 
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetPolygonProfile;

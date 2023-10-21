@@ -9,13 +9,12 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class InternalServerError500 extends RuntimeException {
 
-    public InternalServerError500(String message) {
+    public InternalServerError500(final String message) {
         super(message);
     }
 
-    public Response body() {
-        return
-            Response.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public Response<Void> body() {
+        return Response.error(getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public HttpStatus status() {

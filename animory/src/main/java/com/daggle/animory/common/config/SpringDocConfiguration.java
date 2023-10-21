@@ -18,7 +18,7 @@ public class SpringDocConfiguration {
     @Bean
     public OpenAPI openAPI() {
 
-        final String jwtSchemeName = "jwtAuth";
+        final String jwtSchemeName = "JWT Authorization";
 
         // API 요청헤더에 인증정보 포함
         final SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtSchemeName);
