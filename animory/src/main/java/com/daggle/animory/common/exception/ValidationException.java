@@ -1,4 +1,4 @@
-package com.daggle.animory.common.error;
+package com.daggle.animory.common.exception;
 
 public class ValidationException extends RuntimeException {
     public ValidationException(String message) {

@@ -1,4 +1,4 @@
-package com.daggle.animory.common.error;
+package com.daggle.animory.common.exception.handler;
 
 
 import com.daggle.animory.common.Response;

@@ -1,5 +1,6 @@
-package com.daggle.animory.common.error;
+package com.daggle.animory.common.exception.handler;
 
+import com.daggle.animory.common.exception.ValidationException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
