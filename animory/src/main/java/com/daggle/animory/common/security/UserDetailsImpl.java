@@ -1,6 +1,7 @@
 package com.daggle.animory.common.security;
 
 import com.daggle.animory.domain.account.entity.Account;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Hidden // Swagger UI에서 노출하지 않음.
 public class UserDetailsImpl implements UserDetails {
     private final Account account;
 
