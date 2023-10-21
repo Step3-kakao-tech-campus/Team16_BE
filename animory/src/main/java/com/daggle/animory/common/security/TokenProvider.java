@@ -1,6 +1,7 @@
 package com.daggle.animory.common.security;
 
-import com.daggle.animory.common.error.exception.UnAuthorized401Exception;
+import com.daggle.animory.common.security.exception.InvalidTokenException;
+import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -51,7 +52,7 @@ public class TokenProvider {
     // 헤더에서 token 추출
     public Claims resolveToken(final String bearerToken) {
         if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith(TOKEN_PREFIX))
-            throw new UnAuthorized401Exception("토큰 형식이 올바르지 않습니다.");
+            throw new InvalidTokenFormatException();
 
         try {
             final String token = cutTokenPrefix(bearerToken);
@@ -59,7 +60,7 @@ public class TokenProvider {
             return extractBody(token);
         } catch (final Exception ex) {
             log.debug("Jwt validation error");
-            throw new UnAuthorized401Exception("토큰이 유효하지 않습니다.");
+            throw new InvalidTokenException();
         }
     }
 
