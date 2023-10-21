@@ -1,6 +1,5 @@
 package com.daggle.animory.common.error;
 
-import com.daggle.animory.common.error.exception.BadRequest400Exception;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -27,7 +26,7 @@ public class GlobalValidationHandler {
             if(error.hasErrors()){
                 final List<FieldError> fieldErrors = extractFieldErrors(error);
                 final String errorMessage = parsingErrorMessages(fieldErrors);
-                throw new BadRequest400Exception(
+                throw new ValidationException(
                         errorMessage
                 );
             }
