@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.shelter;
 
 import autoparams.AutoSource;
+import com.daggle.animory.domain.shelter.controller.ShelterController;
 import com.daggle.animory.testutil.webmvctest.BaseWebMvcTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

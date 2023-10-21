@@ -1,7 +1,8 @@
-package com.daggle.animory.domain.shelter;
+package com.daggle.animory.domain.shelter.controller;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.common.security.UserDetailsImpl;
+import com.daggle.animory.domain.shelter.ShelterService;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
@@ -18,15 +19,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/shelter")
-public class ShelterController {
+public class ShelterController implements ShelterControllerApi {
     private final ShelterService shelterService;
 
+    @Override
     @GetMapping("/{shelterId}")
     public Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) final Integer shelterId,
                                                    @RequestParam("page") @Min(0) final int page) {
         return Response.success(shelterService.getShelterProfile(shelterId, page));
     }
 
+    @Override
     @PutMapping("/{shelterId}")
     public Response<ShelterUpdateSuccessDto> updateShelter(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                            @PathVariable @Min(0) final Integer shelterId,
@@ -38,6 +41,7 @@ public class ShelterController {
      * 등록된 보호소 필터링 API <br>
      * 리스트 형태의 보호소 정보를 입력받아서, DB에서 kakaoLocationId가 일치하는 Shelter목록을 반환한다.
      */
+    @Override
     @PostMapping("/filter")
     public Response<List<ShelterLocationDto>> filterExistShelterListByLocationId(@RequestBody final List<Integer> shelterLocationIdList) {
         return Response.success(shelterService.filterExistShelterListByLocationId(shelterLocationIdList));

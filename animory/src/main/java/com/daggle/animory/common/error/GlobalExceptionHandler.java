@@ -6,6 +6,8 @@ import com.daggle.animory.common.error.exception.BadRequest400Exception;
 import com.daggle.animory.common.error.exception.Forbidden403Exception;
 import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.common.error.exception.UnAuthorized401Exception;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -30,7 +33,6 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler {
 
     // BAD REQUEST 400
-
     @ExceptionHandler({
         BadRequest400Exception.class,
         MethodArgumentTypeMismatchException.class,
@@ -94,6 +96,8 @@ public class GlobalExceptionHandler {
 
 
     // INTERNAL SERVER ERROR 500
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ApiResponse(responseCode = "500", description = "예상하지 못한 서버 오류", content = @Content)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Response<Void>> internalServerError(final Exception e){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));

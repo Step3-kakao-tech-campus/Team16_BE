@@ -1,7 +1,8 @@
-package com.daggle.animory.domain.account;
+package com.daggle.animory.domain.account.controller;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.common.security.TokenProvider;
+import com.daggle.animory.domain.account.AccountService;
 import com.daggle.animory.domain.account.dto.request.AccountLoginDto;
 import com.daggle.animory.domain.account.dto.request.EmailValidateDto;
 import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
@@ -22,13 +23,14 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/account")
-public class AccountController {
+public class AccountController implements AccountControllerApi {
     private final AccountService accountService;
     private final TokenProvider tokenProvider;
 
     /**
      * 보호소 계정으로 회원가입 API
      */
+    @Override
     @PostMapping("/shelter")
     public Response<Void> signUp(@Valid @RequestBody final ShelterSignUpDto shelterSignUpDto) {
         accountService.registerShelterAccount(shelterSignUpDto);
@@ -38,6 +40,7 @@ public class AccountController {
     /**
      * 로그인 API
      */
+    @Override
     @PostMapping("/login")
     public ResponseEntity<Response<AccountLoginSuccessDto>> login(@Valid @RequestBody final AccountLoginDto request) {
         final String accessToken = tokenProvider.create(request.email(), AccountRole.SHELTER);
@@ -54,6 +57,7 @@ public class AccountController {
     /**
      * 이메일 중복 검증 API
      */
+    @Override
     @PostMapping("/email")
     public Response<Void> validateEmail(@Valid @RequestBody final EmailValidateDto emailValidateDto) {
         accountService.validateEmailDuplication(emailValidateDto);

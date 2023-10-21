@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.account;
 
+import com.daggle.animory.domain.account.controller.AccountController;
 import com.daggle.animory.domain.account.dto.request.AccountLoginDto;
 import com.daggle.animory.domain.account.dto.request.EmailValidateDto;
 import com.daggle.animory.domain.account.dto.request.ShelterAddressSignUpDto;
