@@ -1,7 +1,7 @@
 package com.daggle.animory.domain.fileserver;
 
-import com.daggle.animory.domain.fileserver.exeption.AmazonS3SaveError;
-import com.daggle.animory.domain.fileserver.exeption.InvalidFileTypeException;
+import com.daggle.animory.domain.fileserver.exception.AmazonS3SaveError;
+import com.daggle.animory.domain.fileserver.exception.InvalidFileTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

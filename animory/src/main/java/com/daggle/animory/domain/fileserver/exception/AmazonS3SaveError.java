@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.fileserver.exeption;
+package com.daggle.animory.domain.fileserver.exception;
 
 public class AmazonS3SaveError extends RuntimeException {
     String message;

@@ -7,7 +7,7 @@ import com.daggle.animory.common.security.exception.InvalidTokenException;
 import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
 import com.daggle.animory.common.security.exception.UnAuthorizedException;
 import com.daggle.animory.domain.account.exception.AlreadyExistEmailException;
-import com.daggle.animory.domain.fileserver.exeption.*;
+import com.daggle.animory.domain.fileserver.exception.*;
 import com.daggle.animory.domain.pet.exception.InvalidPetAgeFormatException;
 import com.daggle.animory.domain.pet.exception.InvalidPetMonthRangeException;
 import com.daggle.animory.domain.pet.exception.InvalidPetYearRangeException;

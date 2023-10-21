@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.fileserver.exeption;
+package com.daggle.animory.domain.fileserver.exception;
 
 public enum FileExceptionMessage {
     NOT_FOUND_IMAGE("해당하는 이미지 파일이 존재하지 않습니다."),

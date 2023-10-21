@@ -1,9 +1,9 @@
 package com.daggle.animory.domain.pet.service;
 
-import com.daggle.animory.domain.fileserver.exeption.InvalidImageTypeException;
-import com.daggle.animory.domain.fileserver.exeption.InvalidVideoTypeException;
-import com.daggle.animory.domain.fileserver.exeption.NotFoundImageException;
-import com.daggle.animory.domain.fileserver.exeption.NotFoundVideoException;
+import com.daggle.animory.domain.fileserver.exception.InvalidImageTypeException;
+import com.daggle.animory.domain.fileserver.exception.InvalidVideoTypeException;
+import com.daggle.animory.domain.fileserver.exception.NotFoundImageException;
+import com.daggle.animory.domain.fileserver.exception.NotFoundVideoException;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.exception.PetPermissionDeniedException;
 import com.daggle.animory.domain.shelter.ShelterRepository;
