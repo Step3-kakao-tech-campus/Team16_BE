@@ -1,10 +1,10 @@
 package com.daggle.animory.domain.shelter;
 
-import com.daggle.animory.common.error.exception.Forbidden403Exception;
 import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.pet.exception.PetPermissionDeniedException;
 import com.daggle.animory.domain.shelter.dto.request.ShelterAddressUpdateDto;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
@@ -143,8 +143,8 @@ public class ShelterServiceTest {
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
             assertThatThrownBy(() -> shelterService.updateShelterInfo(new UserDetailsImpl(otherAccount), shelter.getId(), shelterUpdateDto))
-                    .isInstanceOf(Forbidden403Exception.class)
-                    .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
+                    .isInstanceOf(PetPermissionDeniedException.class)
+                    .hasMessage("해당 동물에 대한 권한이 없습니다.");
         }
     }
 }
