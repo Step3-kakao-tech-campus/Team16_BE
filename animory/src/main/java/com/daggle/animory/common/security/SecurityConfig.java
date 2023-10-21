@@ -1,6 +1,7 @@
 package com.daggle.animory.common.security;
 
 import com.daggle.animory.common.security.exception.ForbiddenException;
+import com.daggle.animory.common.security.exception.JwtExceptionFilter;
 import com.daggle.animory.common.security.exception.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final TokenProvider tokenProvider;
+    private final JwtExceptionFilter jwtExceptionFilter;
 
     // Custom SecurityFilterManagerImpl 클래스를 통해 JWT 필터를 추가
     public class SecurityFilterManagerImpl extends AbstractHttpConfigurer<SecurityFilterManagerImpl, HttpSecurity> {
@@ -51,6 +53,7 @@ public class SecurityConfig {
 
         // 커스텀 필터 적용 (시큐리티 필터 교환)
         http.apply(new SecurityFilterManagerImpl());
+        http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
         http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
             log.info(authException.getMessage());
