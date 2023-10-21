@@ -1,6 +1,7 @@
 package com.daggle.animory.common.security;
 
 import com.daggle.animory.common.security.exception.ForbiddenException;
+import com.daggle.animory.common.security.exception.JwtExceptionFilter;
 import com.daggle.animory.common.security.exception.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,8 @@ public class SecurityConfig {
         @Override
         public void configure(final HttpSecurity builder) throws Exception {
             final AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider));
+            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider))
+                    .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
             super.configure(builder);
         }
     }
