@@ -33,10 +33,10 @@ public class TokenProvider {
 
     public String create(final String email, final AccountRole role) {
         return TOKEN_PREFIX + Jwts.builder().setSubject(email) // 정보 저장
-            .claim(ROLES_CLAIM, role).setIssuedAt(new Date()) // 토큰 발행 시간
-            .setExpiration(calcExpirationDateTime()) // 토큰 만료 시간
-            .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
-            .compact();
+                .claim(ROLES_CLAIM, role).setIssuedAt(new Date()) // 토큰 발행 시간
+                .setExpiration(calcExpirationDateTime()) // 토큰 만료 시간
+                .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
+                .compact();
     }
 
 
@@ -54,15 +54,10 @@ public class TokenProvider {
         if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith(TOKEN_PREFIX))
             throw new InvalidTokenFormatException();
 
-        try {
-            final String token = cutTokenPrefix(bearerToken);
-
-            return extractBody(token);
-        } catch (final Exception ex) {
-            log.debug("Jwt validation error");
-            throw new InvalidTokenException();
-        }
+        final String token = cutTokenPrefix(bearerToken);
+        return extractBody(token);
     }
+
 
     private String cutTokenPrefix(final String bearerToken) {
         return bearerToken.substring(7);
@@ -70,17 +65,17 @@ public class TokenProvider {
 
     private Claims extractBody(final String token) {
         return Jwts.parser()
-            .setSigningKey(key)
-            .parseClaimsJws(token)
-            .getBody();
+                .setSigningKey(key)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Date calcExpirationDateTime() {
         final LocalDateTime currentTime = LocalDateTime.now(); // 현재 시각으로 부터
 
         final LocalDateTime expirationDateTime = currentTime
-            .plusDays(TOKEN_EXPIRATION_DATE_TO_PLUS) // day를 더하고
-            .withHour(TOKEN_EXPIRATION_FIXED_HOUR); // 고정된 시각
+                .plusDays(TOKEN_EXPIRATION_DATE_TO_PLUS) // day를 더하고
+                .withHour(TOKEN_EXPIRATION_FIXED_HOUR); // 고정된 시각
 
         return convertLocalDateTimeToDate(expirationDateTime);
     }
