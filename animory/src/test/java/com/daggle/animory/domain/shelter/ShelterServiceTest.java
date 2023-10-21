@@ -4,11 +4,11 @@ import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
-import com.daggle.animory.domain.pet.exception.PetPermissionDeniedException;
 import com.daggle.animory.domain.shelter.dto.request.ShelterAddressUpdateDto;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import com.daggle.animory.domain.shelter.entity.Province;
+import com.daggle.animory.domain.shelter.exception.ShelterPermissionDeniedException;
 import com.daggle.animory.testutil.fixture.PetFixture;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
@@ -143,7 +143,7 @@ public class ShelterServiceTest {
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
 
             assertThatThrownBy(() -> shelterService.updateShelterInfo(new UserDetailsImpl(otherAccount), shelter.getId(), shelterUpdateDto))
-                    .isInstanceOf(PetPermissionDeniedException.class)
+                    .isInstanceOf(ShelterPermissionDeniedException.class)
                     .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }
     }
