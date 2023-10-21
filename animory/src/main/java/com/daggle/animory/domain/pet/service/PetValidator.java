@@ -1,12 +1,14 @@
 package com.daggle.animory.domain.pet.service;
 
-import com.daggle.animory.common.error.exception.BadRequest400Exception;
-import com.daggle.animory.common.error.exception.Forbidden403Exception;
-import com.daggle.animory.common.error.exception.NotFound404Exception;
-import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.domain.fileserver.exeption.InvalidImageTypeException;
+import com.daggle.animory.domain.fileserver.exeption.InvalidVideoTypeException;
+import com.daggle.animory.domain.fileserver.exeption.NotFoundImageException;
+import com.daggle.animory.domain.fileserver.exeption.NotFoundVideoException;
 import com.daggle.animory.domain.pet.entity.Pet;
+import com.daggle.animory.domain.pet.exception.PetPermissionDeniedException;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
+import com.daggle.animory.domain.shelter.exception.ShelterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,33 +44,32 @@ public class PetValidator {
 
         // Data Integrity Validation
         final Shelter shelterFromRequest = shelterRepository.findByAccountEmail(email)
-            .orElseThrow(() -> new NotFound404Exception("보호소 정보가 존재하지 않습니다."));
+            .orElseThrow(() -> new ShelterNotFoundException());
         final Shelter shelterToUpdate = pet.getShelter();
 
         // Authorization Validation
         if (!shelterFromRequest.equals(shelterToUpdate)) {
-            throw new Forbidden403Exception("펫 수정 권한이 없습니다.");
+            throw new PetPermissionDeniedException();
         }
     }
 
     public void validateImageFile(final MultipartFile image) {
         if (image == null || image.isEmpty()) {
-            throw new BadRequest400Exception("이미지 파일이 존재하지 않습니다.");
+            throw new NotFoundImageException();
         }
 
         if (!IMAGE_FILE_EXTENSIONS.contains(getFileExtension(image))) {
-            throw new BadRequest400Exception("이미지 파일이 아닙니다.");
+            throw new InvalidImageTypeException();
         }
-
     }
 
     public void validateVideoFile(final MultipartFile video) {
         if (video == null || video.isEmpty()) {
-            throw new BadRequest400Exception("비디오 파일이 존재하지 않습니다.");
+            throw new NotFoundVideoException();
         }
 
         if (!VIDEO_FILE_EXTENSIONS.contains(getFileExtension(video))) {
-            throw new BadRequest400Exception("비디오 파일이 아닙니다.");
+            throw new InvalidVideoTypeException();
         }
     }
 

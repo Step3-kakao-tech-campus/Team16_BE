@@ -1,6 +1,8 @@
 package com.daggle.animory.domain.pet.util;
 
-import com.daggle.animory.common.error.exception.BadRequest400Exception;
+import com.daggle.animory.domain.pet.exception.InvalidPetAgeFormatException;
+import com.daggle.animory.domain.pet.exception.InvalidPetMonthRangeException;
+import com.daggle.animory.domain.pet.exception.InvalidPetYearRangeException;
 
 import java.time.LocalDate;
 import java.util.regex.Pattern;
@@ -40,13 +42,13 @@ public class PetAgeToBirthDateConverter {
     }
 
     public static void validateAgeFormat(final String age) {
-        if( !AGE_PATTERN.matcher(age).matches() ) throw new BadRequest400Exception("잘못된 나이 형식입니다(format): " + age);
+        if( !AGE_PATTERN.matcher(age).matches() ) throw new InvalidPetAgeFormatException(age);
 
         final int year = getYear(age);
         final int month = getMonth(age);
 
-        if( year < 0 || year > 9999 ) throw new BadRequest400Exception("잘못된 나이 형식입니다(year): " + year);
-        if( month < 0 || month > 11 ) throw new BadRequest400Exception("잘못된 나이 형식입니다(month): " + month);
+        if( year < 0 || year > 9999 ) throw new InvalidPetYearRangeException(year);
+        if( month < 0 || month > 11 ) throw new InvalidPetMonthRangeException(month);
     }
 
     private static int getYear(final String age) {

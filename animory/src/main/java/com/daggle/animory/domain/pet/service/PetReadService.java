@@ -1,11 +1,10 @@
 package com.daggle.animory.domain.pet.service;
 
 
-import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.common.security.UserDetailsImpl;
-import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.dto.response.*;
 import com.daggle.animory.domain.pet.entity.Pet;
+import com.daggle.animory.domain.pet.exception.PetNotFoundException;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +51,7 @@ public class PetReadService {
     public PetDto getPetDetail(final int petId) {
         // petId로 Pet, PetPolygonProfile 얻어오기
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404Exception("해당 Pet이 존재하지 않습니다."));
+            .orElseThrow(() -> new PetNotFoundException());
 
         return PetDto.fromEntity(pet);
     }
@@ -64,7 +63,7 @@ public class PetReadService {
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet registerPet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404Exception("등록되지 않은 펫입니다."));
+            .orElseThrow(() -> new PetNotFoundException());
 
         petValidator.validatePetUpdateAuthority(userDetails.getEmail(), registerPet);
 
