@@ -1,15 +1,16 @@
 package com.daggle.animory.domain.pet.service;
 
-import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.pet.dto.request.PetRegisterRequestDto;
 import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.dto.response.RegisterPetSuccessDto;
 import com.daggle.animory.domain.pet.dto.response.UpdatePetSuccessDto;
 import com.daggle.animory.domain.pet.entity.Pet;
+import com.daggle.animory.domain.pet.exception.PetNotFoundException;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import com.daggle.animory.domain.shelter.entity.Shelter;
+import com.daggle.animory.domain.shelter.exception.ShelterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class PetWriteService {
 
         // 펫 등록을 요청한 유저의 보호소 조회
         final Shelter shelter = shelterRepository.findByAccountEmail(userDetails.getEmail())
-            .orElseThrow(() -> new NotFound404Exception("반려동물을 등록하고자 하는 보호소 정보가 존재하지 않습니다."));
+            .orElseThrow(() -> new ShelterNotFoundException());
 
         final Pet registerPet = txManager.doPetRegisterTransaction(petRequestDTO, image, video, shelter);
 
@@ -53,7 +54,7 @@ public class PetWriteService {
 
         // 펫 id로 Pet 얻어오기
         final Pet updatePet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404Exception("등록되지 않은 펫입니다."));
+            .orElseThrow(() -> new PetNotFoundException());
 
         petValidator.validatePetUpdateAuthority(userDetails.getEmail(), updatePet);
 
@@ -65,7 +66,7 @@ public class PetWriteService {
     public void updatePetAdopted(final UserDetailsImpl userDetails,
                                  final int petId) {
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404Exception("등록되지 않은 펫입니다."));
+            .orElseThrow(() -> new PetNotFoundException());
 
         petValidator.validatePetUpdateAuthority(userDetails.getEmail(), pet);
 

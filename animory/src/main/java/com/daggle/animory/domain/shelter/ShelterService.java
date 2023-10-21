@@ -1,7 +1,5 @@
 package com.daggle.animory.domain.shelter;
 
-import com.daggle.animory.common.error.exception.Forbidden403Exception;
-import com.daggle.animory.common.error.exception.NotFound404Exception;
 import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
@@ -9,6 +7,8 @@ import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import com.daggle.animory.domain.shelter.entity.Shelter;
+import com.daggle.animory.domain.shelter.exception.ShelterNotFoundException;
+import com.daggle.animory.domain.shelter.exception.ShelterPermissionDeniedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class ShelterService {
                                                 final int page) {
         return ShelterProfilePage.of(
                 shelterRepository.findById(shelterId).orElseThrow(
-                        () -> new NotFound404Exception("해당하는 보호소가 존재하지 않습니다.")),
+                        () -> new ShelterNotFoundException()),
                 petRepository.findByShelterId(shelterId, PageRequest.of(page, 10))
         );
     }
@@ -41,11 +41,11 @@ public class ShelterService {
     @Transactional
     public ShelterUpdateSuccessDto updateShelterInfo(final UserDetailsImpl userDetails, final Integer shelterId, final ShelterUpdateDto shelterUpdateDto) {
         final Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
-                () -> new NotFound404Exception("해당하는 보호소가 존재하지 않습니다.")
+                () -> new ShelterNotFoundException()
         );
 
         if (!shelter.getAccount().getEmail().equals(userDetails.getEmail())) {
-            throw new Forbidden403Exception("보호소 정보를 수정할 권한이 없습니다.");
+            throw new ShelterPermissionDeniedException();
         }
 
         shelter.updateInfo(shelterUpdateDto);

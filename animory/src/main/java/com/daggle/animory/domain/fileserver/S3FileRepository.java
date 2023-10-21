@@ -1,7 +1,7 @@
 package com.daggle.animory.domain.fileserver;
 
-import com.daggle.animory.common.error.exception.BadRequest400Exception;
-import com.daggle.animory.common.error.exception.InternalServerError500Exception;
+import com.daggle.animory.domain.fileserver.exception.AmazonS3SaveError;
+import com.daggle.animory.domain.fileserver.exception.InvalidFileTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,11 +80,9 @@ public class S3FileRepository {
             );
 
         } catch (final SdkException ex) {
-            throw new InternalServerError500Exception("aws에 저장하는 과정에서 오류가 발생했습니다." + ex.getMessage());
+            throw new AmazonS3SaveError(ex.getMessage());
         } catch (final IOException ex) {
-            throw new BadRequest400Exception("올바르지 않은 파일 형식입니다.");
+            throw new InvalidFileTypeException();
         }
     }
-
-
 }

@@ -1,12 +1,13 @@
 package com.daggle.animory.domain.account;
 
-import com.daggle.animory.common.error.exception.BadRequest400Exception;
 import com.daggle.animory.domain.account.dto.request.EmailValidateDto;
 import com.daggle.animory.domain.account.dto.request.AccountLoginDto;
 import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
 import com.daggle.animory.domain.account.dto.response.AccountLoginSuccessDto;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
+import com.daggle.animory.domain.account.exception.AlreadyExistEmailException;
+import com.daggle.animory.domain.account.exception.CheckEmailOrPasswordException;
 import com.daggle.animory.domain.shelter.ShelterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,15 +29,17 @@ public class AccountService {
         final Account newAccount = accountRepository.save(
                 shelterSignUpDto.getAccount(passwordEncoder));
 
+        // TODO: 이미 존재하는 쉘터일 경우 예외처리 필요
+
         shelterRepository.save(shelterSignUpDto.getShelter(newAccount));
     }
 
     public AccountLoginSuccessDto loginShelterAccount(final AccountLoginDto accountLoginDto) {
         final Account account = accountRepository.findByEmail(accountLoginDto.email())
-                .orElseThrow(() -> new BadRequest400Exception("이메일 또는 비밀번호를 확인해주세요."));
+                .orElseThrow(() -> new CheckEmailOrPasswordException());
 
         if (!passwordEncoder.matches(accountLoginDto.password(), account.getPassword())) {
-            throw new BadRequest400Exception("이메일 또는 비밀번호를 확인해주세요.");
+            throw new CheckEmailOrPasswordException();
         }
 
         return AccountLoginSuccessDto.builder()
@@ -47,6 +50,6 @@ public class AccountService {
 
     public void validateEmailDuplication(final EmailValidateDto emailValidateDto) {
         if (accountRepository.existsByEmail(emailValidateDto.email()))
-            throw new BadRequest400Exception("존재하는 이메일입니다.");
+            throw new AlreadyExistEmailException();
     }
 }
