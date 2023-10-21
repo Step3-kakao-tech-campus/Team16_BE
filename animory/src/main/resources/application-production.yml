@@ -46,11 +46,10 @@ springdoc.swagger-ui:
 jwt.secret: ${JWT_SECRET}
 
 # AWS S3
-cloud:
-  aws:
-    credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
-    region.static: ap-northeast-2
-    s3.bucket: kakao-techcampus
-    stack.auto: false
+cloud.aws:
+  credentials:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+  region.static: ap-northeast-2
+  s3.bucket: kakao-techcampus
+  stack.auto: false
