@@ -16,6 +16,8 @@ public class MethodExecutionTimeLogger {
      */
     @Around("execution(* com.daggle.animory..*(..))")
     public Object logExecutionTime(final ProceedingJoinPoint joinPoint) throws Throwable {
+        if(!log.isInfoEnabled()) return joinPoint.proceed(); // Logger Level 적용
+
         // 메소드 실행시간 측정
         final long startTime = System.currentTimeMillis();
         final Object result = joinPoint.proceed();

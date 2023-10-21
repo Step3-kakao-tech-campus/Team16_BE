@@ -36,7 +36,8 @@ public class GlobalValidationHandler {
 
     private List<Errors> extractErrors(final List<Object> args){
         return args.stream()
-                .filter(Errors.class::isInstance).map(Errors.class::cast).toList();
+            .map(Errors.class::cast)
+            .toList();
     }
     private List<FieldError> extractFieldErrors(final Errors errors){
         return errors.getFieldErrors();
