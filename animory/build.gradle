@@ -33,7 +33,6 @@ dependencies {
 
 	// jwt, password encoder
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-	implementation 'org.springframework.security:spring-security-crypto:6.1.4'
 
 	// security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
