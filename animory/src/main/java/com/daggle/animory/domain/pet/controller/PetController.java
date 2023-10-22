@@ -70,13 +70,13 @@ public class PetController implements PetControllerApi {
 
     @GetMapping("/profiles/sos")
     public Response<SosPetProfilesDto> getPetSosProfiles(
-        @PageableDefault(page = 0, size = 8, sort = "protectionExpirationDate", direction = Sort.Direction.ASC) final Pageable pageable) {
+        @PageableDefault(page = 1, size = 8, sort = "protectionExpirationDate", direction = Sort.Direction.ASC) final Pageable pageable) {
         return Response.success(petReadService.getPetSosProfiles(pageable));
     }
 
     @GetMapping("/profiles/new")
     public Response<NewPetProfilesDto> getPetNewProfiles(
-        @PageableDefault(page = 0, size = 8, sort = "createdAt", direction = Direction.DESC) final Pageable pageable) {
+        @PageableDefault(page = 1, size = 8, sort = "createdAt", direction = Direction.DESC) final Pageable pageable) {
         return Response.success(petReadService.getPetNewProfiles(pageable));
     }
 

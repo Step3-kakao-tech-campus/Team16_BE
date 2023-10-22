@@ -53,9 +53,9 @@ public interface ShortFormControllerApi {
             @Parameter(
                 in = ParameterIn.QUERY,
                 name = "size",
-                description = "페이지 크기, 기본 값은 10입니다.",
+                description = "페이지 크기",
                 allowEmptyValue = true,
-                schema = @Schema(type = "integer")
+                schema = @Schema(type = "integer", defaultValue = "10")
             )
         }
     )
@@ -78,9 +78,9 @@ public interface ShortFormControllerApi {
             @Parameter(
                 in = ParameterIn.QUERY,
                 name = "size",
-                description = "페이지 크기, 기본 값은 10입니다.",
+                description = "페이지 크기",
                 allowEmptyValue = true,
-                schema = @Schema(type = "integer")
+                schema = @Schema(type = "integer", defaultValue = "10")
             )
         }
     )
