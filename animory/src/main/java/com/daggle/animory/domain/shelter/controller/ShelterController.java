@@ -8,6 +8,8 @@ import com.daggle.animory.domain.shelter.dto.response.ShelterLocationDto;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
 import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +24,15 @@ import java.util.List;
 public class ShelterController implements ShelterControllerApi {
     private final ShelterService shelterService;
 
+    @Override
     @GetMapping("/{shelterId}")
     public Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) final Integer shelterId,
-                                                   @RequestParam("page") @Min(0) final int page) {
-        return Response.success(shelterService.getShelterProfile(shelterId, page));
+                                                   @PageableDefault(page = 1, size = 10) final Pageable pageable) {
+        return Response.success(shelterService.getShelterProfile(shelterId, pageable));
     }
 
     @PutMapping("/{shelterId}")
-    public Response<ShelterUpdateSuccessDto> updateShelter(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public Response<ShelterUpdateSuccessDto> updateShelter(@AuthenticationPrincipal final UserDetailsImpl userDetails,
                                                            @PathVariable @Min(0) final Integer shelterId,
                                                            @RequestBody final ShelterUpdateDto shelterUpdateDto) {
         return Response.success(shelterService.updateShelterInfo(userDetails, shelterId, shelterUpdateDto));

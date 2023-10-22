@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class ShelterServiceTest {
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
             Mockito.when(petRepository.findByShelterId(any(), any())).thenReturn(pets);
 
-            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), 0);
+            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), PageRequest.of(1, 10));
 
             assertThat(shelterProfilePage.shelter().id()).isEqualTo(shelter.getId());
             assertThat(shelterProfilePage.petList().getSize()).isEqualTo(5);
@@ -69,7 +70,7 @@ public class ShelterServiceTest {
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
             Mockito.when(petRepository.findByShelterId(any(), any())).thenReturn(null);
 
-            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), 0);
+            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), PageRequest.of(1, 10));
 
             assertThat(shelterProfilePage.shelter().id()).isEqualTo(shelter.getId());
             assertThat(shelterProfilePage.petList().getPets()).isEmpty();
