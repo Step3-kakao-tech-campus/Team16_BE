@@ -25,8 +25,7 @@ public record PetRegisterInfoDto(
         PetPolygonProfileDto petPolygonProfileDto
 ) {
 
-    public static PetRegisterInfoDto fromEntity(final Pet registerPet,
-                                                final PetPolygonProfile petPolygonProfile) {
+    public static PetRegisterInfoDto fromEntity(final Pet registerPet) {
         return PetRegisterInfoDto.builder()
                 .name(registerPet.getName())
                 .age(PetAgeToBirthDateConverter.birthDateToAge(registerPet.getBirthDate()))
@@ -41,7 +40,7 @@ public record PetRegisterInfoDto(
                 .description(registerPet.getDescription())
                 .profileImageUrl(registerPet.getProfileImageUrl())
                 .profileShortFormUrl(registerPet.getProfileShortFormUrl())
-                .petPolygonProfileDto(PetPolygonProfileDto.fromEntity(petPolygonProfile))
+                .petPolygonProfileDto(PetPolygonProfileDto.fromEntity(registerPet.getPetPolygonProfile()))
                 .build();
     }
 

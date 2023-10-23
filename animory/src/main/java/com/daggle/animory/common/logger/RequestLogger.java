@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * HTTP Request의 Method, URI, Query Parameter를 로깅합니다.*
  */
 @Slf4j
+@Component
 public class RequestLogger implements HandlerInterceptor {
 
     @Override
@@ -33,6 +35,15 @@ public class RequestLogger implements HandlerInterceptor {
             getQueryParameters(request));
 
         return true;
+    }
+
+    @Override
+    public void afterCompletion(@NonNull final HttpServletRequest request,
+                                @NonNull final HttpServletResponse response,
+                                @NonNull final Object handler,
+                                final Exception ex) {
+        // 요청 처리가 끝난 후 correlationId를 클리어합니다.
+        MDC.remove("correlationId");
     }
 
     // HTTP Request의 Query Parameter를 추출합니다.

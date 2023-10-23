@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ShelterRepository extends JpaRepository<Shelter, Integer> {
-    Optional<Shelter> findByAccountId(Integer accountId);
+    Optional<Shelter> findByAccountEmail(String accountEmail);
 
     @Query("select s " +
         "from Shelter s " +

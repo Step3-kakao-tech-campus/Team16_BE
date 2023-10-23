@@ -18,9 +18,15 @@ spring:
   jpa:
     show-sql: true
     open-in-view: false
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: validate
     properties:
       hibernate.format_sql: true
+  # DB Scheme History Management
+  flyway:
+    url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
+    user: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    locations: classpath:db/migration
 
   # File Upload
   servlet:
@@ -37,16 +43,13 @@ springdoc.swagger-ui:
   tags-sorter: alpha # 태그를 알파벳 순으로 정렬합니다.
 
 # Security
-jwt:
-  secret: ${JWT_SECRET}
-  token-validity-in-seconds: "#{60 * 60 * 24}"
+jwt.secret: ${JWT_SECRET}
 
 # AWS S3
-cloud:
-  aws:
-    credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
-    region.static: ap-northeast-2
-    s3.bucket: kakao-techcampus
-    stack.auto: false
+cloud.aws:
+  credentials:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+  region.static: ap-northeast-2
+  s3.bucket: kakao-techcampus
+  stack.auto: false

@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.shelter;
 
 import autoparams.AutoSource;
+import com.daggle.animory.domain.shelter.controller.ShelterController;
 import com.daggle.animory.testutil.webmvctest.BaseWebMvcTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,17 +37,17 @@ public class ShelterControllerTest extends BaseWebMvcTest {
         }
 
         @Test
-        void 실패_보호소값은_음수이면안된다() throws Exception {
-            mvc.perform(get("/shelter/{shelterId}", "-1")
-                            .param("page", "0"))
-                    .andExpect(status().isBadRequest())
-                    .andExpect(jsonPath("$.success").value(false));
+        void 성공_페이지입력값이_음수면_자동으로_최소페이지로_취급한다_PAGEABLE_DEFAULT() throws Exception {
+            mvc.perform(get("/shelter/{shelterId}", "1")
+                            .param("page", "-1"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.success").value(true));
         }
 
         @Test
-        void 실패_페이지입력값은_음수이면안된다() throws Exception {
-            mvc.perform(get("/shelter/{shelterId}", "1")
-                            .param("page", "-1"))
+        void 실패_보호소값은_음수이면안된다() throws Exception {
+            mvc.perform(get("/shelter/{shelterId}", "-1")
+                            .param("page", "0"))
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.success").value(false));
         }

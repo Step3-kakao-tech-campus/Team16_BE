@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ class PetControllerTest extends BaseWebMvcTest {
     private PetWriteService petWriteService;
 
     @Nested
+    @WithMockUser(authorities = "SHELTER")
     class 펫_쓰기 {
         @Test
         void registerPet() throws Exception {

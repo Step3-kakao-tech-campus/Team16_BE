@@ -6,14 +6,14 @@ import org.springframework.data.domain.Page;
 
 public record ShelterProfilePage(
         ShelterInfoDto shelter,
-        PetProfileSlice petList
+        PetProfilePage petList
 ) {
 
     public static ShelterProfilePage of(final Shelter shelter,
                                         final Page<Pet> petPage) {
         return new ShelterProfilePage(
                 ShelterInfoDto.of(shelter),
-                PetProfileSlice.of(petPage)
+                PetProfilePage.of(petPage)
         );
     }
 }

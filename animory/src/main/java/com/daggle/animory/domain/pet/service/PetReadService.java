@@ -1,12 +1,10 @@
 package com.daggle.animory.domain.pet.service;
 
 
-import com.daggle.animory.common.error.exception.NotFound404;
-import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.pet.dto.response.*;
 import com.daggle.animory.domain.pet.entity.Pet;
-import com.daggle.animory.domain.pet.entity.PetPolygonProfile;
-import com.daggle.animory.domain.pet.repository.PetPolygonRepository;
+import com.daggle.animory.domain.pet.exception.PetNotFoundException;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +21,6 @@ import java.util.List;
 public class PetReadService {
 
     private final PetRepository petRepository;
-    private final PetPolygonRepository petPolygonRepository;
     private final PetValidator petValidator;
 
     public PetProfilesDto getPetProfiles() {
@@ -54,31 +51,23 @@ public class PetReadService {
     public PetDto getPetDetail(final int petId) {
         // petId로 Pet, PetPolygonProfile 얻어오기
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404("해당 동물이 존재하지 않습니다."));
+            .orElseThrow(() -> new PetNotFoundException());
 
-        final PetPolygonProfile petPolygonProfile = petPolygonRepository.findByPetId(petId)
-            .orElseThrow(() -> new NotFound404("등록된 다각형 프로필이 존재하지 않습니다."));
-
-        return PetDto.fromEntity(pet, petPolygonProfile);
+        return PetDto.fromEntity(pet);
     }
 
 
-
     // 기존의 펫 등록 정보 조회
-    public PetRegisterInfoDto getRegisterInfo(final Account account,
+    public PetRegisterInfoDto getRegisterInfo(final UserDetailsImpl userDetails,
                                               final int petId) {
-
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet registerPet = petRepository.findById(petId)
-            .orElseThrow(() -> new NotFound404("등록되지 않은 펫입니다."));
+            .orElseThrow(() -> new PetNotFoundException());
 
-        petValidator.validatePetUpdateAuthority(account, registerPet);
-
-        final PetPolygonProfile petPolygonProfile = petPolygonRepository.findByPetId(petId)
-            .orElseThrow(() -> new NotFound404("등록된 다각형 프로필이 존재하지 않습니다."));
+        petValidator.validatePetUpdateAuthority(userDetails.getEmail(), registerPet);
 
         // Pet -> PetRegisterInfoDto
-        return PetRegisterInfoDto.fromEntity(registerPet, petPolygonProfile);
+        return PetRegisterInfoDto.fromEntity(registerPet);
     }
 }
