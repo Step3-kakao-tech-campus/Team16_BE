@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -93,6 +95,10 @@ public interface ShelterControllerApi {
             )
         )
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원가입 성공"),
+            @ApiResponse(responseCode = "403", description = "내 보호소가 아닌 다른 보호소를 수정하려는 경우 권한이 없다.", content = @Content)
+    })
     @PostMapping("/filter")
     Response<List<ShelterLocationDto>> filterExistShelterListByLocationId(@RequestBody List<Integer> shelterLocationIdList);
 }

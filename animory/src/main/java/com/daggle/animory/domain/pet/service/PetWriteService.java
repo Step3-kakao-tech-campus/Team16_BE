@@ -37,7 +37,7 @@ public class PetWriteService {
 
         // 펫 등록을 요청한 유저의 보호소 조회
         final Shelter shelter = shelterRepository.findByAccountEmail(userDetails.getEmail())
-            .orElseThrow(() -> new ShelterNotFoundException());
+            .orElseThrow(ShelterNotFoundException::new);
 
         final Pet registerPet = txManager.doPetRegisterTransaction(petRequestDTO, image, video, shelter);
 
@@ -54,7 +54,7 @@ public class PetWriteService {
 
         // 펫 id로 Pet 얻어오기
         final Pet updatePet = petRepository.findById(petId)
-            .orElseThrow(() -> new PetNotFoundException());
+            .orElseThrow(PetNotFoundException::new);
 
         petValidator.validatePetUpdateAuthority(userDetails.getEmail(), updatePet);
 
@@ -66,7 +66,7 @@ public class PetWriteService {
     public void updatePetAdopted(final UserDetailsImpl userDetails,
                                  final int petId) {
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new PetNotFoundException());
+            .orElseThrow(PetNotFoundException::new);
 
         petValidator.validatePetUpdateAuthority(userDetails.getEmail(), pet);
 

@@ -51,7 +51,7 @@ public class PetReadService {
     public PetDto getPetDetail(final int petId) {
         // petId로 Pet, PetPolygonProfile 얻어오기
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new PetNotFoundException());
+            .orElseThrow(PetNotFoundException::new);
 
         return PetDto.fromEntity(pet);
     }
@@ -63,7 +63,7 @@ public class PetReadService {
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet registerPet = petRepository.findById(petId)
-            .orElseThrow(() -> new PetNotFoundException());
+            .orElseThrow(PetNotFoundException::new);
 
         petValidator.validatePetUpdateAuthority(userDetails.getEmail(), registerPet);
 
