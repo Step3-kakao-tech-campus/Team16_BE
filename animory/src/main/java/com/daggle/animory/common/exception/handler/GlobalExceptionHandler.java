@@ -3,9 +3,6 @@ package com.daggle.animory.common.exception.handler;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.common.security.exception.ForbiddenException;
-import com.daggle.animory.common.security.exception.InvalidTokenException;
-import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
-import com.daggle.animory.common.security.exception.UnAuthorizedException;
 import com.daggle.animory.domain.account.exception.AlreadyExistEmailException;
 import com.daggle.animory.domain.account.exception.CheckEmailOrPasswordException;
 import com.daggle.animory.domain.fileserver.exception.*;
@@ -43,117 +40,80 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler {
 
     // BAD REQUEST 400
-    @ApiResponse(responseCode = "400", description = "이메일 중복 오류", content = @Content)
     @ExceptionHandler({AlreadyExistEmailException.class})
     public ResponseEntity<Response<Void>> handleAlreadyExistEmailException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
-    @ApiResponse(responseCode = "400", description = "로그인 올바르지 못한 이메일 또는 비밀번호 오류", content = @Content)
     @ExceptionHandler({CheckEmailOrPasswordException.class})
     public ResponseEntity<Response<Void>> handleCheckEmailOrPasswordException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "파일 형식 오류", content = @Content)
     @ExceptionHandler({InvalidFileTypeException.class})
     public ResponseEntity<Response<Void>> handleInvalidFileTypeException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "이미지 형식 오류", content = @Content)
     @ExceptionHandler({InvalidImageTypeException.class})
     public ResponseEntity<Response<Void>> handleInvalidImageTypeException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "비디오 형식 오류", content = @Content)
     @ExceptionHandler({InvalidVideoTypeException.class})
     public ResponseEntity<Response<Void>> handleInvalidVideoTypeException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "빈 이미지 파일 오류", content = @Content)
     @ExceptionHandler({NotFoundImageException.class})
     public ResponseEntity<Response<Void>> handleNotFoundImageException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "빈 비디오 파일 오류", content = @Content)
     @ExceptionHandler({NotFoundVideoException.class})
     public ResponseEntity<Response<Void>> handleNotFoundVideoException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "잘못된 나이 형식 오류", content = @Content)
     @ExceptionHandler({InvalidPetAgeFormatException.class})
     public ResponseEntity<Response<Void>> handleInvalidPetAgeTypeException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "년수 범위 오류", content = @Content)
     @ExceptionHandler({InvalidPetYearRangeException.class})
     public ResponseEntity<Response<Void>> handleInvalidPetYearRangeException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    @ApiResponse(responseCode = "400", description = "개월 범위 파일 오류", content = @Content)
     @ExceptionHandler({InvalidPetMonthRangeException.class})
     public ResponseEntity<Response<Void>> handleInvalidPetMonthRangeException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
-
-    @ApiResponse(responseCode = "400", description = "보호소 중복 오류", content = @Content)
     @ExceptionHandler({ShelterAlreadyExistException.class})
     public ResponseEntity<Response<Void>> handleShelterAlreadyExistException(final Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
     }
 
-    // 401
-    @ApiResponse(responseCode = "401", description = "시큐리티 인증 오류", content = @Content)
-    @ExceptionHandler({UnAuthorizedException.class})
-    public ResponseEntity<Response<Void>> handleUnAuthorizedException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED));
-    }
-
-    @ApiResponse(responseCode = "401", description = "토큰 형식 오류", content = @Content)
-    @ExceptionHandler({InvalidTokenFormatException.class})
-    public ResponseEntity<Response<Void>> handleInvalidTokenFormatException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED));
-    }
-
-    @ApiResponse(responseCode = "401", description = "유효하지 않은 토큰 오류", content = @Content)
-    @ExceptionHandler({InvalidTokenException.class})
-    public ResponseEntity<Response<Void>> handleInvalidTokenException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED));
-    }
-
     // 403
-    @ApiResponse(responseCode = "403", description = "보호소 수정 권한 오류", content = @Content)
     @ExceptionHandler({ShelterPermissionDeniedException.class})
     public ResponseEntity<Response<Void>> handleShelterPermissionDeniedException(final Exception e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Response.error(e.getMessage(), HttpStatus.FORBIDDEN));
     }
 
-    @ApiResponse(responseCode = "403", description = "시큐리티 권한 오류", content = @Content)
     @ExceptionHandler({ForbiddenException.class})
     public ResponseEntity<Response<Void>> handleForbiddenExceptionn(final Exception e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Response.error(e.getMessage(), HttpStatus.FORBIDDEN));
     }
 
     // 404
-    @ApiResponse(responseCode = "404", description = "존재하지 않는 펫 오류", content = @Content)
     @ExceptionHandler({PetNotFoundException.class})
     public ResponseEntity<Response<Void>> handlePetNotFoundException(final Exception e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
     }
-
-    @ApiResponse(responseCode = "404", description = "보호소 중복 오류", content = @Content)
     @ExceptionHandler({ShelterNotFoundException.class})
     public ResponseEntity<Response<Void>> handleShelterNotFoundException(final Exception e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
     }
 
-    @ApiResponse(responseCode = "413", description = "File Size, Request Size 제한 초과", content = @Content)
     @ExceptionHandler({MaxUploadSizeExceededException.class})
     public ResponseEntity<Response<Void>> handleMaxUploadSizeExceededException(final RuntimeException e) {
         return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(Response.error(e.getMessage(), HttpStatus.PAYLOAD_TOO_LARGE));
@@ -167,7 +127,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
-    @ApiResponse(responseCode = "500", description = "S3 저장 오류", content = @Content)
     @ExceptionHandler({AmazonS3SaveError.class})
     public ResponseEntity<Response<Void>> handleAmazonS3SaveException(final Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));

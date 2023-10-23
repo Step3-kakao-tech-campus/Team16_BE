@@ -8,7 +8,10 @@ import com.daggle.animory.domain.pet.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,6 +39,16 @@ public interface PetControllerApi {
             )
         }
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "저장 성공"),
+            @ApiResponse(responseCode = "400", description = "1. 이미지 형식이 jpg, jpeg, png, gif, bmp, tiff 중 하나가 아닐 경우" +
+                    "\t\n 2. 비디오 형식이 mp4, avi, mov, wmv, flv, mkv, webm 중 하나가 아닐 경우" +
+                    "\t\n 3. 빈 이미지 파일일 경우" +
+                    "\t\n 4. 빈 비디오 파일일 경우" +
+                    "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
+            @ApiResponse(responseCode = "404", description = "보호소를 찾을 수 없는 경우", content = @Content),
+            @ApiResponse(responseCode = "500", description = "S3 저장 오류", content = @Content)
+    })
     Response<RegisterPetSuccessDto> registerPet(
         UserDetailsImpl userDetails,
         @RequestPart(value = "petInfo") PetRegisterRequestDto petRegisterRequestDto,
@@ -45,6 +58,9 @@ public interface PetControllerApi {
 
     @Operation(summary = "Pet 수정 페이지 진입, 기존 펫 정보 확인",
         description = "Pet 수정 페이지에서, 기존 등록된 정보를 확인하기 위해 호출하는 API 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 펫인 경우", content = @Content)
+    })
     Response<PetRegisterInfoDto> getPetRegisterInfo(UserDetailsImpl userDetails,
                                                     @PathVariable int petId);
 
@@ -61,6 +77,17 @@ public interface PetControllerApi {
             )
         }
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "저장 성공"),
+            @ApiResponse(responseCode = "400", description = "1. 이미지 형식이 jpg, jpeg, png, gif, bmp, tiff 중 하나가 아닐 경우" +
+                    "\t\n 2. 비디오 형식이 mp4, avi, mov, wmv, flv, mkv, webm 중 하나가 아닐 경우" +
+                    "\t\n 3. 빈 이미지 파일일 경우" +
+                    "\t\n 4. 빈 비디오 파일일 경우" +
+                    "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 펫 오류", content = @Content),
+            @ApiResponse(responseCode = "500", description = "S3 저장 오류", content = @Content)
+    })
+
     Response<UpdatePetSuccessDto> updatePet(
         UserDetailsImpl userDetails,
         @PathVariable int petId,
@@ -121,6 +148,9 @@ public interface PetControllerApi {
 
     @Operation(summary = "Pet 상세 조회",
         description = "")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 펫인 경우", content = @Content)
+    })
     Response<PetDto> getPetDetail(@PathVariable int petId);
 
 
@@ -136,6 +166,10 @@ public interface PetControllerApi {
             )
         }
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "1. 존재하지 않는 펫인 경우" +
+                    "\t\n 2. 보호소를 찾을 수 없는 경우", content = @Content)
+    })
     Response<Void> updatePetAdopted(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                     @PathVariable int petId);
 }
