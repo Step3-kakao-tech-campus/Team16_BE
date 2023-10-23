@@ -16,7 +16,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         Account account = accountRepository.findByEmail(username).orElseThrow(
-                () -> new CheckEmailOrPasswordException()
+                CheckEmailOrPasswordException::new
         );
         return new UserDetailsImpl(account);
     }
