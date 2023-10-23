@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.web.servlet.ResultActions;
 
 import javax.validation.constraints.Max;
 
@@ -44,14 +43,13 @@ class ShortFormControllerTest extends BaseWebMvcTest {
         }
 
         @Test
-        void 실패_페이지입력값은_음수이면안된다() throws Exception {
+        void 성공_페이지입력값이_음수면_자동으로_최소페이지로_취급한다_PAGEABLE_DEFAULT() throws Exception {
             mvc.perform(get("/short-forms")
                     .param("type", String.valueOf(PetType.DOG))
                     .param("area", String.valueOf(Province.경기))
                     .param("page", "-1"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.success").value(false))
-                .andDo(print());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
         }
     }
 
@@ -69,12 +67,11 @@ class ShortFormControllerTest extends BaseWebMvcTest {
         }
 
         @Test
-        void 실패_페이지입력값은_음수이면안된다() throws Exception {
+        void 성공_페이지입력값이_음수면_자동으로_최소페이지로_취급한다_PAGEABLE_DEFAULT() throws Exception {
             mvc.perform(get("/short-forms/home")
                     .param("page", "-1"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
         }
-
     }
 }

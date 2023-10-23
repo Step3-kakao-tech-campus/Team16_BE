@@ -10,7 +10,7 @@ import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.daggle.animory.domain.shelter.exception.ShelterNotFoundException;
 import com.daggle.animory.domain.shelter.exception.ShelterPermissionDeniedException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,25 +23,27 @@ public class ShelterService {
     private final PetRepository petRepository;
 
     public ShelterProfilePage getShelterProfile(final Integer shelterId,
-                                                final int page) {
+                                                final Pageable pageable) {
         return ShelterProfilePage.of(
-                shelterRepository.findById(shelterId).orElseThrow(
-                        () -> new ShelterNotFoundException()),
-                petRepository.findByShelterId(shelterId, PageRequest.of(page, 10))
+            shelterRepository.findById(shelterId).orElseThrow(
+                ShelterNotFoundException::new),
+            petRepository.findByShelterId(shelterId, pageable)
         );
     }
 
     public List<ShelterLocationDto> filterExistShelterListByLocationId(final List<Integer> shelterLocationIdList) {
         return shelterRepository.findAllByKakaoLocationIdIn(shelterLocationIdList)
-                .stream()
-                .map(ShelterLocationDto::of)
-                .toList();
+            .stream()
+            .map(ShelterLocationDto::of)
+            .toList();
     }
 
     @Transactional
-    public ShelterUpdateSuccessDto updateShelterInfo(final UserDetailsImpl userDetails, final Integer shelterId, final ShelterUpdateDto shelterUpdateDto) {
+    public ShelterUpdateSuccessDto updateShelterInfo(final UserDetailsImpl userDetails,
+                                                     final Integer shelterId,
+                                                     final ShelterUpdateDto shelterUpdateDto) {
         final Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
-                () -> new ShelterNotFoundException()
+            ShelterNotFoundException::new
         );
 
         if (!shelter.getAccount().getEmail().equals(userDetails.getEmail())) {
@@ -51,7 +53,7 @@ public class ShelterService {
         shelter.updateInfo(shelterUpdateDto);
 
         return ShelterUpdateSuccessDto.builder()
-                .shelterId(shelterId)
-                .build();
+            .shelterId(shelterId)
+            .build();
     }
 }
