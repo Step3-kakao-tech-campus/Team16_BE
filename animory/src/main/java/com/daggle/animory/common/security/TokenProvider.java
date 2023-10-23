@@ -9,7 +9,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -61,9 +60,6 @@ public class TokenProvider {
 
     // 헤더에서 token 추출
     public Claims resolveToken(final String bearerToken) {
-        if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith(TOKEN_PREFIX))
-            throw new InvalidTokenFormatException();
-
         final String token = cutTokenPrefix(bearerToken);
         return extractBody(token);
     }

@@ -18,6 +18,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+
+import javax.servlet.http.HttpServletResponse;
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
@@ -56,7 +59,7 @@ public class SecurityConfig {
 
         http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
             log.info(authException.getMessage());
-            resolver.resolveException(request, response, null, new UnAuthorizedException());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         });
 
         http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
