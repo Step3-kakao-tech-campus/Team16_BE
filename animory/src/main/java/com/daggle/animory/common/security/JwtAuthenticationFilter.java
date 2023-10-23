@@ -1,5 +1,6 @@
 package com.daggle.animory.common.security;
 
+import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import io.jsonwebtoken.*;
@@ -68,6 +69,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throw new JwtException("토큰 기한 만료");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token.");
+            throw new JwtException("지원하지 않는 JWT 토큰");
         } catch (IllegalArgumentException e) {
             log.info("JWT token compact of handler are invalid.");
             throw new JwtException("JWT token compact of handler are invalid.");
