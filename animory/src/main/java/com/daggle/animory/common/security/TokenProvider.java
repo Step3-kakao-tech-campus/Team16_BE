@@ -1,5 +1,7 @@
 package com.daggle.animory.common.security;
 
+import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
+import com.daggle.animory.domain.account.dto.TokenWithExpirationDateTimeDto;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -34,6 +36,16 @@ public class TokenProvider {
                 .setExpiration(calcExpirationDateTime()) // 토큰 만료 시간
                 .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
                 .compact();
+    }
+
+    public TokenWithExpirationDateTimeDto createTokenWithExpirationDateTimeDto(final String email, final AccountRole role) {
+        final Date expirationDateTime = calcExpirationDateTime();
+        final String token = TOKEN_PREFIX + Jwts.builder().setSubject(email)
+            .claim(ROLES_CLAIM, role).setIssuedAt(new Date())
+            .setExpiration(expirationDateTime)
+            .signWith(SignatureAlgorithm.HS256, key)
+            .compact(); // 우발적 중복
+        return new TokenWithExpirationDateTimeDto(token, expirationDateTime);
     }
 
 
