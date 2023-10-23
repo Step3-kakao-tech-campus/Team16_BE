@@ -2,12 +2,12 @@ package com.daggle.animory.domain.account;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.common.security.TokenProvider;
+import com.daggle.animory.domain.account.dto.TokenWithExpirationDateTimeDto;
 import com.daggle.animory.domain.account.dto.request.AccountLoginDto;
 import com.daggle.animory.domain.account.dto.request.EmailValidateDto;
 import com.daggle.animory.domain.account.dto.request.ShelterSignUpDto;
 import com.daggle.animory.domain.account.dto.response.AccountLoginSuccessDto;
 import com.daggle.animory.domain.account.entity.Account;
-import com.daggle.animory.domain.account.entity.AccountRole;
 import com.daggle.animory.domain.account.exception.AlreadyExistEmailException;
 import com.daggle.animory.domain.account.exception.CheckEmailOrPasswordException;
 import com.daggle.animory.domain.shelter.ShelterRepository;
@@ -39,25 +39,29 @@ public class AccountService {
         shelterRepository.save(shelterSignUpDto.getShelter(newAccount));
     }
 
-    public ResponseEntity<Response<AccountLoginSuccessDto>> loginShelterAccount(final AccountLoginDto accountLoginDto) {
+    public ResponseEntity<Response<AccountLoginSuccessDto>> login(final AccountLoginDto accountLoginDto) {
         final Account account = accountRepository.findByEmail(accountLoginDto.email())
             .orElseThrow(CheckEmailOrPasswordException::new);
 
-        if (!validatePassword(accountLoginDto, account)) throw new CheckEmailOrPasswordException();
+        validatePassword(accountLoginDto, account);
 
+        final TokenWithExpirationDateTimeDto tokenWithExpirationDateTimeDto =
+            tokenProvider.createTokenWithExpirationDateTimeDto(account.getEmail(), account.getRole());
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.AUTHORIZATION, tokenProvider.create(account.getEmail(), AccountRole.SHELTER))
+            .header(HttpHeaders.AUTHORIZATION, tokenWithExpirationDateTimeDto.token())
             .body(Response.success(
                 AccountLoginSuccessDto.builder()
                     .id(account.getId())
-                    .accountRole(AccountRole.SHELTER)
+                    .accountRole(account.getRole())
+                    .tokenExpirationDateTime(tokenWithExpirationDateTimeDto.expirationDateTime())
                     .build()
             ));
     }
 
-    private boolean validatePassword(final AccountLoginDto accountLoginDto, final Account account) {
-        return passwordEncoder.matches(accountLoginDto.password(), account.getPassword());
+    private void validatePassword(final AccountLoginDto accountLoginDto, final Account account) {
+        if(!passwordEncoder.matches(accountLoginDto.password(), account.getPassword()))
+            throw new CheckEmailOrPasswordException();
     }
 
     public void validateEmailDuplication(final EmailValidateDto emailValidateDto) {

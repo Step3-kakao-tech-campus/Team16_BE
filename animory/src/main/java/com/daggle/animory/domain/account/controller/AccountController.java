@@ -37,9 +37,7 @@ public class AccountController implements AccountControllerApi {
      */
     @PostMapping("/login")
     public ResponseEntity<Response<AccountLoginSuccessDto>> login(@Valid @RequestBody final AccountLoginDto request) {
-
-
-        return accountService.loginShelterAccount(request);
+        return accountService.login(request);
     }
 
     /**
