@@ -44,7 +44,7 @@ public class PetValidator {
 
         // Data Integrity Validation
         final Shelter shelterFromRequest = shelterRepository.findByAccountEmail(email)
-            .orElseThrow(() -> new ShelterNotFoundException());
+            .orElseThrow(ShelterNotFoundException::new);
         final Shelter shelterToUpdate = pet.getShelter();
 
         // Authorization Validation
