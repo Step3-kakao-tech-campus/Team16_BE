@@ -72,4 +72,72 @@ public class PetFixture {
         }
         return pets;
     }
+    public static List<Pet> getRandomProtectionExpirationDate(final int n,
+                                final Shelter shelter) {
+        final List<Pet> pets = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            pets.add(
+                    Pet.builder()
+                            .name("멍멍이" + i)
+                            .birthDate(LocalDate.now().minusMonths(6))
+                            .type(PetType.DOG)
+                            .weight(5.0f)
+                            .description("멍멍이는 귀여워요" + i)
+                            .sex(Sex.MALE)
+                            .protectionExpirationDate(LocalDate.of(2023, (int) (Math.random() * 11) + 1, (int) (Math.random() * 30) + 1))
+                            .vaccinationStatus("접종완료" + i)
+                            .neutralizationStatus(NeutralizationStatus.UNKNOWN)
+                            .adoptionStatus(AdoptionStatus.NO)
+                            .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test" + i + ".jpg")
+                            .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test" + i + ".mp4")
+                            .size("작아요 소형견입니다." + i)
+                            .petPolygonProfile(
+                                    PetPolygonProfile.builder()
+                                            .activeness(3)
+                                            .intelligence(3)
+                                            .affinity(2)
+                                            .adaptability(4)
+                                            .athletic(1)
+                                            .build()
+                            )
+                            .shelter(shelter)
+                            .build()
+            );
+        }
+        return pets;
+    }
+    public static List<Pet> getNullProtectionExpirationDate(final int n,
+                                                              final Shelter shelter) {
+        final List<Pet> pets = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            pets.add(
+                    Pet.builder()
+                            .name("멍멍이" + i)
+                            .birthDate(LocalDate.now().minusMonths(6))
+                            .type(PetType.DOG)
+                            .weight(5.0f)
+                            .description("멍멍이는 귀여워요" + i)
+                            .sex(Sex.MALE)
+                            .vaccinationStatus("접종완료" + i)
+                            .neutralizationStatus(NeutralizationStatus.UNKNOWN)
+                            .protectionExpirationDate(null)
+                            .adoptionStatus(AdoptionStatus.NO)
+                            .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test" + i + ".jpg")
+                            .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test" + i + ".mp4")
+                            .size("작아요 소형견입니다." + i)
+                            .petPolygonProfile(
+                                    PetPolygonProfile.builder()
+                                            .activeness(3)
+                                            .intelligence(3)
+                                            .affinity(2)
+                                            .adaptability(4)
+                                            .athletic(1)
+                                            .build()
+                            )
+                            .shelter(shelter)
+                            .build()
+            );
+        }
+        return pets;
+    }
 }

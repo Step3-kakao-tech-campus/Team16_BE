@@ -48,5 +48,9 @@ public abstract class DataJpaTestWithDummyData extends WithTimeSupportObjectMapp
 
         petRepository.saveAll(pets);
         petRepository.saveAll(petsOfOtherShelter);
+
+        petRepository.saveAll(PetFixture.getRandomProtectionExpirationDate(5, shelters.get(0)));
+        petRepository.saveAll(PetFixture.getNullProtectionExpirationDate(5, shelters.get(0)));
+
     }
 }

@@ -31,15 +31,14 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     Page<Pet> findByShelterId(Integer shelterId, Pageable pageable);
 
     @Query(value = "SELECT p FROM Pet p"
-        + " JOIN FETCH p.shelter"
-        + " WHERE p.protectionExpirationDate IS NOT NULL"
-        + " ORDER BY p.protectionExpirationDate ASC")
-    List<Pet> findProfilesWithProtectionExpirationDate(Pageable pageable);
+            + " WHERE p.protectionExpirationDate IS NOT NULL"
+            + " AND p.protectionExpirationDate >= CURRENT_DATE"
+            + " ORDER BY p.protectionExpirationDate ASC")
+    Page<Pet> findProfilesWithProtectionExpirationDate(Pageable pageable);
 
     @Query(value = "SELECT p FROM Pet p"
-        + " JOIN FETCH p.shelter"
         + " ORDER BY p.createdAt DESC")
-    List<Pet> findProfilesWithCreatedAt(Pageable pageable);
+    Page<Pet> findProfilesWithCreatedAt(Pageable pageable);
 
     @Query(value = "SELECT p FROM Pet p"
         + " JOIN FETCH p.shelter"
