@@ -70,7 +70,7 @@ public class PetController implements PetControllerApi {
 
     @GetMapping("/profiles/sos")
     public Response<SosPetProfilesDto> getPetSosProfiles(
-        @PageableDefault(page = 1, size = 8, sort = "protectionExpirationDate", direction = Sort.Direction.ASC) final Pageable pageable) {
+        @PageableDefault(page = 1, size = 8) final Pageable pageable) {
         return Response.success(petReadService.getPetSosProfiles(pageable));
     }
 
