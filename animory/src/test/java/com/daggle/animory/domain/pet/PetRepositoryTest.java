@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -42,4 +43,28 @@ class PetRepositoryTest extends DataJpaTestWithDummyData {
                 p -> assertThat(p.getShelter().getId()).isEqualTo(shelterId)
         );
     }
+
+    @Test
+    void findProfilesWithProtectionExpirationDate() {
+        final List<Pet> page = petRepository.findProfilesWithProtectionExpirationDate(PageRequest.of(0, 10)).getContent();
+
+        print(page);
+
+        page.forEach(
+                p -> System.out.println(p.getId() + " " + p.getProtectionExpirationDate())
+        );
+    }
+
+    @Test
+    void findPage() {
+        final List<Pet> page = petRepository.findPageBy(PageRequest.of(0, 10, Sort.Direction.ASC, "protectionExpirationDate")).getContent();
+
+        print(page);
+
+        page.forEach(
+                p -> System.out.println(p.getId() + " " + p.getProtectionExpirationDate())
+        );
+
+    }
+
 }
