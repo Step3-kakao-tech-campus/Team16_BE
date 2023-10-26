@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 /**
  * x년y개월 <br>
  * 0년0개월 ~ 9999년12개월
- *  <br> <br>
+ * <br> <br>
  * TL;DR <br>
  * 2개의 메소드만 사용하시면 됩니다. <br>
  * 1. ageToBirthDate(String age) : x년y개월 -> LocalDate <br>
- * 2. birthDateToAge(LocalDate birthDate) : LocalDate -> x년y개월
-*/
+ * 2. birthDateToAge(LocalDate birthDate) : LocalDate -> x년y개월 | y개월(x가 0일때)
+ */
 public class PetAgeToBirthDateConverter {
     private static final Pattern AGE_YEAR = Pattern.compile("년", Pattern.CANON_EQ);
     private static final Pattern AGE_MONTH = Pattern.compile("개월", Pattern.CANON_EQ);
@@ -38,17 +38,20 @@ public class PetAgeToBirthDateConverter {
         final LocalDate age = LocalDate.now()
             .minusYears(birthDate.getYear())
             .minusMonths(birthDate.getMonthValue());
-        return age.getYear() + "년" + age.getMonthValue() + "개월";
+
+        // LocalDate -> x년y개월 | y개월(x가 0일때)
+        if (age.getYear() == 0) return age.getMonthValue() + "개월";
+        else return age.getYear() + "년" + age.getMonthValue() + "개월";
     }
 
     public static void validateAgeFormat(final String age) {
-        if( !AGE_PATTERN.matcher(age).matches() ) throw new InvalidPetAgeFormatException(age);
+        if (!AGE_PATTERN.matcher(age).matches()) throw new InvalidPetAgeFormatException(age);
 
         final int year = getYear(age);
         final int month = getMonth(age);
 
-        if( year < 0 || year > 9999 ) throw new InvalidPetYearRangeException(year);
-        if( month < 0 || month > 11 ) throw new InvalidPetMonthRangeException(month);
+        if (year < 0 || year > 9999) throw new InvalidPetYearRangeException(year);
+        if (month < 0 || month > 11) throw new InvalidPetMonthRangeException(month);
     }
 
     private static int getYear(final String age) {
