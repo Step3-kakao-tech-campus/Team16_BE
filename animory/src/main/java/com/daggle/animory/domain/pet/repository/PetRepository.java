@@ -31,8 +31,9 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     Page<Pet> findByShelterId(Integer shelterId, Pageable pageable);
 
     @Query(value = "SELECT p FROM Pet p"
-        + " WHERE p.protectionExpirationDate IS NOT NULL"
-        + " ORDER BY p.protectionExpirationDate ASC")
+            + " WHERE p.protectionExpirationDate IS NOT NULL"
+            + " AND p.protectionExpirationDate >= CURRENT_DATE"
+            + " ORDER BY p.protectionExpirationDate ASC")
     Page<Pet> findProfilesWithProtectionExpirationDate(Pageable pageable);
 
     @Query(value = "SELECT p FROM Pet p"
