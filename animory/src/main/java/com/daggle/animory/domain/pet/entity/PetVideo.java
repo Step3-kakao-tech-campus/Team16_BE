@@ -21,7 +21,7 @@ public class PetVideo {
 
     @NotNull
     private int likeCount;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id")
     private Pet pet;
