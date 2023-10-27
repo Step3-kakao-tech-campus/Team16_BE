@@ -17,7 +17,7 @@ public record PetRegisterInfoDto(
         Sex sex,
         String vaccinationStatus,
         AdoptionStatus adoptionStatus,
-        NeutralizationStatus neutralizationStatus,
+        String neutralizationStatus,
         LocalDate protectionExpirationDate,
         String description,
         String profileImageUrl,
@@ -35,7 +35,7 @@ public record PetRegisterInfoDto(
                 .sex(registerPet.getSex())
                 .vaccinationStatus(registerPet.getVaccinationStatus())
                 .adoptionStatus(registerPet.getAdoptionStatus())
-                .neutralizationStatus(registerPet.getNeutralizationStatus())
+                .neutralizationStatus(registerPet.getNeutralizationStatus().getMessage())
                 .protectionExpirationDate(registerPet.getProtectionExpirationDate())
                 .description(registerPet.getDescription())
                 .profileImageUrl(registerPet.getProfileImageUrl())
