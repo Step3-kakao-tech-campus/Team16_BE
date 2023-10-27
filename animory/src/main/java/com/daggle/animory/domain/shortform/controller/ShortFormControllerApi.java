@@ -85,6 +85,6 @@ public interface ShortFormControllerApi {
         }
     )
     @GetMapping("/short-forms/home")
-    Response<HomeShortFormPage> getHomeShortForms(@PageableDefault Pageable pageable);
+    Response<HomeShortFormPage> getHomeShortForms(@Parameter(hidden = true) @PageableDefault Pageable pageable);
 
 }
