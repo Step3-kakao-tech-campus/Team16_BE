@@ -10,6 +10,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Entity
@@ -55,13 +56,13 @@ public class Pet extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AdoptionStatus adoptionStatus;
 
+    private String size;
+
     @NotNull
     private String profileImageUrl;
 
-    @NotNull
-    private String profileShortFormUrl;
-
-    private String size;
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PetVideo> petVideos;
 
     @Embedded
     private PetPolygonProfile petPolygonProfile;
