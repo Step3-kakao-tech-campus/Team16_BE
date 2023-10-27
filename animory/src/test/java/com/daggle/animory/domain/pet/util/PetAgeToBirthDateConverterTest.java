@@ -49,7 +49,7 @@ class PetAgeToBirthDateConverterTest {
 
         final LocalDate now = LocalDate.now();
         final LocalDate expectedBirthDate = now.minusYears(birthDate.getYear()).minusMonths(birthDate.getMonthValue());
-        final String expectedAge = expectedBirthDate.getYear() + "년" + expectedBirthDate.getMonthValue() + "개월";
+        final String expectedAge = getExpectedAge(expectedBirthDate);
 
         log.debug("\n birthDate: {},\n expectedAge: {},\n calculatedAge: {}", birthDate, expectedAge, calculatedAge);
 
@@ -63,6 +63,12 @@ class PetAgeToBirthDateConverterTest {
         final String age = PetAgeToBirthDateConverter.birthDateToAge(birthDate);
 
         assertThat(age).isEqualTo("1개월");
+    }
+
+    private static String getExpectedAge(final LocalDate expectedBirthDate) {
+        return expectedBirthDate.getYear() == 0 ?
+            expectedBirthDate.getMonthValue() + "개월" :
+            expectedBirthDate.getYear() + "년" + expectedBirthDate.getMonthValue() + "개월";
     }
 
     private void assertEqualsBirthDate(final LocalDate birthDate, final int year, final int month) {

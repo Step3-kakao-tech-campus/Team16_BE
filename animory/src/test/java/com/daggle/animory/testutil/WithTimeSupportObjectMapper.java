@@ -16,10 +16,11 @@ public abstract class WithTimeSupportObjectMapper {
         .registerModule(new JavaTimeModule());
 
     protected void print(final Object o) {
-        try{
+        try {
             log.debug(om.writerWithDefaultPrettyPrinter().writeValueAsString(o));
-        } catch (final JsonProcessingException e){
+        } catch (final JsonProcessingException e) {
             log.debug("json parsing error: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

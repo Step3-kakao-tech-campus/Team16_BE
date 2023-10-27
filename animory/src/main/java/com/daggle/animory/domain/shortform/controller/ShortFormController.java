@@ -28,7 +28,7 @@ public class ShortFormController implements ShortFormControllerApi {
     @Override
     @GetMapping("/short-forms")
     public Response<CategoryShortFormPage> getShortForms(@ModelAttribute @Valid final ShortFormSearchCondition searchCondition,
-                                                         @PageableDefault(page = 1, size = 10) final Pageable pageable) {
+                                                         @PageableDefault final Pageable pageable) {
         return Response.success(shortFormService.getCategoryShortFormPage(searchCondition, pageable));
     }
 
@@ -36,7 +36,7 @@ public class ShortFormController implements ShortFormControllerApi {
      * 홈 화면에서 보여 줄 숏폼 영상들을 조회합니다.
      */
     @GetMapping("/short-forms/home")
-    public Response<HomeShortFormPage> getHomeShortForms(@PageableDefault(page = 1, size = 10) final Pageable pageable) {
+    public Response<HomeShortFormPage> getHomeShortForms(@PageableDefault final Pageable pageable) {
         return Response.success(shortFormService.getHomeShortFormPage(pageable));
     }
 
