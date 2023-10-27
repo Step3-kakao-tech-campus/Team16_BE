@@ -10,7 +10,6 @@ import com.daggle.animory.domain.pet.service.PetWriteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -70,13 +69,13 @@ public class PetController implements PetControllerApi {
 
     @GetMapping("/profiles/sos")
     public Response<SosPetProfilesDto> getPetSosProfiles(
-        @PageableDefault(page = 1, size = 8) final Pageable pageable) {
+        @PageableDefault(size = 8) final Pageable pageable) {
         return Response.success(petReadService.getPetSosProfiles(pageable));
     }
 
     @GetMapping("/profiles/new")
     public Response<NewPetProfilesDto> getPetNewProfiles(
-        @PageableDefault(page = 1, size = 8, sort = "createdAt", direction = Direction.DESC) final Pageable pageable) {
+        @PageableDefault(size = 8, sort = "createdAt", direction = Direction.DESC) final Pageable pageable) {
         return Response.success(petReadService.getPetNewProfiles(pageable));
     }
 

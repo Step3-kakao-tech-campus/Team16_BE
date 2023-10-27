@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +23,8 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @Tag(name = "보호소 API", description = """
-    최종수정시각: 2023-10-22 23:44
-""")
+        최종수정시각: 2023-10-22 23:44
+    """)
 public interface ShelterControllerApi {
 
     @Operation(summary = "보호소 프로필 조회", description = "보호소 프로필을 조회합니다.",
@@ -50,7 +49,7 @@ public interface ShelterControllerApi {
     Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) Integer shelterId,
 
                                             @Parameter(hidden = true)
-                                            @PageableDefault(page = 1, size = 10) Pageable pageable);
+                                            Pageable pageable);
 
     @Operation(summary = "[로그인 필요: 보호소] 보호소 정보 수정", description = "보호소 정보를 수정합니다.",
         parameters = {
@@ -83,7 +82,8 @@ public interface ShelterControllerApi {
                                                     @PathVariable @Min(0) Integer shelterId,
                                                     @RequestBody ShelterUpdateDto shelterUpdateDto);
 
-    @Operation(summary = "등록된 보호소 필터링", description = "검색된 보호소의 KakaoLocationID 배열을 입력받아서, DB에서 KakaoLocationId가 일치하는 보호소 정보를 목록으로 반환합니다.",
+    @Operation(summary = "등록된 보호소 필터링", description = "검색된 보호소의 KakaoLocationID 배열을 입력받아서, DB에서 KakaoLocationId가 일치하는" +
+        " 보호소 정보를 목록으로 반환합니다.",
         requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "서비스 등록 여부를 확인하고자 하는 보호소들의 KakaoLocation ID 배열",
             required = true,
@@ -96,8 +96,8 @@ public interface ShelterControllerApi {
         )
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원가입 성공"),
-            @ApiResponse(responseCode = "403", description = "내 보호소가 아닌 다른 보호소를 수정하려는 경우 권한이 없다.", content = @Content)
+        @ApiResponse(responseCode = "200", description = "회원가입 성공"),
+        @ApiResponse(responseCode = "403", description = "내 보호소가 아닌 다른 보호소를 수정하려는 경우 권한이 없다.", content = @Content)
     })
     @PostMapping("/filter")
     Response<List<ShelterLocationDto>> filterExistShelterListByLocationId(@RequestBody List<Integer> shelterLocationIdList);
