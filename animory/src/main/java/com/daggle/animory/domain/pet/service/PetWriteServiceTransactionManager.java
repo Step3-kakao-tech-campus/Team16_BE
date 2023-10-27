@@ -78,7 +78,7 @@ public class PetWriteServiceTransactionManager {
                                        final MultipartFile image,
                                        final MultipartFile video) {
         final String imageKey = S3Util.getFileNameFromUrl(updatePet.getProfileImageUrl());
-        final String videoKey = S3Util.getFileNameFromUrl(updatePet.getProfileShortFormUrl());
+        final String videoKey = S3Util.getFileNameFromUrl(updatePet.getPetVideo().getVideoUrl());
 
         try {
             if (image != null && !image.isEmpty()) fileRepository.overwrite(image, imageKey);

@@ -1,6 +1,5 @@
 package com.daggle.animory.domain.shortform.dto.response;
 
-import com.daggle.animory.domain.pet.entity.AdoptionStatus;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import lombok.Builder;
@@ -23,7 +22,7 @@ public record ShortFormDto(
             .age(PetAgeToBirthDateConverter.birthDateToAge(pet.getBirthDate()))
             .shelterId(pet.getShelter().getId())
             .shelterName(pet.getShelter().getName())
-            .profileShortFormUrl(pet.getProfileShortFormUrl())
+            .profileShortFormUrl(pet.getPetVideo().getVideoUrl())
             .adoptionStatus(pet.getAdoptionStatus().getMessage())
             .build();
     }

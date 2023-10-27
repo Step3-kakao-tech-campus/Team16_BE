@@ -61,6 +61,7 @@ public class Pet extends BaseEntity {
     @NotNull
     private String profileImageUrl;
 
+    @Getter(AccessLevel.NONE) // 여러 개의 Pet Video를 가지는 UseCase가 정의되고 나면 사용하기 위해, 실수 방지 차원에서 접근을 제거해두겠습니다.
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PetVideo> petVideos;
 
@@ -90,4 +91,9 @@ public class Pet extends BaseEntity {
         this.petPolygonProfile = petUpdateRequestDto.petPolygonProfileDto().toEntity();
         this.description = petUpdateRequestDto.description();
     }
+
+    public PetVideo getPetVideo() {
+        return petVideos.get(0);
+    }
+
 }
