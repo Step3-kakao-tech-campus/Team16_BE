@@ -31,7 +31,7 @@ class ShortFormTest extends AcceptanceTest {
             .andExpect(jsonPath("$.response.shortForms[0].profileShortFormUrl").value("http://amazon" +
                                                                                           ".server/api/petVideo" +
                                                                                           "/20231001104521_test1.mp4"))
-            .andExpect(jsonPath("$.response.shortForms[0].adoptionStatus").value("NO"))
+            .andExpect(jsonPath("$.response.shortForms[0].adoptionStatus").value("미입양"))
             .andExpect(jsonPath("$.response.hasNext").value(true))
             .andDo(print());
     }
@@ -60,7 +60,7 @@ class ShortFormTest extends AcceptanceTest {
             .andExpect(jsonPath("$.response.shortForms[0].profileShortFormUrl").value("http://amazon" +
                                                                                           ".server/api/petVideo" +
                                                                                           "/20231001104521_test1.mp4"))
-            .andExpect(jsonPath("$.response.shortForms[0].adoptionStatus").value("NO"))
+            .andExpect(jsonPath("$.response.shortForms[0].adoptionStatus").value("미입양"))
             .andExpect(jsonPath("$.response.hasNext").value(true))
             .andDo(print());
     }
