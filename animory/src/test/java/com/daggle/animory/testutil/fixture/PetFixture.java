@@ -4,6 +4,7 @@ import com.daggle.animory.domain.pet.entity.*;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,8 +90,7 @@ public class PetFixture {
                     .weight(5.0f)
                     .description("멍멍이는 귀여워요" + i)
                     .sex(Sex.MALE)
-                    .protectionExpirationDate(LocalDate.of(2023, (int) (Math.random() * 11) + 1,
-                                                           (int) (Math.random() * 30) + 1))
+                    .protectionExpirationDate(generateRandomDate())
                     .vaccinationStatus("접종완료" + i)
                     .neutralizationStatus(NeutralizationStatus.UNKNOWN)
                     .adoptionStatus(AdoptionStatus.NO)
@@ -152,5 +152,13 @@ public class PetFixture {
             );
         }
         return pets;
+    }
+
+    private static LocalDate generateRandomDate() {
+        int year = 2023;
+        int month = (int) (Math.random() * 12) + 1;
+        int day = (int) (Math.random() * YearMonth.of(year, month).lengthOfMonth()) + 1;
+
+        return LocalDate.of(year, month, day);
     }
 }
