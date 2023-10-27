@@ -13,7 +13,7 @@ public record ShortFormDto(
     Integer shelterId,
     String shelterName,
     String profileShortFormUrl,
-    AdoptionStatus adoptionStatus
+    String adoptionStatus
 
 ) {
     public static ShortFormDto of(final Pet pet) {
@@ -24,7 +24,7 @@ public record ShortFormDto(
             .shelterId(pet.getShelter().getId())
             .shelterName(pet.getShelter().getName())
             .profileShortFormUrl(pet.getProfileShortFormUrl())
-            .adoptionStatus(pet.getAdoptionStatus())
+            .adoptionStatus(pet.getAdoptionStatus().getMessage())
             .build();
     }
 }
