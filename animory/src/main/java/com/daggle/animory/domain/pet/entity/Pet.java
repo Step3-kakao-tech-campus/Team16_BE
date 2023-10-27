@@ -70,14 +70,6 @@ public class Pet extends BaseEntity {
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
 
-    public void updateImage(final String imageUrl) {
-        this.profileImageUrl = imageUrl;
-    }
-
-    public void updateVideo(final String videoUrl) {
-        this.profileShortFormUrl = videoUrl;
-    }
-
     public void setAdopted() {
         this.adoptionStatus = AdoptionStatus.YES;
         this.protectionExpirationDate = null;
