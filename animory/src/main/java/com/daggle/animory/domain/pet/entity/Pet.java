@@ -10,6 +10,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Entity
@@ -55,13 +56,14 @@ public class Pet extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private AdoptionStatus adoptionStatus;
 
+    private String size;
+
     @NotNull
     private String profileImageUrl;
 
-    @NotNull
-    private String profileShortFormUrl;
-
-    private String size;
+    @Getter(AccessLevel.NONE) // 여러 개의 Pet Video를 가지는 UseCase가 정의되고 나면 사용하기 위해, 실수 방지 차원에서 접근을 제거해두겠습니다.
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PetVideo> petVideos;
 
     @Embedded
     private PetPolygonProfile petPolygonProfile;
@@ -69,14 +71,6 @@ public class Pet extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
-
-    public void updateImage(final String imageUrl) {
-        this.profileImageUrl = imageUrl;
-    }
-
-    public void updateVideo(final String videoUrl) {
-        this.profileShortFormUrl = videoUrl;
-    }
 
     public void setAdopted() {
         this.adoptionStatus = AdoptionStatus.YES;
@@ -97,4 +91,9 @@ public class Pet extends BaseEntity {
         this.petPolygonProfile = petUpdateRequestDto.petPolygonProfileDto().toEntity();
         this.description = petUpdateRequestDto.description();
     }
+
+    public PetVideo getPetVideo() {
+        return petVideos.get(0);
+    }
+
 }
