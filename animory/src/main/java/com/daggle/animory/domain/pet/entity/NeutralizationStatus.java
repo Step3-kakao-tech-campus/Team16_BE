@@ -1,9 +1,9 @@
 package com.daggle.animory.domain.pet.entity;
 
 public enum NeutralizationStatus {
-    YES("중성화 완료"),
-    NO("중성화 안함"),
-    UNKNOWN("알 수 없음");
+    YES("했어요"),
+    NO("안했어요"),
+    UNKNOWN("몰라요");
 
     private final String message;
 
