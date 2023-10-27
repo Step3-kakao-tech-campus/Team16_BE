@@ -27,7 +27,7 @@ public class Shelter extends BaseEntity {
     @Embedded
     private ShelterAddress address;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 
