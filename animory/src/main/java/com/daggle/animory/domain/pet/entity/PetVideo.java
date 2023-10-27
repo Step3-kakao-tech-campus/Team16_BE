@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.pet.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class PetVideo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id")
+    @JsonBackReference
     private Pet pet;
 
 

@@ -5,6 +5,7 @@ import com.daggle.animory.domain.pet.dto.request.PetUpdateRequestDto;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
 import com.daggle.animory.domain.shelter.entity.Shelter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -62,7 +63,8 @@ public class Pet extends BaseEntity {
     @NotNull
     private String profileImageUrl;
 
-    @Getter(AccessLevel.NONE) // 여러 개의 Pet Video를 가지는 UseCase가 정의되고 나면 사용하기 위해, 실수 방지 차원에서 접근을 제거해두겠습니다.
+    @Getter(value = AccessLevel.NONE) // 여러 개의 Pet Video를 가지는 UseCase가 정의되고 나면 사용하기 위해, 실수 방지 차원에서 접근을 제거해두겠습니다.
+    @JsonManagedReference
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PetVideo> petVideos;
 
