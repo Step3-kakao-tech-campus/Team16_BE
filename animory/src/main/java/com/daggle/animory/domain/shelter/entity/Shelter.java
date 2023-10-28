@@ -2,6 +2,7 @@ package com.daggle.animory.domain.shelter.entity;
 
 import com.daggle.animory.common.entity.BaseEntity;
 import com.daggle.animory.domain.account.entity.Account;
+import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,4 +30,10 @@ public class Shelter extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public void updateInfo(ShelterUpdateDto shelterUpdateDto) {
+        this.name = shelterUpdateDto.name();
+        this.contact = shelterUpdateDto.contact();
+        this.address = shelterUpdateDto.shelterAddressUpdateDto().getShelterAddress();
+    }
 }

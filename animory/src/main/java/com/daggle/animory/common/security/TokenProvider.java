@@ -1,6 +1,7 @@
 package com.daggle.animory.common.security;
 
-import com.daggle.animory.common.error.exception.UnAuthorized401;
+import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
+import com.daggle.animory.domain.account.dto.TokenWithExpirationDateTimeDto;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -8,8 +9,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
 
@@ -18,28 +19,33 @@ import java.util.Date;
 public class TokenProvider {
 
     private final String key;
-    private final long tokenValiditySeconds;
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String ROLES_CLAIM = "roles";
 
-    public TokenProvider(@Value("${jwt.secret}") final String key,
-                         @Value("${jwt.token-validity-in-seconds}") final long tokenValiditySeconds) {
+    private static final int TOKEN_EXPIRATION_DATE_TO_PLUS = 1;
+    private static final int TOKEN_EXPIRATION_FIXED_HOUR = 3;
+
+    public TokenProvider(@Value("${jwt.secret}") final String key) {
         this.key = Base64.getEncoder().encodeToString(key.getBytes());
-        this.tokenValiditySeconds = tokenValiditySeconds;
     }
 
 
     public String create(final String email, final AccountRole role) {
-        final Date now = new Date();
-        final Date expiration = new Date(now.getTime() + tokenValiditySeconds * 1000);
-
-        log.debug("expiration : " + expiration);
-
         return TOKEN_PREFIX + Jwts.builder().setSubject(email) // 정보 저장
-            .claim(ROLES_CLAIM, role).setIssuedAt(new Date()) // 토큰 발행 시간
-            .setExpiration(expiration) // 토큰 만료 시간
-            .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
-            .compact();
+                .claim(ROLES_CLAIM, role).setIssuedAt(new Date()) // 토큰 발행 시간
+                .setExpiration(calcExpirationDateTime()) // 토큰 만료 시간
+                .signWith(SignatureAlgorithm.HS256, key)  // 암호화 알고리즘 및 secretKey
+                .compact();
+    }
+
+    public TokenWithExpirationDateTimeDto createTokenWithExpirationDateTimeDto(final String email, final AccountRole role) {
+        final Date expirationDateTime = calcExpirationDateTime();
+        final String token = TOKEN_PREFIX + Jwts.builder().setSubject(email)
+            .claim(ROLES_CLAIM, role).setIssuedAt(new Date())
+            .setExpiration(expirationDateTime)
+            .signWith(SignatureAlgorithm.HS256, key)
+            .compact(); // 우발적 중복
+        return new TokenWithExpirationDateTimeDto(token, expirationDateTime);
     }
 
 
@@ -54,18 +60,10 @@ public class TokenProvider {
 
     // 헤더에서 token 추출
     public Claims resolveToken(final String bearerToken) {
-        if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith(TOKEN_PREFIX))
-            throw new UnAuthorized401("토큰 형식이 올바르지 않습니다.");
-
-        try {
-            final String token = cutTokenPrefix(bearerToken);
-
-            return extractBody(token);
-        } catch (final Exception ex) {
-            log.debug("Jwt validation error");
-            throw new UnAuthorized401("토큰이 유효하지 않습니다.");
-        }
+        final String token = cutTokenPrefix(bearerToken);
+        return extractBody(token);
     }
+
 
     private String cutTokenPrefix(final String bearerToken) {
         return bearerToken.substring(7);
@@ -73,9 +71,23 @@ public class TokenProvider {
 
     private Claims extractBody(final String token) {
         return Jwts.parser()
-            .setSigningKey(key)
-            .parseClaimsJws(token)
-            .getBody();
+                .setSigningKey(key)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private Date calcExpirationDateTime() {
+        final LocalDateTime currentTime = LocalDateTime.now(); // 현재 시각으로 부터
+
+        final LocalDateTime expirationDateTime = currentTime
+                .plusDays(TOKEN_EXPIRATION_DATE_TO_PLUS) // day를 더하고
+                .withHour(TOKEN_EXPIRATION_FIXED_HOUR); // 고정된 시각
+
+        return convertLocalDateTimeToDate(expirationDateTime);
+    }
+
+    private Date convertLocalDateTimeToDate(final LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
     }
 
 

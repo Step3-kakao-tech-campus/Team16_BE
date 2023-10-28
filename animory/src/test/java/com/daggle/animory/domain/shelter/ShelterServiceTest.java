@@ -1,7 +1,14 @@
 package com.daggle.animory.domain.shelter;
 
+import com.daggle.animory.common.security.UserDetailsImpl;
+import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.entity.PetType;
+import com.daggle.animory.domain.shelter.dto.request.ShelterAddressUpdateDto;
+import com.daggle.animory.domain.shelter.dto.request.ShelterUpdateDto;
+import com.daggle.animory.domain.shelter.dto.response.ShelterUpdateSuccessDto;
+import com.daggle.animory.domain.shelter.entity.Province;
+import com.daggle.animory.domain.shelter.exception.ShelterPermissionDeniedException;
 import com.daggle.animory.testutil.fixture.PetFixture;
 import com.daggle.animory.domain.pet.repository.PetRepository;
 import com.daggle.animory.domain.shelter.dto.response.ShelterProfilePage;
@@ -15,14 +22,17 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
-public class ShelterServiceTest  {
+public class ShelterServiceTest {
     @InjectMocks
     private ShelterService shelterService;
     @Mock
@@ -44,7 +54,7 @@ public class ShelterServiceTest  {
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
             Mockito.when(petRepository.findByShelterId(any(), any())).thenReturn(pets);
 
-            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), 0);
+            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), PageRequest.of(1, 10));
 
             assertThat(shelterProfilePage.shelter().id()).isEqualTo(shelter.getId());
             assertThat(shelterProfilePage.petList().getSize()).isEqualTo(5);
@@ -60,10 +70,82 @@ public class ShelterServiceTest  {
             Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
             Mockito.when(petRepository.findByShelterId(any(), any())).thenReturn(null);
 
-            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), 0);
+            ShelterProfilePage shelterProfilePage = shelterService.getShelterProfile(shelter.getId(), PageRequest.of(1, 10));
 
             assertThat(shelterProfilePage.shelter().id()).isEqualTo(shelter.getId());
             assertThat(shelterProfilePage.petList().getPets()).isEmpty();
+        }
+    }
+
+    @Nested
+    class 보호소_수정 {
+        @Test
+        void 성공_보호소_수정() {
+            Account account = Account.builder()
+                    .id(1)
+                    .email("asd@asd.com")
+                    .build();
+
+            Shelter shelter = Shelter.builder()
+                    .id(1)
+                    .account(account)
+                    .build();
+
+            ShelterUpdateDto shelterUpdateDto = ShelterUpdateDto.builder()
+                    .contact("0101010101")
+                    .name("변경한 이름")
+                    .shelterAddressUpdateDto(ShelterAddressUpdateDto.builder()
+                            .province(Province.광주)
+                            .city("변경한 시")
+                            .roadName("변경한 도로명 주소")
+                            .build())
+                    .build();
+
+            // stub
+            Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
+
+            ShelterUpdateSuccessDto shelterUpdateSuccessDto = shelterService.updateShelterInfo(new UserDetailsImpl(account), shelter.getId(), shelterUpdateDto);
+
+            assertAll(
+                    () -> assertThat(shelterUpdateSuccessDto.getShelterId()).isEqualTo(shelter.getId()),
+                    () -> assertThat(shelter.getName()).isEqualTo(shelterUpdateDto.name()),
+                    () -> assertThat(shelter.getAddress().getCity()).isEqualTo(shelterUpdateDto.shelterAddressUpdateDto().city())
+            );
+        }
+
+        @Test
+        void 실패_보호소_수정_권한없음() {
+            Account account = Account.builder()
+                    .id(1)
+                    .email("as231d@asd.com")
+                    .build();
+
+            Account otherAccount = Account.builder()
+                    .id(2)
+                    .email("asd@asd.com")
+                    .build();
+
+            Shelter shelter = Shelter.builder()
+                    .id(1)
+                    .account(account)
+                    .build();
+
+            ShelterUpdateDto shelterUpdateDto = ShelterUpdateDto.builder()
+                    .contact("0101010101")
+                    .name("변경한 이름")
+                    .shelterAddressUpdateDto(ShelterAddressUpdateDto.builder()
+                            .province(Province.광주)
+                            .city("변경한 시")
+                            .roadName("변경한 도로명 주소")
+                            .build())
+                    .build();
+
+            // stub
+            Mockito.when(shelterRepository.findById(any())).thenReturn(Optional.of(shelter));
+
+            assertThatThrownBy(() -> shelterService.updateShelterInfo(new UserDetailsImpl(otherAccount), shelter.getId(), shelterUpdateDto))
+                    .isInstanceOf(ShelterPermissionDeniedException.class)
+                    .hasMessage("보호소 정보를 수정할 권한이 없습니다.");
         }
     }
 }

@@ -27,7 +27,7 @@ public record PetDto(
 ) {
 
 
-    public static PetDto fromEntity(final Pet pet, final PetPolygonProfile petPolygonProfile) {
+    public static PetDto fromEntity(final Pet pet) {
         return PetDto.builder()
                 .shelterInfo(ShelterInfoDto.fromEntity(pet.getShelter()))
                 .name(pet.getName())
@@ -42,7 +42,7 @@ public record PetDto(
                 .adoptionStatus(pet.getAdoptionStatus())
                 .profileImageUrl(pet.getProfileImageUrl())
                 .size(pet.getSize())
-                .petPolygonProfileDto(PetPolygonProfileDto.fromEntity(petPolygonProfile))
+                .petPolygonProfileDto(PetPolygonProfileDto.fromEntity(pet.getPetPolygonProfile()))
                 .build();
     }
 }

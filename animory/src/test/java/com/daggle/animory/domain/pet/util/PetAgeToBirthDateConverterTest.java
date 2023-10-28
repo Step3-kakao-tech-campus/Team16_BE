@@ -2,7 +2,7 @@ package com.daggle.animory.domain.pet.util;
 
 import autoparams.AutoSource;
 import autoparams.Repeat;
-import com.daggle.animory.common.error.exception.BadRequest400;
+import com.daggle.animory.domain.pet.exception.InvalidPetAgeFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,7 +41,7 @@ class PetAgeToBirthDateConverterTest {
         @ValueSource(strings = {"1년 2개월", "-3년4개월", "2 년1개월", "1년12 개월", "3년4개 월"})
         void 실패_생일계산테스트_문자열내부공백(final String age) {
             assertThatThrownBy(() -> PetAgeToBirthDateConverter.ageToBirthDate(age))
-                .isInstanceOf(BadRequest400.class);
+                .isInstanceOf(InvalidPetAgeFormatException.class);
         }
 
         @ParameterizedTest
@@ -58,7 +58,7 @@ class PetAgeToBirthDateConverterTest {
     @Repeat
     void ageToBirthDate(
         @Min(0) @Max(9999) final int year,
-        @Min(0) @Max(12) final int month) {
+        @Min(0) @Max(11) final int month) {
         final String age = year + "년" + month + "개월";
 
         final LocalDate birthDate = PetAgeToBirthDateConverter.ageToBirthDate(age);
@@ -70,7 +70,7 @@ class PetAgeToBirthDateConverterTest {
     @AutoSource
     @Repeat
     void birthDateToAge(@Min(1990) @Max(2023) final int year,
-                        @Min(1) @Max(12) final int month) {
+                        @Min(1) @Max(11) final int month) {
         final LocalDate birthDate = LocalDate.of(year, month, 1);
 
         if(birthDate.isAfter(LocalDate.now())) return;

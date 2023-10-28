@@ -40,6 +40,7 @@ public record PetRegisterRequestDto(
                 .profileImageUrl(imageUrl)
                 .profileShortFormUrl(videoUrl)
                 .size(size)
+                .petPolygonProfile(petPolygonProfileDto.toEntity())
                 .shelter(shelter)
                 .build();
     }

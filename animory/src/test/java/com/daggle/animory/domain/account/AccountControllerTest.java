@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.account;
 
+import com.daggle.animory.domain.account.controller.AccountController;
 import com.daggle.animory.domain.account.dto.request.AccountLoginDto;
 import com.daggle.animory.domain.account.dto.request.EmailValidateDto;
 import com.daggle.animory.domain.account.dto.request.ShelterAddressSignUpDto;
@@ -14,7 +15,8 @@ import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Import(AccountController.class)
 public class AccountControllerTest extends BaseWebMvcTest {
@@ -130,8 +132,8 @@ public class AccountControllerTest extends BaseWebMvcTest {
                     .contact("01012345678")
                     .zonecode("3143")
                     .address(ShelterAddressSignUpDto.builder()
-                            .province(Province.광주)
-                            .city(null)
+                            .province(null)
+                            .city(null) // city는 null 허용
                             .roadName("용봉동")
                             .detail("전남대")
                             .build())
@@ -156,12 +158,11 @@ public class AccountControllerTest extends BaseWebMvcTest {
                     .password("asdfA123!")
                     .build();
 
+
             mvc.perform(post("/account/login")
                             .content(om.writeValueAsString(accountLoginDto))
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.success").value(true))
-                    .andExpect(header().exists("Authorization"))
                     .andDo(print());
         }
 

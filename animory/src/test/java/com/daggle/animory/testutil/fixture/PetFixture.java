@@ -24,6 +24,15 @@ public class PetFixture {
             .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test1.jpg")
             .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test1.mp4")
             .size("작아요 소형견입니다.")
+            .petPolygonProfile(
+                PetPolygonProfile.builder()
+                    .activeness(3)
+                    .intelligence(3)
+                    .affinity(2)
+                    .adaptability(4)
+                    .athletic(1)
+                    .build()
+            )
             .shelter(shelter)
             .build();
     }
@@ -48,6 +57,15 @@ public class PetFixture {
                     .profileImageUrl("http://amazon.server/api/petImage/20231001104521_test" + i + ".jpg")
                     .profileShortFormUrl("http://amazon.server/api/petVideo/20231001104521_test" + i + ".mp4")
                     .size("작아요 소형견입니다." + i)
+                    .petPolygonProfile(
+                        PetPolygonProfile.builder()
+                            .activeness(3)
+                            .intelligence(3)
+                            .affinity(2)
+                            .adaptability(4)
+                            .athletic(1)
+                            .build()
+                    )
                     .shelter(shelter)
                     .build()
             );
