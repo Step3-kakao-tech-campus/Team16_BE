@@ -1,5 +1,6 @@
 package com.daggle.animory.domain.pet.entity;
 
+import com.daggle.animory.common.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Table(name = "pet_video")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PetVideo {
+public class PetVideo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
