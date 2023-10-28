@@ -2,6 +2,7 @@ package com.daggle.animory.domain.shortform.dto.response;
 
 import com.daggle.animory.domain.pet.entity.Pet;
 import com.daggle.animory.domain.pet.util.PetAgeToBirthDateConverter;
+import com.daggle.animory.domain.shortform.util.LikeCountToStringConverter;
 import lombok.Builder;
 
 @Builder
@@ -12,6 +13,7 @@ public record ShortFormDto(
     Integer shelterId,
     String shelterName,
     String profileShortFormUrl,
+    String likeCount,
     String adoptionStatus
 
 ) {
@@ -23,6 +25,7 @@ public record ShortFormDto(
             .shelterId(pet.getShelter().getId())
             .shelterName(pet.getShelter().getName())
             .profileShortFormUrl(pet.getPetVideo().getVideoUrl())
+            .likeCount(LikeCountToStringConverter.convert(pet.getPetVideo().getLikeCount()))
             .adoptionStatus(pet.getAdoptionStatus().getMessage())
             .build();
     }

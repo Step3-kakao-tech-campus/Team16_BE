@@ -29,8 +29,9 @@ class ShortFormTest extends AcceptanceTest {
             .andExpect(jsonPath("$.response.shortForms[0].shelterId").value(1))
             .andExpect(jsonPath("$.response.shortForms[0].shelterName").value("광주광역시동물보호소"))
             .andExpect(jsonPath("$.response.shortForms[0].profileShortFormUrl").value("http://amazon" +
-                                                                                          ".server/api/petVideo" +
-                                                                                          "/20231001104521_test1.mp4"))
+                                                                                      ".server/api/petVideo" +
+                                                                                      "/20231001104521_test1.mp4"))
+            .andExpect(jsonPath("$.response.shortForms[0].likeCount").isNotEmpty())
             .andExpect(jsonPath("$.response.shortForms[0].adoptionStatus").value("미입양"))
             .andExpect(jsonPath("$.response.hasNext").value(true))
             .andDo(print());
@@ -58,8 +59,8 @@ class ShortFormTest extends AcceptanceTest {
             .andExpect(jsonPath("$.response.shortForms[0].shelterId").value(1))
             .andExpect(jsonPath("$.response.shortForms[0].shelterName").value("광주광역시동물보호소"))
             .andExpect(jsonPath("$.response.shortForms[0].profileShortFormUrl").value("http://amazon" +
-                                                                                          ".server/api/petVideo" +
-                                                                                          "/20231001104521_test1.mp4"))
+                                                                                      ".server/api/petVideo" +
+                                                                                      "/20231001104521_test1.mp4"))
             .andExpect(jsonPath("$.response.shortForms[0].adoptionStatus").value("미입양"))
             .andExpect(jsonPath("$.response.hasNext").value(true))
             .andDo(print());
