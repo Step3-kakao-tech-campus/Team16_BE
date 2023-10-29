@@ -16,6 +16,7 @@ import com.daggle.animory.domain.shelter.exception.ShelterPermissionDeniedExcept
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.ServletException;
 import javax.validation.ConstraintViolationException;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -42,55 +43,68 @@ public class GlobalExceptionHandler {
     // BAD REQUEST 400
     @ExceptionHandler({AlreadyExistEmailException.class})
     public ResponseEntity<Response<Void>> handleAlreadyExistEmailException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
+
     @ExceptionHandler({CheckEmailOrPasswordException.class})
     public ResponseEntity<Response<Void>> handleCheckEmailOrPasswordException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({InvalidFileTypeException.class})
     public ResponseEntity<Response<Void>> handleInvalidFileTypeException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({InvalidImageTypeException.class})
     public ResponseEntity<Response<Void>> handleInvalidImageTypeException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({InvalidVideoTypeException.class})
     public ResponseEntity<Response<Void>> handleInvalidVideoTypeException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({NotFoundImageException.class})
     public ResponseEntity<Response<Void>> handleNotFoundImageException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({NotFoundVideoException.class})
     public ResponseEntity<Response<Void>> handleNotFoundVideoException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({InvalidPetAgeFormatException.class})
     public ResponseEntity<Response<Void>> handleInvalidPetAgeTypeException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({InvalidPetYearRangeException.class})
     public ResponseEntity<Response<Void>> handleInvalidPetYearRangeException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({InvalidPetMonthRangeException.class})
     public ResponseEntity<Response<Void>> handleInvalidPetMonthRangeException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
+
     @ExceptionHandler({ShelterAlreadyExistException.class})
     public ResponseEntity<Response<Void>> handleShelterAlreadyExistException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     // 403
@@ -109,6 +123,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Response<Void>> handlePetNotFoundException(final Exception e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
     }
+
     @ExceptionHandler({ShelterNotFoundException.class})
     public ResponseEntity<Response<Void>> handleShelterNotFoundException(final Exception e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
@@ -116,7 +131,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({MaxUploadSizeExceededException.class})
     public ResponseEntity<Response<Void>> handleMaxUploadSizeExceededException(final RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(Response.error(e.getMessage(), HttpStatus.PAYLOAD_TOO_LARGE));
+        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(Response.error(e.getMessage(),
+                                                                                       HttpStatus.PAYLOAD_TOO_LARGE));
     }
 
     // INTERNAL SERVER ERROR 500
@@ -124,23 +140,27 @@ public class GlobalExceptionHandler {
     @ApiResponse(responseCode = "500", description = "예상하지 못한 서버 오류", content = @Content)
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Response<Void>> internalServerError(final Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
+        log.error("Internal Server Error", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage(),
+                                                                                           HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @ExceptionHandler({AmazonS3SaveError.class})
     public ResponseEntity<Response<Void>> handleAmazonS3SaveException(final Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.error(e.getMessage(),
+                                                                                           HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @ExceptionHandler({
-            MethodArgumentTypeMismatchException.class,
-            HttpMessageNotReadableException.class,
-            IllegalArgumentException.class,
+        MethodArgumentTypeMismatchException.class,
+        HttpMessageNotReadableException.class,
+        IllegalArgumentException.class,
 
-            ConstraintViolationException.class
+        ConstraintViolationException.class
     })
     public ResponseEntity<Response<Void>> badRequest(final RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
@@ -149,11 +169,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            HttpRequestMethodNotSupportedException.class,
-            MissingRequestValueException.class
+        HttpRequestMethodNotSupportedException.class,
+        MissingRequestValueException.class
     })
     public ResponseEntity<Response<Void>> badRequest(final ServletException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(), HttpStatus.BAD_REQUEST));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                                                                                 HttpStatus.BAD_REQUEST));
     }
 
     @ExceptionHandler(BindException.class)
