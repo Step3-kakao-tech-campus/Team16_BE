@@ -24,6 +24,7 @@ spring:
   data.web.pageable.one-indexed-parameters: true # Request로 들어오는 Pageable 의 인덱스를 1부터 시작하도록 설정합니다.
   # DB Scheme History Management
   flyway:
+    enabled: true
     url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
     user: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
