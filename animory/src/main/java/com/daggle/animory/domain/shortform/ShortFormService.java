@@ -12,7 +12,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,33 +24,37 @@ public class ShortFormService {
     private final PetVideoRepository petVideoRepository;
 
     public HomeShortFormPage getHomeShortFormPage(final Pageable pageable) {
-        // LikeCount DESC 순서로 조회하고, 반환된 페이지(Slice)를 랜덤으로 섞는다.
-        Slice<PetVideo> petVideoSlice = petVideoRepository.findSliceBy(pageable);
 
+        // Fetch Join + Pageable 동시에 수행하는 경우 발생하는 문제(HHH000104) 해결을 위해 쿼리를 두 개로 분할하였습니다.
+        Slice<Integer> petVideoIdSlice = petVideoRepository.findSliceOfIds(pageable);
+        List<PetVideo> petVideos = petVideoRepository.findAllByPetVideoIdIn(petVideoIdSlice.getContent());
+
+        // LikeCount DESC 순서로 조회하고, 반환된 페이지(Slice)를 랜덤으로 섞는다.
         return HomeShortFormPage.of(
-            shuffleVideos(petVideoSlice),
-            petVideoSlice.hasNext()
+            shuffleVideos(petVideos),
+            petVideoIdSlice.hasNext()
         );
     }
 
     public CategoryShortFormPage getCategoryShortFormPage(final ShortFormSearchCondition searchCondition,
                                                           final Pageable pageable) {
-        Slice<PetVideo> petVideoSlice = petVideoRepository.findSliceBy(
+
+        Slice<Integer> petVideoIdSlice = petVideoRepository.findSliceOfIds(
             searchCondition.type(),
             searchCondition.area(),
             pageable
         );
+        List<PetVideo> petVideos = petVideoRepository.findAllByPetVideoIdIn(petVideoIdSlice.getContent());
 
         return CategoryShortFormPage.of(
             buildCategoryPageTitle(searchCondition),
-            shuffleVideos(petVideoSlice),
-            petVideoSlice.hasNext()
+            shuffleVideos(petVideos),
+            petVideoIdSlice.hasNext()
         );
     }
 
     // 랜덤으로 섞는다.
-    private List<PetVideo> shuffleVideos(final Slice<PetVideo> petVideoSlice) {
-        List<PetVideo> petVideos = new ArrayList<>(petVideoSlice.getContent());
+    private List<PetVideo> shuffleVideos(final List<PetVideo> petVideos) {
         Collections.shuffle(petVideos);
         return petVideos;
     }

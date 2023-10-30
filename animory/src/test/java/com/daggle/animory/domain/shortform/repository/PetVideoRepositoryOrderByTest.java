@@ -11,6 +11,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -23,9 +25,10 @@ class PetVideoRepositoryOrderByTest extends WithTimeSupportObjectMapper {
 
     @Test
     void 홈화면_숏폼조회쿼리_테스트() {
-        Slice<PetVideo> petVideos = petVideoRepository.findSliceBy(PageRequest.of(0, 10));
+        Slice<Integer> petVideoIds = petVideoRepository.findSliceOfIds(PageRequest.of(0, 10));
+        List<PetVideo> petVideos = petVideoRepository.findAllByPetVideoIdIn(petVideoIds.getContent());
         print(petVideos);
 
-        assertThat(petVideos.getContent().get(0).getLikeCount()).isEqualTo(5000);
+        assertThat(petVideos.get(0).getLikeCount()).isEqualTo(5000);
     }
 }
