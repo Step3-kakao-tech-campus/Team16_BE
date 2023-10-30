@@ -1,6 +1,7 @@
 package com.daggle.animory.domain.shortform.controller;
 
 import com.daggle.animory.common.Response;
+import com.daggle.animory.common.security.UserDetailsImpl;
 import com.daggle.animory.domain.shortform.ShortFormService;
 import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;
 import com.daggle.animory.domain.shortform.dto.response.CategoryShortFormPage;
@@ -8,9 +9,13 @@ import com.daggle.animory.domain.shortform.dto.response.HomeShortFormPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -27,8 +32,9 @@ public class ShortFormController implements ShortFormControllerApi {
      */
     @Override
     @GetMapping("/short-forms")
-    public Response<CategoryShortFormPage> getShortForms(@ModelAttribute @Valid final ShortFormSearchCondition searchCondition,
-                                                         @PageableDefault final Pageable pageable) {
+    public Response<CategoryShortFormPage> getShortForms(
+            @ModelAttribute @Valid final ShortFormSearchCondition searchCondition,
+            @PageableDefault final Pageable pageable) {
         return Response.success(shortFormService.getCategoryShortFormPage(searchCondition, pageable));
     }
 
@@ -40,4 +46,15 @@ public class ShortFormController implements ShortFormControllerApi {
         return Response.success(shortFormService.getHomeShortFormPage(pageable));
     }
 
+    @PostMapping("/like/{petVideoId}")
+    public Response<Void> increasePetLikeCount(@PathVariable final int petVideoId) {
+        shortFormService.updatePetVideoLikeCount(petVideoId);
+        return Response.success();
+    }
+
+    @DeleteMapping("/like/{petVideoId}")
+    public Response<Void> deletePetLikeCount(@PathVariable final int petVideoId) {
+        shortFormService.deletePetVideoLikeCount(petVideoId);
+        return Response.success();
+    }
 }
