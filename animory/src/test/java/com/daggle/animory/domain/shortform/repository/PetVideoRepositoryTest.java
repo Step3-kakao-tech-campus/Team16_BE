@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PetVideoRepositoryTest extends DataJpaTestWithDummyData {
@@ -18,11 +20,11 @@ class PetVideoRepositoryTest extends DataJpaTestWithDummyData {
 
     @Test
     void findSliceBy() {
-        final Slice<PetVideo> slice = petVideoRepository.findSliceBy(PetType.DOG, Province.광주, PageRequest.of(0, 10));
+        final Slice<Integer> petVideoIds = petVideoRepository.findSliceOfIds(PetType.DOG, Province.광주,
+                                                                             PageRequest.of(0, 10));
+        final List<PetVideo> petVideos = petVideoRepository.findAllByPetVideoIdIn(petVideoIds.getContent());
 
-        print(slice.getContent());
-
-        assertThat(slice.getContent()).hasSize(10);
+        assertThat(petVideos).hasSize(10);
     }
 
 

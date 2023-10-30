@@ -8,25 +8,35 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface PetVideoRepository extends JpaRepository<PetVideo, Integer> {
 
     @Query("""
-        select pv
+        select pv.id
         from PetVideo pv
-        left join fetch pv.pet p
-        left join fetch p.shelter s
+            left join pv.pet p
+            left join p.shelter s
+        where s.address.province = :province
+            and p.type = :petType
         order by pv.likeCount desc
         """)
-    Slice<PetVideo> findSliceBy(Pageable pageable);
+    Slice<Integer> findSliceOfIds(PetType petType, Province province, Pageable pageable);
+
+    @Query("""
+        select pv.id
+        from PetVideo pv
+        order by pv.likeCount desc
+        """)
+    Slice<Integer> findSliceOfIds(Pageable pageable);
 
     @Query("""
         select pv
         from PetVideo pv
         left join fetch pv.pet p
         left join fetch p.shelter s
-        where s.address.province = :province
-        and p.type = :petType
+        where pv.id in :petVideoIds
         order by pv.likeCount desc
         """)
-    Slice<PetVideo> findSliceBy(PetType petType, Province province, Pageable searchCondition);
+    List<PetVideo> findAllByPetVideoIdIn(List<Integer> petVideoIds);
 }
