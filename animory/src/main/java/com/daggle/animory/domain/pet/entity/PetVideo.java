@@ -42,4 +42,12 @@ public class PetVideo extends BaseEntity {
     public void setPet(final Pet pet) {
         this.pet = pet;
     }
+
+    public void updateLikeCount() {
+        this.likeCount++;
+    }
+
+    public void deleteLikeCount() {
+        this.likeCount--;
+    }
 }
