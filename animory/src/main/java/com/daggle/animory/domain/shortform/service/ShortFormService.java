@@ -4,7 +4,6 @@ import com.daggle.animory.domain.pet.entity.PetVideo;
 import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;
 import com.daggle.animory.domain.shortform.dto.response.CategoryShortFormPage;
 import com.daggle.animory.domain.shortform.dto.response.HomeShortFormPage;
-import com.daggle.animory.domain.shortform.exception.ShortFormNotFound;
 import com.daggle.animory.domain.shortform.repository.PetVideoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,19 +61,5 @@ public class ShortFormService {
 
     private String buildCategoryPageTitle(final ShortFormSearchCondition searchCondition) {
         return searchCondition.area().getProvinceNameForUI() + " 기준 " + searchCondition.type().getKoreanName() + " 친구들";
-    }
-
-    public void updatePetVideoLikeCount(final int petVideoId) {
-        final PetVideo petVideo = petVideoRepository.findById(petVideoId)
-                .orElseThrow(ShortFormNotFound::new);
-
-        petVideo.updateLikeCount();
-    }
-
-    public void deletePetVideoLikeCount(final int petVideoId) {
-        final PetVideo petVideo = petVideoRepository.findById(petVideoId)
-                .orElseThrow(ShortFormNotFound::new);
-
-        petVideo.deleteLikeCount();
     }
 }
