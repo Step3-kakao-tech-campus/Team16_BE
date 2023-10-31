@@ -1,4 +1,4 @@
-package com.daggle.animory.domain.shortform;
+package com.daggle.animory.domain.shortform.service;
 
 import com.daggle.animory.domain.pet.entity.PetVideo;
 import com.daggle.animory.domain.shortform.dto.request.ShortFormSearchCondition;

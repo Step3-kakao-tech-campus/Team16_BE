@@ -11,12 +11,16 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Tag(
     name = "숏폼 비디오 API",
@@ -87,4 +91,9 @@ public interface ShortFormControllerApi {
     @GetMapping("/short-forms/home")
     Response<HomeShortFormPage> getHomeShortForms(@Parameter(hidden = true) @PageableDefault Pageable pageable);
 
+    @PostMapping("/like/{petVideoId}")
+    Response<Void> increasePetLikeCount(final HttpServletRequest httpServletRequest, @PathVariable final int petVideoId) ;
+
+    @DeleteMapping("/like/{petVideoId}")
+    Response<Void> deletePetLikeCount(final HttpServletRequest httpServletRequest, @PathVariable final int petVideoId);
 }
