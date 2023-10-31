@@ -5,6 +5,7 @@ import autoparams.Repeat;
 import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.shelter.entity.Province;
 import com.daggle.animory.domain.shortform.controller.ShortFormController;
+import com.daggle.animory.domain.shortform.service.PetVideoLikeService;
 import com.daggle.animory.domain.shortform.service.ShortFormService;
 import com.daggle.animory.testutil.webmvctest.BaseWebMvcTest;
 import org.junit.jupiter.api.Nested;
@@ -26,6 +27,8 @@ class ShortFormControllerTest extends BaseWebMvcTest {
     @MockBean
     private ShortFormService shortFormService;
 
+    @MockBean
+    private PetVideoLikeService petVideoLikeService;
 
     @Nested
     class 카테고리_숏폼_검색 {
