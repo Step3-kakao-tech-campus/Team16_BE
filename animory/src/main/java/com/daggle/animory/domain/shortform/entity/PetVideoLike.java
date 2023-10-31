@@ -2,18 +2,13 @@ package com.daggle.animory.domain.shortform.entity;
 
 import com.daggle.animory.common.entity.BaseEntity;
 import com.daggle.animory.domain.pet.entity.PetVideo;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Entity
@@ -22,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class PetVideoLike extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
