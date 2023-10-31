@@ -23,19 +23,11 @@ spring:
       hibernate.format_sql: true
       query.fail_on_pagination_over_collection_fetch: true
   data.web.pageable.one-indexed-parameters: true # Request로 들어오는 Pageable 의 인덱스를 1부터 시작하도록 설정합니다.
-  # DB Scheme History Management
-  flyway:
-    enabled: true
-    url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
-    user: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    locations: classpath:db/migration
 
   # File Upload
   servlet:
     multipart:
       enabled: true
-      location: "./src/main/resources/files/"
       max-file-size: "50MB"
       max-request-size: "50MB"
 
