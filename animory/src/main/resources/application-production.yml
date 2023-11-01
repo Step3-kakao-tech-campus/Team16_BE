@@ -48,3 +48,19 @@ cloud.aws:
   region.static: ap-northeast-2
   s3.bucket: kakao-techcampus
   stack.auto: false
+
+# Actuator
+management:
+  server.port: ${ACTUATOR_PORT}
+  endpoints:
+    web.base-path: ${ACTUATOR_PATH}
+    enabled-by-default: false
+    jmx.exposure.exclude: "*"
+    web.exposure.include: health, info, env, metrics, loggers, threaddump
+  endpoint:
+    health.enabled: true # 헬스체크
+    info.enabled: true # 애플리케이션 정보
+    env.enabled: true # 환경변수
+    metrics.enabled: true
+    loggers.enabled: true # 로그 설정
+    threaddump.enabled: true
