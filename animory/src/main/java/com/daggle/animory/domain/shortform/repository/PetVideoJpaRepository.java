@@ -27,6 +27,7 @@ public interface PetVideoJpaRepository extends JpaRepository<PetVideo, Integer>,
         where pv.id in :petVideoIds
         order by pv.likeCount desc
         """)
+        // WARN: 서비스 전체에 short form video가 하나도 없다면, in 절이 비게 되어서 SQL에러가 발생합니다.
     List<PetVideo> findAllByPetVideoIdIn(List<Integer> petVideoIds);
 
 }

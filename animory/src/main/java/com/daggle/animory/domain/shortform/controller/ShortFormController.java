@@ -36,6 +36,9 @@ public class ShortFormController implements ShortFormControllerApi {
 
     /**
      * 홈 화면에서 보여 줄 숏폼 영상들을 조회합니다.
+     * <p>
+     * 검색 조건이 담기지 않은 /short-forms API와 동작이 동일하지만,
+     * "서비스 첫 진입 시 홈 화면"에서 보여질 영상들의 기준이 달라질 수 있음을 고려하여 분리된 API를 유지합니다.
      */
     @GetMapping("/short-forms/home")
     public Response<HomeShortFormPage> getHomeShortForms(@PageableDefault final Pageable pageable) {
