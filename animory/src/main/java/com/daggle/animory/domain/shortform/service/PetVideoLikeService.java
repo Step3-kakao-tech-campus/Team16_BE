@@ -5,8 +5,8 @@ import com.daggle.animory.domain.shortform.entity.PetVideoLike;
 import com.daggle.animory.domain.shortform.exception.AlreadyLikedPetVideo;
 import com.daggle.animory.domain.shortform.exception.NotLikedPetVideo;
 import com.daggle.animory.domain.shortform.exception.ShortFormNotFound;
+import com.daggle.animory.domain.shortform.repository.PetVideoJpaRepository;
 import com.daggle.animory.domain.shortform.repository.PetVideoLikeRepository;
-import com.daggle.animory.domain.shortform.repository.PetVideoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,28 +15,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class PetVideoLikeService {
-    final PetVideoRepository petVideoRepository;
+    final PetVideoJpaRepository petVideoJpaRepository;
     final PetVideoLikeRepository petVideoLikeRepository;
 
     public void updatePetVideoLikeCount(final String IPAddress, final int petVideoId) {
         validatePetVideoLikeDuplication(IPAddress, petVideoId);
 
-        final PetVideo petVideo = petVideoRepository.findById(petVideoId)
-                .orElseThrow(ShortFormNotFound::new);
+        final PetVideo petVideo = petVideoJpaRepository.findById(petVideoId)
+            .orElseThrow(ShortFormNotFound::new);
 
         petVideo.updateLikeCount();
 
         petVideoLikeRepository.save(PetVideoLike.builder()
-                .ipAddress(IPAddress)
-                .petVideo(petVideo)
-                .build());
+                                        .ipAddress(IPAddress)
+                                        .petVideo(petVideo)
+                                        .build());
     }
 
     public void deletePetVideoLikeCount(final String IPAddress, final int petVideoId) {
         validatePetVideoLikeDelete(IPAddress, petVideoId);
 
-        final PetVideo petVideo = petVideoRepository.findById(petVideoId)
-                .orElseThrow(ShortFormNotFound::new);
+        final PetVideo petVideo = petVideoJpaRepository.findById(petVideoId)
+            .orElseThrow(ShortFormNotFound::new);
 
         petVideo.deleteLikeCount();
 
