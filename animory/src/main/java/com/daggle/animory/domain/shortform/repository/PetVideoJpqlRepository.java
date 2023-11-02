@@ -30,16 +30,11 @@ public class PetVideoJpqlRepository {
         List<String> conditions = new ArrayList<>();
         String order = " order by pv.likeCount desc";
 
-        if (petType != null) {
-            conditions.add("p.type = :petType");
-        }
-        if (province != null) {
-            conditions.add("s.address.province = :province");
-        }
+        if (petType != null) conditions.add("p.type = :petType");
 
-        if (!conditions.isEmpty()) {
-            where = " where " + String.join(" and ", conditions);
-        }
+        if (province != null) conditions.add("s.address.province = :province");
+
+        if (!conditions.isEmpty()) where = " where " + String.join(" and ", conditions);
 
         jpql += where + order;
 

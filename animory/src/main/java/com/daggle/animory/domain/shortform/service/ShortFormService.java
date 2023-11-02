@@ -40,17 +40,11 @@ public class ShortFormService {
 
     public CategoryShortFormPage getCategoryShortFormPage(final ShortFormSearchCondition searchCondition,
                                                           final Pageable pageable) {
-
-        log.debug("area: {}, type: {}", searchCondition.area(), searchCondition.type());
-
-
         Slice<Integer> petVideoIds = petVideoJpqlRepository
             .findPetVideoIdsBy(searchCondition.type(), searchCondition.area(), pageable);
 
-
         List<PetVideo> petVideos = petVideoJpqlRepository.findAllByIds(petVideoIds.getContent());
-
-
+        
         return CategoryShortFormPage.of(
             shuffleVideos(petVideos),
             petVideoIds.hasNext()

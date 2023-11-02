@@ -64,8 +64,6 @@ class ShortFormTest extends AcceptanceTest {
         final String type,
         final String area
     ) throws Exception {
-        log.debug("page: {}, type: {}, area: {}", page, type, area);
-
         ResultActions result = mvc.perform(get("/short-forms")
                                                .param("page", page)
                                                .param("type", type)
