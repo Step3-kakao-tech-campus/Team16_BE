@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("classpath:sql/PetVideoRepositoryOrderByTest.sql")
 @DataJpaTest
 @EnableJpaAuditing
-class PetVideoRepositoryOrderByTest extends WithTimeSupportObjectMapper {
+class PetVideoJpaRepositoryOrderByTest extends WithTimeSupportObjectMapper {
     @Autowired
-    private PetVideoRepository petVideoRepository;
+    private PetVideoJpaRepository petVideoJpaRepository;
 
     @Test
     void 홈화면_숏폼조회쿼리_테스트() {
-        Slice<Integer> petVideoIds = petVideoRepository.findSliceOfIds(PageRequest.of(0, 10));
-        List<PetVideo> petVideos = petVideoRepository.findAllByPetVideoIdIn(petVideoIds.getContent());
+        Slice<Integer> petVideoIds = petVideoJpaRepository.findSliceOfIds(PageRequest.of(0, 10));
+        List<PetVideo> petVideos = petVideoJpaRepository.findAllByPetVideoIdIn(petVideoIds.getContent());
         print(petVideos);
 
         assertThat(petVideos.get(0).getLikeCount()).isEqualTo(5000);

@@ -1,27 +1,16 @@
 package com.daggle.animory.domain.shortform.repository;
 
-import com.daggle.animory.domain.pet.entity.PetType;
 import com.daggle.animory.domain.pet.entity.PetVideo;
-import com.daggle.animory.domain.shelter.entity.Province;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PetVideoRepository extends JpaRepository<PetVideo, Integer> {
+public interface PetVideoJpaRepository extends JpaRepository<PetVideo, Integer>, JpaSpecificationExecutor<PetVideo> {
 
-    @Query("""
-        select pv.id
-        from PetVideo pv
-            left join pv.pet p
-            left join p.shelter s
-        where s.address.province = :province
-            and p.type = :petType
-        order by pv.likeCount desc
-        """)
-    Slice<Integer> findSliceOfIds(PetType petType, Province province, Pageable pageable);
 
     @Query("""
         select pv.id
@@ -38,5 +27,7 @@ public interface PetVideoRepository extends JpaRepository<PetVideo, Integer> {
         where pv.id in :petVideoIds
         order by pv.likeCount desc
         """)
+        // WARN: 서비스 전체에 short form video가 하나도 없다면, in 절이 비게 되어서 SQL에러가 발생합니다.
     List<PetVideo> findAllByPetVideoIdIn(List<Integer> petVideoIds);
+
 }

@@ -11,16 +11,12 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Tag(
     name = "숏폼 비디오 API",
@@ -37,21 +33,18 @@ public interface ShortFormControllerApi {
                 in = ParameterIn.QUERY,
                 name = "type",
                 description = "Pet 종류",
-                required = true,
                 schema = @Schema(implementation = PetType.class)
             ),
             @Parameter(
                 in = ParameterIn.QUERY,
                 name = "area",
                 description = "지역",
-                required = true,
                 schema = @Schema(implementation = Province.class)
             ),
             @Parameter(
                 in = ParameterIn.QUERY,
                 name = "page",
                 description = "페이지 번호",
-                required = true,
                 schema = @Schema(type = "integer", defaultValue = "1")
             ),
             @Parameter(
@@ -92,7 +85,8 @@ public interface ShortFormControllerApi {
     Response<HomeShortFormPage> getHomeShortForms(@Parameter(hidden = true) @PageableDefault Pageable pageable);
 
     @PostMapping("/like/{petVideoId}")
-    Response<Void> increasePetLikeCount(final HttpServletRequest httpServletRequest, @PathVariable final int petVideoId) ;
+    Response<Void> increasePetLikeCount(final HttpServletRequest httpServletRequest,
+                                        @PathVariable final int petVideoId);
 
     @DeleteMapping("/like/{petVideoId}")
     Response<Void> deletePetLikeCount(final HttpServletRequest httpServletRequest, @PathVariable final int petVideoId);
