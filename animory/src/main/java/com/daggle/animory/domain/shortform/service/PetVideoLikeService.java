@@ -32,15 +32,15 @@ public class PetVideoLikeService {
                                         .build());
     }
 
-    public void deletePetVideoLikeCount(final String IPAddress, final int petVideoId) {
-        validatePetVideoLikeDelete(IPAddress, petVideoId);
+    public void deletePetVideoLikeCount(final String ipAddress, final int petVideoId) {
+        validatePetVideoLikeDelete(ipAddress, petVideoId);
 
         final PetVideo petVideo = petVideoJpaRepository.findById(petVideoId)
             .orElseThrow(ShortFormNotFound::new);
 
         petVideo.deleteLikeCount();
 
-        petVideoLikeRepository.deleteByIpAddressAndPetVideoId(IPAddress, petVideoId);
+        petVideoLikeRepository.deleteByIpAddressAndPetVideoId(ipAddress, petVideoId);
     }
 
     private void validatePetVideoLikeDuplication(final String IPAddress, final int petVideoId) {

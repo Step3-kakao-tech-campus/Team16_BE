@@ -28,8 +28,8 @@ public class ShortFormService {
     public HomeShortFormPage getHomeShortFormPage(final Pageable pageable) {
 
         // Fetch Join + Pageable 동시에 수행하는 경우 발생하는 문제(HHH000104) 해결을 위해 쿼리를 두 개로 분할하였습니다.
-        Slice<Integer> petVideoIdSlice = petVideoJpaRepository.findSliceOfIds(pageable);
-        List<PetVideo> petVideos = petVideoJpaRepository.findAllByPetVideoIdIn(petVideoIdSlice.getContent());
+        Slice<Integer> petVideoIdSlice = petVideoJpaRepository.findPetVideoIdsBy(pageable);
+        List<PetVideo> petVideos = petVideoJpqlRepository.findAllByIds(petVideoIdSlice.getContent());
 
         // LikeCount DESC 순서로 조회하고, 반환된 페이지(Slice)를 랜덤으로 섞는다.
         return HomeShortFormPage.of(
@@ -40,16 +40,10 @@ public class ShortFormService {
 
     public CategoryShortFormPage getCategoryShortFormPage(final ShortFormSearchCondition searchCondition,
                                                           final Pageable pageable) {
-
-        log.debug("area: {}, type: {}", searchCondition.area(), searchCondition.type());
-
-
         Slice<Integer> petVideoIds = petVideoJpqlRepository
             .findPetVideoIdsBy(searchCondition.type(), searchCondition.area(), pageable);
 
-
         List<PetVideo> petVideos = petVideoJpqlRepository.findAllByIds(petVideoIds.getContent());
-
 
         return CategoryShortFormPage.of(
             shuffleVideos(petVideos),
