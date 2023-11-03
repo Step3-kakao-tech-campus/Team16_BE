@@ -27,17 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 public class SecurityConfig {
     private final TokenProvider tokenProvider;
 
-    // Custom SecurityFilterManagerImpl 클래스를 통해 JWT 필터를 추가
-    public class SecurityFilterManagerImpl extends AbstractHttpConfigurer<SecurityFilterManagerImpl, HttpSecurity> {
-        @Override
-        public void configure(final HttpSecurity builder) throws Exception {
-            final AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider))
-                    .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
-            super.configure(builder);
-        }
-    }
-
     @Bean
     public BCryptPasswordEncoder registerPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -45,9 +34,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http,
-                                                   @Autowired @Qualifier("handlerExceptionResolver")
-                                                   final HandlerExceptionResolver resolver) throws Exception {
+                                                   @Autowired @Qualifier("handlerExceptionResolver") final HandlerExceptionResolver resolver) throws Exception {
         http.csrf().disable();
+        http.cors();
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.formLogin().disable();
@@ -67,13 +57,24 @@ public class SecurityConfig {
         });
 
         http.authorizeRequests(
-                authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/pet/**").hasAuthority("SHELTER")
-                        .antMatchers(HttpMethod.PATCH).hasAuthority("SHELTER")
-                        .antMatchers(HttpMethod.PUT).hasAuthority("SHELTER")
-                        .anyRequest().permitAll()
+            authorize -> authorize
+                .antMatchers(HttpMethod.POST, "/pet/**").hasAuthority("SHELTER")
+                .antMatchers(HttpMethod.PATCH).hasAuthority("SHELTER")
+                .antMatchers(HttpMethod.PUT).hasAuthority("SHELTER")
+                .anyRequest().permitAll()
         );
 
         return http.build();
+    }
+
+    // Custom SecurityFilterManagerImpl 클래스를 통해 JWT 필터를 추가
+    public class SecurityFilterManagerImpl extends AbstractHttpConfigurer<SecurityFilterManagerImpl, HttpSecurity> {
+        @Override
+        public void configure(final HttpSecurity builder) throws Exception {
+            final AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+            builder.addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider))
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
+            super.configure(builder);
+        }
     }
 }
