@@ -16,6 +16,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,10 +36,24 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CorsConfigurationSource configureCors() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedOriginPattern("*");
+        configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Authorization");
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http,
                                                    @Autowired @Qualifier("handlerExceptionResolver") final HandlerExceptionResolver resolver) throws Exception {
+        http.cors().configurationSource(configureCors());
         http.csrf().disable();
-        http.cors();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
