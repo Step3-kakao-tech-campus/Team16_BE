@@ -2,6 +2,7 @@ package com.daggle.animory.domain.shelter.entity;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
@@ -28,5 +29,8 @@ public class ShelterAddress {
     private String roadName;
 
     private String detail;
+
+    @Column(length = 10, name = "zone_code")
+    private String zonecode;
 
 }
