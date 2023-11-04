@@ -31,9 +31,13 @@ public class Shelter extends BaseEntity {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    public void updateInfo(ShelterUpdateDto shelterUpdateDto) {
+    public void updateInfo(final ShelterUpdateDto shelterUpdateDto) {
         this.name = shelterUpdateDto.name();
         this.contact = shelterUpdateDto.contact();
-        this.address = shelterUpdateDto.shelterAddressUpdateDto().getShelterAddress();
+        this.address = shelterUpdateDto.buildShelterAddress();
+    }
+
+    public boolean equalsByAccountEmail(final String email) {
+        return this.account.getEmail().equals(email);
     }
 }
