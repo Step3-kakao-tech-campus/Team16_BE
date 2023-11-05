@@ -2,7 +2,9 @@ package com.daggle.animory.domain.shelter.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public enum Province {
     서울,
     부산,
@@ -22,8 +24,10 @@ public enum Province {
     경남,
     제주;
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    // Mode.DELEGATING에 대해서 자세히 이해 못함: https://github.com/FasterXML/jackson-module-kotlin/issues/336
     public static Province fromJson(@JsonProperty("province") final String province) {
+        log.debug("Province fromJson: {} ", province);
         return switch (province) {
             case "서울특별시", "서울시", "서울" -> 서울;
             case "부산광역시", "부산시", "부산" -> 부산;
