@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -22,6 +24,7 @@ public class ShelterAddress {
     private double y;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Province province;
 
     private String city;
