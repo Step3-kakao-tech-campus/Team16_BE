@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
-@Tag(name = "계정 API", description = "계정 관련 API 입니다.")
+@Tag(name = "계정 API", description = """
+        최종수정일: 2023-11-06
+    """)
 public interface AccountControllerApi {
 
     @Operation(summary = "보호소 계정으로 회원가입 API", description = "보호소 계정으로 회원가입합니다.")
@@ -34,15 +36,14 @@ public interface AccountControllerApi {
         @ApiResponse(responseCode = "400", description = """
             - ID 또는 Password 불일치로 인한 로그인 실패
             - Email 형식 오류, 비밀번호가 null
-        """, content = @Content),
-        @ApiResponse(responseCode = "404", description = "해당하는 보호소를 찾을 수 없는 경우", content = @Content)
+        """, content = @Content)
     })
     ResponseEntity<Response<AccountLoginSuccessDto>> login(@Valid @RequestBody AccountLoginDto request);
 
     @Operation(summary = "이메일 중복 검증 API", description = "회원가입에 사용할 이메일이 중복되는지 검사합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이메일 중복 검증 성공"),
-        @ApiResponse(responseCode = "400", description = "이미 존재하는 이메일인 경우"),
+        @ApiResponse(responseCode = "400", description = "이미 존재하는 이메일인 경우", content = @Content),
     })
     Response<Void> validateEmail(@Valid @RequestBody EmailValidateDto emailValidateDto);
 }
