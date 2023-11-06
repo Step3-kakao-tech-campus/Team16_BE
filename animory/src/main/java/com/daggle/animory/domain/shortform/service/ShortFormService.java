@@ -58,9 +58,9 @@ public class ShortFormService {
         Collections.shuffle(petVideos);
         return petVideos;
     }
-    
+
     private Integer getNextPage(final boolean hasNext,
                                 final Pageable pageable) {
-        return hasNext ? pageable.getPageNumber() + 1 : null;
+        return hasNext ? pageable.getPageNumber() + 2 : null;
     }
 }
