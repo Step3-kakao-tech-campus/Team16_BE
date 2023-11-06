@@ -42,18 +42,20 @@ public class ShelterService {
     public ShelterUpdateSuccessDto updateShelterInfo(final UserDetailsImpl userDetails,
                                                      final Integer shelterId,
                                                      final ShelterUpdateDto shelterUpdateDto) {
-        final Shelter shelter = shelterRepository.findById(shelterId).orElseThrow(
-            ShelterNotFoundException::new
-        );
-
-        if (!shelter.getAccount().getEmail().equals(userDetails.getEmail())) {
-            throw new ShelterPermissionDeniedException();
-        }
+        final Shelter shelter = shelterRepository.findById(shelterId)
+            .orElseThrow(ShelterNotFoundException::new);
+        validateShelterOwner(shelter, userDetails);
 
         shelter.updateInfo(shelterUpdateDto);
 
         return ShelterUpdateSuccessDto.builder()
             .shelterId(shelterId)
             .build();
+    }
+
+    private void validateShelterOwner(final Shelter shelter, final UserDetailsImpl userDetails) {
+        if (!shelter.equalsByAccountEmail(userDetails.getEmail())) {
+            throw new ShelterPermissionDeniedException();
+        }
     }
 }

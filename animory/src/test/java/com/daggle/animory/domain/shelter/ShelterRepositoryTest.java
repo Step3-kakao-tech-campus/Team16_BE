@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,7 +37,8 @@ class ShelterRepositoryTest {
         shelterRepository.save(shelter);
 
         // when
-        final List<Shelter> foundShelters = shelterRepository.findAllByKakaoLocationIdIn(List.of(123456789, 1, 2, 3, 4));
+        final List<Shelter> foundShelters = shelterRepository.findAllByKakaoLocationIdIn(List.of(123456789, 1, 2, 3,
+                                                                                                 4));
 
         // then
         assertThat(foundShelters).contains(shelter);
@@ -48,21 +48,21 @@ class ShelterRepositoryTest {
     void findByAccountEmail() {
         // given
         final Account account = Account.builder()
-                .email("aa@naver.cc")
-                .password("asd!2weW")
-                .role(AccountRole.SHELTER)
-                .build();
+            .email("aa@naver.cc")
+            .password("asd!2weW")
+            .role(AccountRole.SHELTER)
+            .build();
 
         final Shelter shelter = Shelter.builder()
-                .name("테스트 보호소")
-                .address(
-                        ShelterAddress.builder()
-                                .province(Province.광주)
-                                .kakaoLocationId(123456789)
-                                .build()
-                )
-                .account(account)
-                .build();
+            .name("테스트 보호소")
+            .address(
+                ShelterAddress.builder()
+                    .province(Province.광주)
+                    .kakaoLocationId(123456789)
+                    .build()
+            )
+            .account(account)
+            .build();
 
         accountRepository.save(account);
         shelterRepository.save(shelter);
