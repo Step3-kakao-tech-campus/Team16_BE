@@ -1,5 +1,6 @@
 package com.daggle.animory.common.security;
 
+import com.daggle.animory.common.security.exception.InvalidTokenFormatException;
 import com.daggle.animory.domain.account.entity.Account;
 import com.daggle.animory.domain.account.entity.AccountRole;
 import io.jsonwebtoken.*;

@@ -18,8 +18,8 @@ public record PetDto(
         String description,
         LocalDate protectionExpirationDate,
         String vaccinationStatus,
-        String neutralizationStatus,
-        String adoptionStatus,
+        NeutralizationStatus neutralizationStatus,
+        AdoptionStatus adoptionStatus,
         String profileImageUrl,
         String size,
         PetPolygonProfileDto petPolygonProfileDto
@@ -38,8 +38,8 @@ public record PetDto(
                 .description(pet.getDescription())
                 .protectionExpirationDate(pet.getProtectionExpirationDate())
                 .vaccinationStatus(pet.getVaccinationStatus())
-                .neutralizationStatus(pet.getNeutralizationStatus().getMessage())
-                .adoptionStatus(pet.getAdoptionStatus().getMessage())
+                .neutralizationStatus(pet.getNeutralizationStatus())
+                .adoptionStatus(pet.getAdoptionStatus())
                 .profileImageUrl(pet.getProfileImageUrl())
                 .size(pet.getSize())
                 .petPolygonProfileDto(PetPolygonProfileDto.fromEntity(pet.getPetPolygonProfile()))

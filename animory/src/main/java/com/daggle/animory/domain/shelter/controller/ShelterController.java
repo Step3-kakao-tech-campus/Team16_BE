@@ -27,7 +27,7 @@ public class ShelterController implements ShelterControllerApi {
     @Override
     @GetMapping("/{shelterId}")
     public Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) final Integer shelterId,
-                                                   @PageableDefault final Pageable pageable) {
+                                                   @PageableDefault(page = 1, size = 10) final Pageable pageable) {
         return Response.success(shelterService.getShelterProfile(shelterId, pageable));
     }
 

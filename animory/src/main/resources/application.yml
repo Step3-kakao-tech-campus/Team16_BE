@@ -22,12 +22,13 @@ spring:
     hibernate.ddl-auto: create
     properties:
       hibernate.format_sql: true
-      query.fail_on_pagination_over_collection_fetch: true
+  flyway.enabled: false # H2 Error
   data.web.pageable.one-indexed-parameters: true # Request로 들어오는 Pageable 의 인덱스를 1부터 시작하도록 설정합니다.
 
   # File Upload
   servlet.multipart:
     enabled: true
+    location: "./src/main/resources/files/"
     max-file-size: "20MB"
     max-request-size: "25MB"
 
@@ -48,26 +49,5 @@ springdoc.swagger-ui:
 
 # Security
 jwt.secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-
-# Actuator
-management:
-  server.port: 8081
-  endpoints:
-    web.base-path: /actuator
-    enabled-by-default: false
-    jmx.exposure.exclude: "*"
-    web.exposure.include: health, info, env, metrics, loggers, threaddump
-  endpoint:
-    health.enabled: true # 헬스체크
-    info.enabled: true # 애플리케이션 정보
-    env.enabled: true # 환경변수
-    metrics.enabled: true
-    loggers.enabled: true # 로그 설정
-    threaddump.enabled: true
-
-
-
-
-
 
 

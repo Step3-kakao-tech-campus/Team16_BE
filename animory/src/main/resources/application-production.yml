@@ -21,13 +21,18 @@ spring:
     hibernate.ddl-auto: validate
     properties:
       hibernate.format_sql: true
-      query.fail_on_pagination_over_collection_fetch: true
-  data.web.pageable.one-indexed-parameters: true # Request로 들어오는 Pageable 의 인덱스를 1부터 시작하도록 설정합니다.
+  # DB Scheme History Management
+  flyway:
+    url: ${DATABASE_URL}?allowPublicKeyRetrieval=true&useSSL=false
+    user: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    locations: classpath:db/migration
 
   # File Upload
   servlet:
     multipart:
       enabled: true
+      location: "./src/main/resources/files/"
       max-file-size: "50MB"
       max-request-size: "50MB"
 
@@ -48,19 +53,3 @@ cloud.aws:
   region.static: ap-northeast-2
   s3.bucket: kakao-techcampus
   stack.auto: false
-
-# Actuator
-management:
-  server.port: ${ACTUATOR_PORT}
-  endpoints:
-    web.base-path: ${ACTUATOR_PATH}
-    enabled-by-default: false
-    jmx.exposure.exclude: "*"
-    web.exposure.include: health, info, env, metrics, loggers, threaddump
-  endpoint:
-    health.enabled: true # 헬스체크
-    info.enabled: true # 애플리케이션 정보
-    env.enabled: true # 환경변수
-    metrics.enabled: true
-    loggers.enabled: true # 로그 설정
-    threaddump.enabled: true

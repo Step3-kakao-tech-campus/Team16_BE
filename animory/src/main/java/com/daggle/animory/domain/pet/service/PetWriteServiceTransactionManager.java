@@ -69,8 +69,6 @@ public class PetWriteServiceTransactionManager {
      * 펫 수정 트랜잭션
      * 1. Input에 이미지, 비디오 파일이 존재한다면, 기존 파일을 덮어쓴다.
      * 2. 펫 DB 업데이트
-     *
-     * 기존 파일을 덮어쓰기 때문에, imageUrl, videoUrl을 변경할 필요가 없습니다!
      * </pre>
      */
     public void doPetUpdateTransaction(final Pet updatePet,
@@ -78,7 +76,7 @@ public class PetWriteServiceTransactionManager {
                                        final MultipartFile image,
                                        final MultipartFile video) {
         final String imageKey = S3Util.getFileNameFromUrl(updatePet.getProfileImageUrl());
-        final String videoKey = S3Util.getFileNameFromUrl(updatePet.getPetVideo().getVideoUrl());
+        final String videoKey = S3Util.getFileNameFromUrl(updatePet.getProfileShortFormUrl());
 
         try {
             if (image != null && !image.isEmpty()) fileRepository.overwrite(image, imageKey);

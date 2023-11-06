@@ -22,7 +22,6 @@ public class ShelterFixture {
                     .province(Province.광주)
                     .city("북구")
                     .roadName("본촌동 378-6")
-                    .zonecode("61486")
                     .build()
             )
             .account(account)

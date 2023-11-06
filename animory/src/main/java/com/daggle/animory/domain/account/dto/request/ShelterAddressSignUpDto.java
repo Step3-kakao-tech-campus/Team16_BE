@@ -9,19 +9,18 @@ import javax.validation.constraints.NotNull;
 
 @Builder
 public record ShelterAddressSignUpDto(
-    @NotNull(message = "광역시/도를 입력해주세요.") Province province,
-    String city,
-    @NotNull(message = "도로명을 입력해주세요.") String roadName,
-    String detail) {
+        @NotNull(message = "광역시/도를 입력해주세요.") Province province,
+        String city,
+        @NotNull(message = "도로명을 입력해주세요.") String roadName,
+        String detail) {
 
     @Hidden
-    public ShelterAddress getShelterAddress(final String zonecode) {
+    public ShelterAddress getShelterAddress() {
         return ShelterAddress.builder()
-            .province(province)
-            .city(city)
-            .roadName(roadName)
-            .detail(detail)
-            .zonecode(zonecode)
-            .build();
+                .province(province)
+                .city(city)
+                .roadName(roadName)
+                .detail(detail)
+                .build();
     }
 }
