@@ -23,7 +23,7 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @Tag(name = "보호소 API", description = """
-        최종수정시각: 2023-10-22 23:44
+        최종수정일: 2023-11-06
     """)
 public interface ShelterControllerApi {
 
@@ -46,8 +46,8 @@ public interface ShelterControllerApi {
         }
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "보호소 프로필 조회 성공", content = @Content),
-            @ApiResponse(responseCode = "404", description = "해당하는 보호소가 존재하지 않을 경우")
+            @ApiResponse(responseCode = "200", description = "보호소 프로필 조회 성공"),
+            @ApiResponse(responseCode = "404", description = "해당하는 보호소가 존재하지 않을 경우", content = @Content)
     })
     @GetMapping("/{shelterId}")
     Response<ShelterProfilePage> getShelter(@PathVariable @Min(0) Integer shelterId,
@@ -82,9 +82,9 @@ public interface ShelterControllerApi {
         )
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "보호소 정보 수정 성공", content = @Content),
+            @ApiResponse(responseCode = "200", description = "보호소 정보 수정 성공"),
             @ApiResponse(responseCode = "403", description = "내 보호소가 아닌 다른 보호소를 수정하려는 경우 권한 없음으로 예외 발생", content = @Content),
-            @ApiResponse(responseCode = "404", description = "수정하려는 보호소가 애니모리에 등록되있지 않는 경우"),
+            @ApiResponse(responseCode = "404", description = "수정하려는 보호소가 애니모리에 등록되있지 않는 경우", content = @Content),
     })
     @PutMapping("/{shelterId}")
     Response<ShelterUpdateSuccessDto> updateShelter(@AuthenticationPrincipal UserDetailsImpl userDetails,
