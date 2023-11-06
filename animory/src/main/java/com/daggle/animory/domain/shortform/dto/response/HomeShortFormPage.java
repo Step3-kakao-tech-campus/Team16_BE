@@ -6,16 +6,19 @@ import java.util.List;
 
 public record HomeShortFormPage(
     List<ShortFormDto> shortForms,
-    boolean hasNext
+    boolean hasNext,
+    Integer nextPage
 ) {
 
     public static HomeShortFormPage of(final List<PetVideo> petVideos,
-                                       final boolean hasNext) {
+                                       final boolean hasNext,
+                                       final Integer nextPage) {
         return new HomeShortFormPage(
             petVideos.stream()
                 .map(ShortFormDto::of)
                 .toList(),
-            hasNext
+            hasNext,
+            nextPage
         );
     }
 }
