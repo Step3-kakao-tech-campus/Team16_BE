@@ -34,8 +34,7 @@ public interface AccountControllerApi {
         @ApiResponse(responseCode = "400", description = """
             - ID 또는 Password 불일치로 인한 로그인 실패
             - Email 형식 오류, 비밀번호가 null
-        """, content = @Content),
-        @ApiResponse(responseCode = "404", description = "해당하는 보호소를 찾을 수 없는 경우", content = @Content)
+        """, content = @Content)
     })
     ResponseEntity<Response<AccountLoginSuccessDto>> login(@Valid @RequestBody AccountLoginDto request);
 
