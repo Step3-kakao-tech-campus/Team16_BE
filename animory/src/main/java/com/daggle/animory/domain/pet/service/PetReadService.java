@@ -25,8 +25,8 @@ public class PetReadService {
 
     public PetProfilesDto getPetProfiles() {
         // sos, new 프로필 각각 최대 8개씩 조회
-        final List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate(PageRequest.of(0, 8));
-        final List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt(PageRequest.of(0, 8));
+        final List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate(PageRequest.of(0, 8)).getContent();
+        final List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt(PageRequest.of(0, 8)).getContent();
 
         // DTO에 넣어주기
         final List<SosPetDto> sosList = sosProfiles.stream()
@@ -41,17 +41,17 @@ public class PetReadService {
     }
 
     public SosPetProfilesDto getPetSosProfiles(final Pageable pageable) {
-        return SosPetProfilesDto.of(petRepository.findPageBy(pageable));
+        return SosPetProfilesDto.of(petRepository.findProfilesWithProtectionExpirationDate(pageable));
     }
 
     public NewPetProfilesDto getPetNewProfiles(final Pageable pageable) {
-        return NewPetProfilesDto.of(petRepository.findPageBy(pageable));
+        return NewPetProfilesDto.of(petRepository.findProfilesWithCreatedAt(pageable));
     }
 
     public PetDto getPetDetail(final int petId) {
         // petId로 Pet, PetPolygonProfile 얻어오기
         final Pet pet = petRepository.findById(petId)
-            .orElseThrow(() -> new PetNotFoundException());
+            .orElseThrow(PetNotFoundException::new);
 
         return PetDto.fromEntity(pet);
     }
@@ -63,7 +63,7 @@ public class PetReadService {
 
         // 펫 id로 Pet, PetPolygonProfile 얻어오기
         final Pet registerPet = petRepository.findById(petId)
-            .orElseThrow(() -> new PetNotFoundException());
+            .orElseThrow(PetNotFoundException::new);
 
         petValidator.validatePetUpdateAuthority(userDetails.getEmail(), registerPet);
 

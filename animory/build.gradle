@@ -1,94 +1,94 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.15'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'jacoco' // Java Code Coverage
+    id 'java'
+    id 'org.springframework.boot' version '2.7.15'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'jacoco' // Java Code Coverage
 }
 
 group = 'com.daggle'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
-	developmentOnly 'org.springframework.boot:spring-boot-devtools' // live reload
+    developmentOnly 'org.springframework.boot:spring-boot-devtools' // live reload
 
-	// spring
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// jwt, password encoder
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
-	// security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	// db
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	// flyway
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.flywaydb:flyway-mysql'
+    // db
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// api-doc (swagger)
-	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    // api-doc (swagger)
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 
-	// lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
-	// test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation 'io.github.autoparams:autoparams:3.1.0' // test case random generator
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'io.github.autoparams:autoparams:3.1.0' // test case random generator
 
-	// aws
-	implementation platform('software.amazon.awssdk:bom:2.20.56')
-	implementation 'software.amazon.awssdk:s3'
+    // aws
+    implementation platform('software.amazon.awssdk:bom:2.20.56')
+    implementation 'software.amazon.awssdk:s3'
+
+    // actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.5'
 }
 
 // Test Task 설정
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 
-	finalizedBy('jacocoTestReport') // Code Coverage 검사
+    finalizedBy('jacocoTestReport') // Code Coverage 검사
 }
 
 // Jacoco (Java Code Coverage) 설정
 jacoco {
-	toolVersion = "0.8.10"
+    toolVersion = "0.8.10"
 }
 
 jacocoTestReport {
-	reports {
-		xml.required = true
-		csv.required = false
-		html.required = true
-		html.destination file("${buildDir}/reports/jacocoReport")
-	}
-	
-	afterEvaluate {
-		classDirectories.setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: [ // 테스트 커버리지 측정에서 제외할 파일
-					"com/daggle/animory/AnimoryApplication.class",
-			])
-		}))
-	}
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+        html.destination file("${buildDir}/reports/jacocoReport")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [ // 테스트 커버리지 측정에서 제외할 파일
+                                         "com/daggle/animory/AnimoryApplication.class",
+            ])
+        }))
+    }
 }

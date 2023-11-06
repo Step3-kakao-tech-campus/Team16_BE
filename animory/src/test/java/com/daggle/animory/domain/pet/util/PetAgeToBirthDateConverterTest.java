@@ -5,6 +5,7 @@ import autoparams.Repeat;
 import com.daggle.animory.domain.pet.exception.InvalidPetAgeFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -21,6 +22,63 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @Slf4j
 class PetAgeToBirthDateConverterTest {
+
+    @ParameterizedTest
+    @AutoSource
+    @Repeat
+    void ageToBirthDate(
+        @Min(0) @Max(9999) final int year,
+        @Min(0) @Max(11) final int month) {
+        final String age = year + "년" + month + "개월";
+
+        final LocalDate birthDate = PetAgeToBirthDateConverter.ageToBirthDate(age);
+
+        assertEqualsBirthDate(birthDate, year, month);
+    }
+
+    @ParameterizedTest
+    @AutoSource
+    @Repeat
+    void birthDateToAge(@Min(1990) @Max(2023) final int year,
+                        @Min(1) @Max(11) final int month) {
+        final LocalDate birthDate = LocalDate.of(year, month, 1);
+
+        if (birthDate.isAfter(LocalDate.now())) return;
+
+        final String calculatedAge = PetAgeToBirthDateConverter.birthDateToAge(birthDate);
+
+        final LocalDate now = LocalDate.now();
+        final LocalDate expectedBirthDate = now.minusYears(birthDate.getYear()).minusMonths(birthDate.getMonthValue());
+        final String expectedAge = getExpectedAge(expectedBirthDate);
+
+        log.debug("\n birthDate: {},\n expectedAge: {},\n calculatedAge: {}", birthDate, expectedAge, calculatedAge);
+
+        assertThat(calculatedAge).isEqualTo(expectedAge);
+    }
+
+    @Test
+    void 성공_year가_0인경우() {
+        final LocalDate birthDate = LocalDate.now().minusMonths(1);
+
+        final String age = PetAgeToBirthDateConverter.birthDateToAge(birthDate);
+
+        assertThat(age).isEqualTo("1개월");
+    }
+
+    private static String getExpectedAge(final LocalDate expectedBirthDate) {
+        return expectedBirthDate.getYear() == 0 ?
+            expectedBirthDate.getMonthValue() + "개월" :
+            expectedBirthDate.getYear() + "년" + expectedBirthDate.getMonthValue() + "개월";
+    }
+
+    private void assertEqualsBirthDate(final LocalDate birthDate, final int year, final int month) {
+        final LocalDate today = LocalDate.now();
+        final LocalDate 수동계산된_생일 = today.minusYears(year).minusMonths(month);
+        assertAll(
+            () -> assertThat(Objects.requireNonNull(birthDate).getYear()).isEqualTo(수동계산된_생일.getYear()),
+            () -> assertThat(Objects.requireNonNull(birthDate).getMonthValue()).isEqualTo(수동계산된_생일.getMonthValue())
+        );
+    }
 
     @Nested
     class 수동_age문자열입력_테스트 {
@@ -50,49 +108,5 @@ class PetAgeToBirthDateConverterTest {
             assertDoesNotThrow(() -> PetAgeToBirthDateConverter.ageToBirthDate(age));
         }
 
-    }
-
-
-    @ParameterizedTest
-    @AutoSource
-    @Repeat
-    void ageToBirthDate(
-        @Min(0) @Max(9999) final int year,
-        @Min(0) @Max(11) final int month) {
-        final String age = year + "년" + month + "개월";
-
-        final LocalDate birthDate = PetAgeToBirthDateConverter.ageToBirthDate(age);
-
-        assertEqualsBirthDate(birthDate, year, month);
-    }
-
-    @ParameterizedTest
-    @AutoSource
-    @Repeat
-    void birthDateToAge(@Min(1990) @Max(2023) final int year,
-                        @Min(1) @Max(11) final int month) {
-        final LocalDate birthDate = LocalDate.of(year, month, 1);
-
-        if(birthDate.isAfter(LocalDate.now())) return;
-
-        final String calculatedAge = PetAgeToBirthDateConverter.birthDateToAge(birthDate);
-
-        final LocalDate now = LocalDate.now();
-        final LocalDate expectedBirthDate = now.minusYears(birthDate.getYear()).minusMonths(birthDate.getMonthValue());
-        final String expectedAge = expectedBirthDate.getYear() + "년" + expectedBirthDate.getMonthValue() + "개월";
-
-        log.debug("\n birthDate: {},\n expectedAge: {},\n calculatedAge: {}", birthDate, expectedAge, calculatedAge);
-
-        assertThat(calculatedAge).isEqualTo(expectedAge);
-    }
-
-
-    private void assertEqualsBirthDate(final LocalDate birthDate, final int year, final int month) {
-        final LocalDate today = LocalDate.now();
-        final LocalDate 수동계산된_생일 = today.minusYears(year).minusMonths(month);
-        assertAll(
-            () -> assertThat(Objects.requireNonNull(birthDate).getYear()).isEqualTo(수동계산된_생일.getYear()),
-            () -> assertThat(Objects.requireNonNull(birthDate).getMonthValue()).isEqualTo(수동계산된_생일.getMonthValue())
-        );
     }
 }

@@ -11,7 +11,7 @@ public record NewPetDto(
         String petName,
         String petAge,
         String profileImageUrl,
-        AdoptionStatus adoptionStatus,
+        String adoptionStatus,
         Integer shelterId,
         String shelterName
 ) {
@@ -22,7 +22,7 @@ public record NewPetDto(
                 .petName(pet.getName())
                 .petAge(PetAgeToBirthDateConverter.birthDateToAge(pet.getBirthDate()))
                 .profileImageUrl(pet.getProfileImageUrl())
-                .adoptionStatus(pet.getAdoptionStatus())
+                .adoptionStatus(pet.getAdoptionStatus().getMessage())
                 .shelterId(pet.getShelter().getId())
                 .shelterName(pet.getShelter().getName())
                 .build();

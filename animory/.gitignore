@@ -41,3 +41,4 @@ out/
 /src/main/resources/files
 /src/main/resources/aws-secret.yml
 /logs
+/was-logs

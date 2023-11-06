@@ -13,16 +13,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Tag(
     name = "숏폼 비디오 API",
     description = """
-        최종수정시각: 2023-10-22 23:24
-    """
+            최종수정시각: 2023-10-22 23:24
+        """
 )
 public interface ShortFormControllerApi {
 
@@ -33,21 +33,18 @@ public interface ShortFormControllerApi {
                 in = ParameterIn.QUERY,
                 name = "type",
                 description = "Pet 종류",
-                required = true,
                 schema = @Schema(implementation = PetType.class)
             ),
             @Parameter(
                 in = ParameterIn.QUERY,
                 name = "area",
                 description = "지역",
-                required = true,
                 schema = @Schema(implementation = Province.class)
             ),
             @Parameter(
                 in = ParameterIn.QUERY,
                 name = "page",
                 description = "페이지 번호",
-                required = true,
                 schema = @Schema(type = "integer", defaultValue = "1")
             ),
             @Parameter(
@@ -63,7 +60,7 @@ public interface ShortFormControllerApi {
     Response<CategoryShortFormPage> getShortForms(@Parameter(hidden = true)
                                                   @ModelAttribute @Valid ShortFormSearchCondition searchCondition,
                                                   @Parameter(hidden = true) // 문서에 깔끔하게 나오지 않을 경우, 이런 식으로 그냥 숨겨버립니다.
-                                                  @PageableDefault(page = 1, size = 10) Pageable pageable);
+                                                  @PageableDefault Pageable pageable);
 
     @Operation(summary = "홈 화면 숏폼 비디오 조회",
         description = "홈 화면에서 보여 줄 숏폼 비디오들을 조회합니다.",
@@ -85,6 +82,12 @@ public interface ShortFormControllerApi {
         }
     )
     @GetMapping("/short-forms/home")
-    Response<HomeShortFormPage> getHomeShortForms(@PageableDefault(page = 1, size = 10) Pageable pageable);
+    Response<HomeShortFormPage> getHomeShortForms(@Parameter(hidden = true) @PageableDefault Pageable pageable);
 
+    @PostMapping("/like/{petVideoId}")
+    Response<Void> increasePetLikeCount(final HttpServletRequest httpServletRequest,
+                                        @PathVariable final int petVideoId);
+
+    @DeleteMapping("/like/{petVideoId}")
+    Response<Void> deletePetLikeCount(final HttpServletRequest httpServletRequest, @PathVariable final int petVideoId);
 }

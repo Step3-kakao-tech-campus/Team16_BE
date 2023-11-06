@@ -2,7 +2,10 @@ package com.daggle.animory.domain.shelter.entity;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -21,6 +24,7 @@ public class ShelterAddress {
     private double y;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Province province;
 
     private String city;
@@ -28,5 +32,8 @@ public class ShelterAddress {
     private String roadName;
 
     private String detail;
+
+    @Column(length = 10, name = "zone_code")
+    private String zonecode;
 
 }

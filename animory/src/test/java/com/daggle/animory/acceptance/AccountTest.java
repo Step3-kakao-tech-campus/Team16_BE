@@ -26,8 +26,8 @@ class AccountTest extends AcceptanceTest {
         final EmailValidateDto emailValidateDto = new EmailValidateDto(EMAIL + "1");
 
         result = mvc.perform(post("/account/email")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(om.writeValueAsString(emailValidateDto)));
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(om.writeValueAsString(emailValidateDto)));
 
         assertSuccess();
     }
@@ -38,6 +38,7 @@ class AccountTest extends AcceptanceTest {
             .email(EMAIL + "1")
             .password(PASSWORD)
             .name("테스트 보호소")
+            .zonecode("12345")
             .address(
                 ShelterAddressSignUpDto.builder()
                     .province(Province.광주)
@@ -51,8 +52,8 @@ class AccountTest extends AcceptanceTest {
 
 
         result = mvc.perform(post("/account/shelter")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(om.writeValueAsString(shelterSignUpDto)));
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(om.writeValueAsString(shelterSignUpDto)));
 
         assertSuccess();
     }
@@ -76,8 +77,8 @@ class AccountTest extends AcceptanceTest {
 
 
         result = mvc.perform(post("/account/shelter")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(shelterSignUpDto)))
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(om.writeValueAsString(shelterSignUpDto)))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.success").value(false));
     }
@@ -90,8 +91,8 @@ class AccountTest extends AcceptanceTest {
             .build();
 
         result = mvc.perform(post("/account/login")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(om.writeValueAsString(accountLoginDto)));
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(om.writeValueAsString(accountLoginDto)));
 
         assertSuccess();
         result.andExpect(jsonPath("$.response.accountId").value(1))
@@ -101,8 +102,8 @@ class AccountTest extends AcceptanceTest {
 
         // header authorization field exists
         assertThat(result.andReturn()
-            .getResponse()
-            .getHeader("Authorization")).isNotNull();
+                       .getResponse()
+                       .getHeader("Authorization")).isNotNull();
     }
 
     @Test
@@ -113,8 +114,8 @@ class AccountTest extends AcceptanceTest {
             .build();
 
         result = mvc.perform(post("/account/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(accountLoginDto)))
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(om.writeValueAsString(accountLoginDto)))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.success").value(false))
             .andExpect(jsonPath("$.error.message").value("이메일 또는 비밀번호를 확인해주세요."));
