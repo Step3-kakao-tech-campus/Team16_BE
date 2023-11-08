@@ -3,6 +3,7 @@ package com.daggle.animory.common.exception.handler;
 
 import com.daggle.animory.common.Response;
 import com.daggle.animory.common.security.exception.ForbiddenException;
+import com.daggle.animory.common.security.exception.UnAuthorizedException;
 import com.daggle.animory.domain.account.exception.AlreadyExistEmailException;
 import com.daggle.animory.domain.account.exception.CheckEmailOrPasswordException;
 import com.daggle.animory.domain.fileserver.exception.*;
@@ -106,6 +107,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
                                                                                  HttpStatus.BAD_REQUEST));
     }
+
+    // 401
+    @ExceptionHandler({UnAuthorizedException.class})
+    public ResponseEntity<Response<Void>> handleUnAuthorizedException(final Exception e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Response.error(e.getMessage(),
+                                                                                  HttpStatus.UNAUTHORIZED));
+    }
+
 
     // 403
     @ExceptionHandler({ShelterPermissionDeniedException.class})

@@ -2,6 +2,7 @@ package com.daggle.animory.common.security;
 
 import com.daggle.animory.common.security.exception.ForbiddenException;
 import com.daggle.animory.common.security.exception.JwtExceptionFilter;
+import com.daggle.animory.common.security.exception.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Configuration
@@ -64,12 +63,12 @@ public class SecurityConfig {
         http.apply(new SecurityFilterManagerImpl());
 
         http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-            log.info(authException.getMessage());
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            log.info("{}, {}", request.getRemoteAddr(), authException.getMessage());
+            resolver.resolveException(request, response, null, new UnAuthorizedException());
         });
 
         http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-            log.info(accessDeniedException.getMessage());
+            log.info("{}, {}", request.getRemoteAddr(), accessDeniedException.getMessage());
             resolver.resolveException(request, response, null, new ForbiddenException());
         });
 
