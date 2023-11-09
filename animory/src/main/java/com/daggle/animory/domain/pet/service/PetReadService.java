@@ -25,8 +25,8 @@ public class PetReadService {
 
     public PetProfilesDto getPetProfiles() {
         // sos, new 프로필 각각 최대 8개씩 조회
-        final List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate(PageRequest.of(0, 8)).getContent();
-        final List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt(PageRequest.of(0, 8)).getContent();
+        final List<Pet> sosProfiles = petRepository.findProfilesWithProtectionExpirationDate(PageRequest.of(0, 4)).getContent();
+        final List<Pet> newProfiles = petRepository.findProfilesWithCreatedAt(PageRequest.of(0, 4)).getContent();
 
         // DTO에 넣어주기
         final List<SosPetDto> sosList = sosProfiles.stream()
