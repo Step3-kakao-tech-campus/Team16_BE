@@ -2,9 +2,9 @@ package com.daggle.animory.domain.shortform.service;
 
 import com.daggle.animory.domain.pet.entity.PetVideo;
 import com.daggle.animory.domain.shortform.entity.PetVideoLike;
-import com.daggle.animory.domain.shortform.exception.AlreadyLikedPetVideo;
-import com.daggle.animory.domain.shortform.exception.NotLikedPetVideo;
-import com.daggle.animory.domain.shortform.exception.ShortFormNotFound;
+import com.daggle.animory.domain.shortform.exception.AlreadyLikedPetVideoException;
+import com.daggle.animory.domain.shortform.exception.NotLikedPetVideoException;
+import com.daggle.animory.domain.shortform.exception.ShortFormNotFoundException;
 import com.daggle.animory.domain.shortform.repository.PetVideoJpaRepository;
 import com.daggle.animory.domain.shortform.repository.PetVideoLikeRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class PetVideoLikeService {
         validatePetVideoLikeDuplication(IPAddress, petVideoId);
 
         final PetVideo petVideo = petVideoJpaRepository.findById(petVideoId)
-            .orElseThrow(ShortFormNotFound::new);
+            .orElseThrow(ShortFormNotFoundException::new);
 
         petVideo.updateLikeCount();
 
@@ -36,7 +36,7 @@ public class PetVideoLikeService {
         validatePetVideoLikeDelete(ipAddress, petVideoId);
 
         final PetVideo petVideo = petVideoJpaRepository.findById(petVideoId)
-            .orElseThrow(ShortFormNotFound::new);
+            .orElseThrow(ShortFormNotFoundException::new);
 
         petVideo.deleteLikeCount();
 
@@ -45,13 +45,13 @@ public class PetVideoLikeService {
 
     private void validatePetVideoLikeDuplication(final String IPAddress, final int petVideoId) {
         if (petVideoLikeRepository.existsByIpAddressAndPetVideoId(IPAddress, petVideoId)) {
-            throw new AlreadyLikedPetVideo();
+            throw new AlreadyLikedPetVideoException();
         }
     }
 
     private void validatePetVideoLikeDelete(final String IPAddress, final int petVideoId) {
         if (!petVideoLikeRepository.existsByIpAddressAndPetVideoId(IPAddress, petVideoId)) {
-            throw new NotLikedPetVideo();
+            throw new NotLikedPetVideoException();
         }
     }
 }
