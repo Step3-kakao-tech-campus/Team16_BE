@@ -11,9 +11,13 @@ import com.daggle.animory.domain.pet.exception.InvalidPetAgeFormatException;
 import com.daggle.animory.domain.pet.exception.InvalidPetMonthRangeException;
 import com.daggle.animory.domain.pet.exception.InvalidPetYearRangeException;
 import com.daggle.animory.domain.pet.exception.PetNotFoundException;
+import com.daggle.animory.domain.pet.exception.PetPermissionDeniedException;
 import com.daggle.animory.domain.shelter.exception.ShelterAlreadyExistException;
 import com.daggle.animory.domain.shelter.exception.ShelterNotFoundException;
 import com.daggle.animory.domain.shelter.exception.ShelterPermissionDeniedException;
+import com.daggle.animory.domain.shortform.exception.AlreadyLikedPetVideoException;
+import com.daggle.animory.domain.shortform.exception.NotLikedPetVideoException;
+import com.daggle.animory.domain.shortform.exception.ShortFormNotFoundException;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -108,6 +112,18 @@ public class GlobalExceptionHandler {
                                                                                  HttpStatus.BAD_REQUEST));
     }
 
+    @ExceptionHandler({AlreadyLikedPetVideoException.class})
+    public ResponseEntity<Response<Void>> handleAlreadyLikedPetVideoException(final Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler({NotLikedPetVideoException.class})
+    public ResponseEntity<Response<Void>> handleNotLikedPetVideoException(final Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.error(e.getMessage(),
+                HttpStatus.BAD_REQUEST));
+    }
+
     // 401
     @ExceptionHandler({UnAuthorizedException.class})
     public ResponseEntity<Response<Void>> handleUnAuthorizedException(final Exception e) {
@@ -119,6 +135,11 @@ public class GlobalExceptionHandler {
     // 403
     @ExceptionHandler({ShelterPermissionDeniedException.class})
     public ResponseEntity<Response<Void>> handleShelterPermissionDeniedException(final Exception e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Response.error(e.getMessage(), HttpStatus.FORBIDDEN));
+    }
+
+    @ExceptionHandler({PetPermissionDeniedException.class})
+    public ResponseEntity<Response<Void>> handlePetPermissionDeniedException(final Exception e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Response.error(e.getMessage(), HttpStatus.FORBIDDEN));
     }
 
@@ -135,6 +156,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ShelterNotFoundException.class})
     public ResponseEntity<Response<Void>> handleShelterNotFoundException(final Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
+    }
+    @ExceptionHandler({ShortFormNotFoundException.class})
+    public ResponseEntity<Response<Void>> handleShortFormNotFoundException(final Exception e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.error(e.getMessage(), HttpStatus.NOT_FOUND));
     }
 
