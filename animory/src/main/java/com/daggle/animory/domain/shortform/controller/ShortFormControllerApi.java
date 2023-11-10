@@ -9,7 +9,10 @@ import com.daggle.animory.domain.shortform.dto.response.HomeShortFormPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,12 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@Tag(
-    name = "숏폼 비디오 API",
-    description = """
-            최종수정시각: 2023-10-22 23:24
-        """
-)
+@Tag(name = "숏폼 API", description = """
+        최종수정일: 2023-11-06
+    """)
 public interface ShortFormControllerApi {
 
     @Operation(summary = "조건부 숏폼 비디오 탐색",
@@ -84,10 +84,43 @@ public interface ShortFormControllerApi {
     @GetMapping("/short-forms/home")
     Response<HomeShortFormPage> getHomeShortForms(@Parameter(hidden = true) @PageableDefault Pageable pageable);
 
+    @Operation(summary = "숏폼 좋아요 등록",
+            description = "특정 숏폼에 좋아요를 등록합니다.",
+            parameters = {
+                @Parameter(
+                    in = ParameterIn.HEADER,
+                    name = "X-Forwarded-For",
+                    description = "클라이언트 IP",
+                    required = true,
+                    schema = @Schema(type = "string", defaultValue = "")
+            )
+        }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 삭제 성공"),
+            @ApiResponse(responseCode = "400", description = "헤당하는 Ip로 숏폼에 좋아요가 이미 등록되있는 경우", content = @Content),
+            @ApiResponse(responseCode = "404", description = "해당하는 숏폼이 존재하지 않을 경우", content = @Content)
+    })
     @PostMapping("/like/{petVideoId}")
     Response<Void> increasePetLikeCount(final HttpServletRequest httpServletRequest,
                                         @PathVariable final int petVideoId);
-
+    @Operation(summary = "숏폼 좋아요 삭제",
+            description = "특정 숏폼에 좋아요를 삭제합니다.",
+            parameters = {
+                    @Parameter(
+                            in = ParameterIn.HEADER,
+                            name = "X-Forwarded-For",
+                            description = "클라이언트 IP",
+                            required = true,
+                            schema = @Schema(type = "string", defaultValue = "")
+                    )
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 삭제 성공"),
+            @ApiResponse(responseCode = "400", description = "헤당하는 Ip로 숏폼에 좋아요가 등록되있지 않은 경우", content = @Content),
+            @ApiResponse(responseCode = "404", description = "해당하는 숏폼이 존재하지 않을 경우", content = @Content)
+    })
     @DeleteMapping("/like/{petVideoId}")
     Response<Void> deletePetLikeCount(final HttpServletRequest httpServletRequest, @PathVariable final int petVideoId);
 }

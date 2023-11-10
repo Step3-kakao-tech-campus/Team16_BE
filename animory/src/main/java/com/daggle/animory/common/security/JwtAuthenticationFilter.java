@@ -22,18 +22,22 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private final TokenProvider tokenProvider;
 
-    public JwtAuthenticationFilter(final AuthenticationManager authenticationManager, final TokenProvider tokenProvider) {
+    public JwtAuthenticationFilter(final AuthenticationManager authenticationManager,
+                                   final TokenProvider tokenProvider) {
         super(authenticationManager);
         this.tokenProvider = tokenProvider;
     }
 
     // 권한 확인을 수행하는 로직
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+                                    final FilterChain chain) throws IOException, ServletException {
+        log.debug("JwtAuthenticationFilter 동작");
+
         final String jwt = request.getHeader(AUTHORIZATION_HEADER);
 
         if (jwt == null) {
-            super.doFilterInternal(request, response, chain);
+            chain.doFilter(request, response);
             return;
         }
 
@@ -44,24 +48,25 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             final AccountRole role = tokenProvider.getRoleFromToken(claims);
 
             final Account account = Account.builder()
-                    .email(email)
-                    .role(role)
-                    .build();
+                .email(email)
+                .role(role)
+                .build();
             final UserDetailsImpl userDetails = new UserDetailsImpl(account);
 
             final Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    userDetails.getPassword(),
-                    userDetails.getAuthorities());
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             log.debug("디버그 : 인증 객체 만들어짐");
+            chain.doFilter(request, response);
         } catch (SecurityException e) {
             log.info("Invalid JWT signature.");
             throw new JwtException("잘못된 JWT 시그니처");
         } catch (MalformedJwtException e) {
-            log.info("Invalid JWT token.");
+            log.info("Invalid JWT token: {}.", e.getMessage());
             throw new JwtException("유효하지 않은 JWT 토큰");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT token.");
@@ -72,8 +77,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         } catch (IllegalArgumentException e) {
             log.info("JWT token compact of handler are invalid.");
             throw new JwtException("JWT token compact of handler are invalid.");
-        } finally {
-            super.doFilterInternal(request, response, chain);
         }
     }
 }

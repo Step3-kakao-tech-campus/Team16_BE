@@ -28,9 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PetTest extends AcceptanceTest {
 
     final MockMultipartFile image = new MockMultipartFile("profileImage", "image.jpg", "image/jpeg",
-                                                          "image" .getBytes(StandardCharsets.UTF_8));
+                                                          "image".getBytes(StandardCharsets.UTF_8));
     final MockMultipartFile video = new MockMultipartFile("profileVideo", "video.mp4", "video/mp4",
-                                                          "video" .getBytes(StandardCharsets.UTF_8));
+                                                          "video".getBytes(StandardCharsets.UTF_8));
 
     @Nested
     class 강아지_등록 {

@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@Tag(name = "Pet", description = """
-        Pet 등록, 수정 및 조회 관련 API
-        최종수정시각: 2023-10-22 23:56
+@Tag(name = "펫 API", description = """
+        최종수정일: 2023-11-06
     """)
 public interface PetControllerApi {
 
@@ -46,7 +45,7 @@ public interface PetControllerApi {
             "\t\n 3. 빈 이미지 파일일 경우" +
             "\t\n 4. 빈 비디오 파일일 경우" +
             "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
-        @ApiResponse(responseCode = "404", description = "보호소를 찾을 수 없는 경우", content = @Content),
+        @ApiResponse(responseCode = "404", description = "로그인되어 있는 보호소의 권한 체크 중 해당 보호소를 DB에서 찾을 수 없는 경우", content = @Content),
         @ApiResponse(responseCode = "500", description = "S3 저장 오류", content = @Content)
     })
     Response<RegisterPetSuccessDto> registerPet(
@@ -59,6 +58,8 @@ public interface PetControllerApi {
     @Operation(summary = "Pet 수정 페이지 진입, 기존 펫 정보 확인",
         description = "Pet 수정 페이지에서, 기존 등록된 정보를 확인하기 위해 호출하는 API 입니다.")
     @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "기존 펫 정보 조회 성공"),
+        @ApiResponse(responseCode = "403", description = "수정 권한이 없는 보호소 계정으로 해당 페이지를 조회 시도한 경우", content = @Content),
         @ApiResponse(responseCode = "404", description = "존재하지 않는 펫인 경우", content = @Content)
     })
     Response<PetRegisterInfoDto> getPetRegisterInfo(UserDetailsImpl userDetails,
@@ -85,7 +86,8 @@ public interface PetControllerApi {
             "\t\n 3. 빈 이미지 파일일 경우" +
             "\t\n 4. 빈 비디오 파일일 경우" +
             "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
-        @ApiResponse(responseCode = "404", description = "존재하지 않는 펫 오류", content = @Content),
+        @ApiResponse(responseCode = "403", description = "해당 펫을 수정할 권한이 없는 경세", content = @Content),
+        @ApiResponse(responseCode = "404", description = "존재하지 않는 펫을 수정하려는 경우", content = @Content),
         @ApiResponse(responseCode = "500", description = "S3 저장 오류", content = @Content)
     })
     Response<UpdatePetSuccessDto> updatePet(
@@ -149,9 +151,11 @@ public interface PetControllerApi {
     @Operation(summary = "Pet 상세 조회",
         description = "")
     @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "펫 상세 조회 성공"),
         @ApiResponse(responseCode = "404", description = "존재하지 않는 펫인 경우", content = @Content)
     })
     Response<PetDto> getPetDetail(@PathVariable int petId);
+
 
 
     @Operation(summary = "[로그인 필요: 보호소] Pet 입양 완료 처리",
@@ -167,8 +171,10 @@ public interface PetControllerApi {
         }
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "404", description = "1. 존재하지 않는 펫인 경우" +
-            "\t\n 2. 보호소를 찾을 수 없는 경우", content = @Content)
+            @ApiResponse(responseCode = "200", description = "펫 입양 처리 성공"),
+            @ApiResponse(responseCode = "403", description = "해당 펫을 수정할 권한이 없는 경우", content = @Content),
+            @ApiResponse(responseCode = "404", description = "1. 존재하지 않는 펫인 경우" +
+            "\t\n 2. 로그인되어 있는 보호소의 권한 체크 중 해당 보호소를 DB에서 찾을 수 없는 경우", content = @Content)
     })
     Response<Void> updatePetAdopted(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                     @PathVariable int petId);
