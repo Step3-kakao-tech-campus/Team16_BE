@@ -12,7 +12,7 @@ public interface PetVideoJpaRepository extends JpaRepository<PetVideo, Integer> 
     @Query("""
         select pv.id
         from PetVideo pv
-        order by pv.likeCount desc
+        order by pv.likeCount desc, pv.id desc
         """)
     Slice<Integer> findPetVideoIdsBy(Pageable pageable);
 

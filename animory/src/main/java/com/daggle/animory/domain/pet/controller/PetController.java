@@ -73,6 +73,7 @@ public class PetController implements PetControllerApi {
         return Response.success(petReadService.getPetSosProfiles(pageable));
     }
 
+
     @GetMapping("/profiles/new")
     public Response<NewPetProfilesDto> getPetNewProfiles(
         @PageableDefault(size = 8, sort = "createdAt", direction = Direction.DESC) final Pageable pageable) {
