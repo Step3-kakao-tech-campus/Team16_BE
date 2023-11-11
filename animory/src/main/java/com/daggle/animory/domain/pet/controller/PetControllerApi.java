@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ public interface PetControllerApi {
 
     @Operation(summary = "[로그인 필요: 보호소] Pet 등록 요청",
         description = "Pet 등록 요청 API 입니다. Swagger Test가 작동하지 않을 수 있습니다.(https://github" +
-            ".com/springdoc/springdoc-openapi/issues/820)",
+                      ".com/springdoc/springdoc-openapi/issues/820)",
         parameters = {
             @Parameter(
                 in = ParameterIn.HEADER,
@@ -41,10 +42,10 @@ public interface PetControllerApi {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "저장 성공"),
         @ApiResponse(responseCode = "400", description = "1. 이미지 형식이 jpg, jpeg, png, gif, bmp, tiff 중 하나가 아닐 경우" +
-            "\t\n 2. 비디오 형식이 mp4, avi, mov, wmv, flv, mkv, webm 중 하나가 아닐 경우" +
-            "\t\n 3. 빈 이미지 파일일 경우" +
-            "\t\n 4. 빈 비디오 파일일 경우" +
-            "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
+                                                         "\t\n 2. 비디오 형식이 mp4, avi, mov, wmv, flv, mkv, webm 중 하나가 아닐 경우" +
+                                                         "\t\n 3. 빈 이미지 파일일 경우" +
+                                                         "\t\n 4. 빈 비디오 파일일 경우" +
+                                                         "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
         @ApiResponse(responseCode = "404", description = "로그인되어 있는 보호소의 권한 체크 중 해당 보호소를 DB에서 찾을 수 없는 경우", content = @Content),
         @ApiResponse(responseCode = "500", description = "S3 저장 오류", content = @Content)
     })
@@ -68,7 +69,7 @@ public interface PetControllerApi {
     // Pet 수정 요청
     @Operation(summary = "[로그인 필요: 보호소] Pet 수정 요청",
         description = "보호소 계정 권한이 필요합니다. Swagger Test가 작동하지 않을 수 있습니다.(https://github" +
-            ".com/springdoc/springdoc-openapi/issues/820)",
+                      ".com/springdoc/springdoc-openapi/issues/820)",
         parameters = {
             @Parameter(
                 in = ParameterIn.HEADER,
@@ -82,10 +83,10 @@ public interface PetControllerApi {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "저장 성공"),
         @ApiResponse(responseCode = "400", description = "1. 이미지 형식이 jpg, jpeg, png, gif, bmp, tiff 중 하나가 아닐 경우" +
-            "\t\n 2. 비디오 형식이 mp4, avi, mov, wmv, flv, mkv, webm 중 하나가 아닐 경우" +
-            "\t\n 3. 빈 이미지 파일일 경우" +
-            "\t\n 4. 빈 비디오 파일일 경우" +
-            "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
+                                                         "\t\n 2. 비디오 형식이 mp4, avi, mov, wmv, flv, mkv, webm 중 하나가 아닐 경우" +
+                                                         "\t\n 3. 빈 이미지 파일일 경우" +
+                                                         "\t\n 4. 빈 비디오 파일일 경우" +
+                                                         "\t\n 5. 잘못된 나이 형식일 경우", content = @Content),
         @ApiResponse(responseCode = "403", description = "해당 펫을 수정할 권한이 없는 경세", content = @Content),
         @ApiResponse(responseCode = "404", description = "존재하지 않는 펫을 수정하려는 경우", content = @Content),
         @ApiResponse(responseCode = "500", description = "S3 저장 오류", content = @Content)
@@ -146,7 +147,7 @@ public interface PetControllerApi {
     )
     Response<NewPetProfilesDto> getPetNewProfiles(
         @Parameter(hidden = true)
-        @PageableDefault(size = 8) Pageable pageable);
+        @PageableDefault(size = 8, sort = "createdAt", direction = Sort.Direction.DESC) final Pageable pageable);
 
     @Operation(summary = "Pet 상세 조회",
         description = "")
@@ -155,7 +156,6 @@ public interface PetControllerApi {
         @ApiResponse(responseCode = "404", description = "존재하지 않는 펫인 경우", content = @Content)
     })
     Response<PetDto> getPetDetail(@PathVariable int petId);
-
 
 
     @Operation(summary = "[로그인 필요: 보호소] Pet 입양 완료 처리",
@@ -171,10 +171,10 @@ public interface PetControllerApi {
         }
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "펫 입양 처리 성공"),
-            @ApiResponse(responseCode = "403", description = "해당 펫을 수정할 권한이 없는 경우", content = @Content),
-            @ApiResponse(responseCode = "404", description = "1. 존재하지 않는 펫인 경우" +
-            "\t\n 2. 로그인되어 있는 보호소의 권한 체크 중 해당 보호소를 DB에서 찾을 수 없는 경우", content = @Content)
+        @ApiResponse(responseCode = "200", description = "펫 입양 처리 성공"),
+        @ApiResponse(responseCode = "403", description = "해당 펫을 수정할 권한이 없는 경우", content = @Content),
+        @ApiResponse(responseCode = "404", description = "1. 존재하지 않는 펫인 경우" +
+                                                         "\t\n 2. 로그인되어 있는 보호소의 권한 체크 중 해당 보호소를 DB에서 찾을 수 없는 경우", content = @Content)
     })
     Response<Void> updatePetAdopted(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                     @PathVariable int petId);

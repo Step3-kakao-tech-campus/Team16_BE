@@ -34,7 +34,7 @@ public class PetVideoJpqlRepository {
             left join pv.pet p
             left join p.shelter s
             %s
-            order by pv.likeCount desc""".formatted(switch (getFilterCondition(petType, province)) {
+            order by pv.likeCount desc, pv.id desc""".formatted(switch (getFilterCondition(petType, province)) {
             case BOTH -> " where p.type = :petType and s.address.province = :province";
             case ONLY_PET -> " where p.type = :petType";
             case ONLY_PROVINCE -> " where s.address.province = :province";
