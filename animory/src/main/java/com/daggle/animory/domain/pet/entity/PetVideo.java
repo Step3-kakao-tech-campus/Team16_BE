@@ -33,7 +33,7 @@ public class PetVideo extends BaseEntity {
 
 
     @Builder
-    public PetVideo(String videoUrl, Pet pet) {
+    public PetVideo(final String videoUrl, final Pet pet) {
         this.videoUrl = videoUrl;
         this.likeCount = 0;
         this.pet = pet;
