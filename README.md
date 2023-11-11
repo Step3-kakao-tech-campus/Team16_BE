@@ -22,7 +22,7 @@
 ### Entity Relation Diagram
 ![Entity Relation Diagram](./animory/docs/images/ERD-231110.png)
 
-### [배포되어 있는 공식 인스턴스](https://k4b619f06d4c1a.user-app.krampoline.com/)
+### [배포되어 있는 공식 인스턴스](https://k6958d08a6ee5a.user-app.krampoline.com)
 - [개발 환경 서버 인스턴스 주소](http://ec2-3-37-14-140.ap-northeast-2.compute.amazonaws.com)
 
 ### BE 팀 구성도
