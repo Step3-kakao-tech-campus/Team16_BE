@@ -3,11 +3,14 @@ server:
   forward-headers-strategy: framework
 
 spring:
+  devtools.add-properties: false
+
   # MVC
   web.resources.add-mappings: false # endpoint 에 없는 리소스의 경우, 정적 매핑을 하지 않는다.
   mvc:
     throw-exception-if-no-handler-found: true
     dispatch-options-request: false
+    log-resolved-exception: true
 
   # DB
   datasource:
